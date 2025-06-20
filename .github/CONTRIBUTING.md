@@ -2,7 +2,7 @@
 
 ## Flujo de trabajo
 
-1. Crea una rama a partir de `develop` usando el prefijo adecuado (`feature/`, `fix/`, etc.).
+1. Crea una rama a partir de `develop` usando el prefijo adecuado (`feature/`).
 2. Realiza commits atómicos siguiendo la convención:
    ```
    tipo: descripción corta
@@ -10,7 +10,6 @@
    Ejemplo:
    ```
    feat: implementar endpoint de autenticación
-   fix: corregir bug en validación de usuario
    ```
 3. Crea el Pull Request a `develop` y solicita revisión.
 
