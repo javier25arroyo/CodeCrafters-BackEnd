@@ -1,4 +1,4 @@
-package com.project.demo.logic.entity.rol;
+package com.project.demo.logic.entity.auth;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;

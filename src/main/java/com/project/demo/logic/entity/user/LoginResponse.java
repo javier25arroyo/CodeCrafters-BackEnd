@@ -1,5 +1,7 @@
 package com.project.demo.logic.entity.user;
 
+import com.project.demo.logic.entity.auth.User;
+
 public class LoginResponse {
     private String token;
 

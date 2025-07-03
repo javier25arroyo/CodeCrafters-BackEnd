@@ -1,5 +1,7 @@
 package com.project.demo.logic.entity.rol;
 
+import com.project.demo.logic.entity.auth.Role;
+import com.project.demo.logic.entity.auth.RoleEnum;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
