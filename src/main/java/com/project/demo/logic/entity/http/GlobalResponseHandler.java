@@ -1,6 +1,5 @@
 package com.project.demo.logic.entity.http;
 
-import com.project.demo.logic.entity.order.Order;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
