@@ -1,5 +1,4 @@
 package com.project.demo.logic.entity.user;
-import com.project.demo.logic.entity.order.Order;
 import com.project.demo.logic.entity.rol.Role;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,8 +43,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Order> orders;
+
 
     // Constructors
     public User() {}
@@ -137,13 +135,6 @@ public class User implements UserDetails {
         return role;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 
     public User setRole(Role role) {
         this.role = role;
