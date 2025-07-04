@@ -24,29 +24,26 @@ public class UserSettings {
 
     private Integer volume;
 
-    @OneToOne(mappedBy = "settings")
-    private User user;
+    
 
     public UserSettings() {
     }
 
-    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume, User user) {
+    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume) {
         this.id = id;
         this.theme = theme;
         this.language = language;
         this.largeText = largeText;
         this.highContrast = highContrast;
         this.volume = volume;
-        this.user = user;
     }
 
-    public UserSettings(String theme, String language, Boolean largeText, Boolean highContrast, Integer volume, User user) {
+    public UserSettings(String theme, String language, Boolean largeText, Boolean highContrast, Integer volume) {
         this.theme = theme;
         this.language = language;
         this.largeText = largeText;
         this.highContrast = highContrast;
         this.volume = volume;
-        this.user = user;
     }
 
     public Integer getId() {
@@ -97,13 +94,6 @@ public class UserSettings {
         this.volume = volume;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
 
 /*

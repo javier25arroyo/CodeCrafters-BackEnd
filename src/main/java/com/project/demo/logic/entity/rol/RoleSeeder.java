@@ -4,6 +4,7 @@ import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Order(0)
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepository roleRepository;
 

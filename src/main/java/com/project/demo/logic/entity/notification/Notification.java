@@ -21,7 +21,7 @@ public class Notification {
 
     private LocalDateTime date;
 
-    @Column(name = "read")
+    @Column(name = "is_read")
     private Boolean read = false;
 
     // Constructor sin argumentos requerido por JPA

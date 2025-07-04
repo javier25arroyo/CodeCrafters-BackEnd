@@ -9,8 +9,6 @@ import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.Level;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,14 +30,6 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
-
-    @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
-    private Date createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,14 +85,12 @@ public class User implements UserDetails {
     // Constructors
     public User() {}
 
-    public User(Long id, String name, String lastname, String email, String password, Date createdAt, Date updatedAt, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.role = role;
         this.level = level;
         this.settings = settings;
@@ -118,8 +106,6 @@ public class User implements UserDetails {
         this.streaks = streaks;
         this.activityLogs = activityLogs;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -291,31 +277,12 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public Role getRole() {
         return role;
     }
 
-
-
     public User setRole(Role role) {
         this.role = role;
-
         return this;
     }
 }
