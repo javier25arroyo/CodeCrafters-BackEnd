@@ -1,11 +1,21 @@
 package com.project.demo.logic.entity.caregiver;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
 @Entity
-@Table(name = "caregiver")
+@Table(name = "caregivers")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Caregiver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,49 +30,11 @@ public class Caregiver {
     @Column(length = 20)
     private String phone;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "caregiver")
     private List<UserCaregiver> userCaregivers;
 
-    public Caregiver() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public List<UserCaregiver> getUserCaregivers() {
-        return userCaregivers;
-    }
-
-    public void setUserCaregivers(List<UserCaregiver> userCaregivers) {
-        this.userCaregivers = userCaregivers;
-    }
+    
 }

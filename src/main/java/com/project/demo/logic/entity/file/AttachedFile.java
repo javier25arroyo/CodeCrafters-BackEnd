@@ -1,10 +1,18 @@
 package com.project.demo.logic.entity.file;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "attached_file")
+@Table(name = "attached_files")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AttachedFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,54 +32,7 @@ public class AttachedFile {
     @Column(name = "entity_id")
     private Integer entityId;
 
-    public AttachedFile() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public String getRelatedEntity() {
-        return relatedEntity;
-    }
-
-    public void setRelatedEntity(String relatedEntity) {
-        this.relatedEntity = relatedEntity;
-    }
-
-    public Integer getEntityId() {
-        return entityId;
-    }
-
-    public void setEntityId(Integer entityId) {
-        this.entityId = entityId;
-    }
+    
 }

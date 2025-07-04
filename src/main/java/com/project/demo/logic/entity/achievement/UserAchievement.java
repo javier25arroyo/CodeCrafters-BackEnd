@@ -2,11 +2,22 @@ package com.project.demo.logic.entity.achievement;
 
 import com.project.demo.logic.entity.auth.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDateTime;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
-@Table(name = "user_achievement")
+@Table(name = "user_achievements")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAchievement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,38 +33,7 @@ public class UserAchievement {
 
     private LocalDateTime date;
 
-    public UserAchievement() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Achievement getAchievement() {
-        return achievement;
-    }
-
-    public void setAchievement(Achievement achievement) {
-        this.achievement = achievement;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+    
 }

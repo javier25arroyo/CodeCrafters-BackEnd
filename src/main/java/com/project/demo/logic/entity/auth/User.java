@@ -9,16 +9,23 @@ import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.Level;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
-@Table(name = "user")
+@Table(name = "users")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +35,7 @@ public class User implements UserDetails {
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -45,92 +53,54 @@ public class User implements UserDetails {
     @JoinColumn(name = "level_id")
     private Level level;
 
+    @JsonManagedReference("user-settings")
     @OneToOne
     @JoinColumn(name = "settings_id")
     private UserSettings settings;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameFeedback> gameFeedbacks;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameSession> gameSessions;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameReport> gameReports;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserAchievement> achievements;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Suggestion> suggestions;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<FavoriteGame> favoriteGames;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<LoginHistory> loginHistories;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Streak> streaks;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
-
-    // Constructors
-    public User() {}
-
-    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.level = level;
-        this.settings = settings;
-        this.gameFeedbacks = gameFeedbacks;
-        this.gameSessions = gameSessions;
-        this.gameReports = gameReports;
-        this.achievements = achievements;
-        this.suggestions = suggestions;
-        this.notifications = notifications;
-        this.caregivers = caregivers;
-        this.favoriteGames = favoriteGames;
-        this.loginHistories = loginHistories;
-        this.streaks = streaks;
-        this.activityLogs = activityLogs;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
     public Long getId() {
         return id;
@@ -162,6 +132,23 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Level getLevel() {
@@ -269,20 +256,29 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public Role getRole() {
-        return role;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public User setRole(Role role) {
-        this.role = role;
-        return this;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    
 }
