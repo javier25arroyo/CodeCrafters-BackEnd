@@ -1,9 +1,17 @@
 package com.project.demo.logic.entity.game;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "game_component")
+@Table(name = "game_components")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class GameComponent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,35 +27,5 @@ public class GameComponent {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+    
 }

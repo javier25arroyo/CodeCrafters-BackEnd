@@ -2,9 +2,18 @@ package com.project.demo.logic.entity.settings;
 
 import com.project.demo.logic.entity.auth.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "user_settings")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,75 +33,9 @@ public class UserSettings {
 
     private Integer volume;
 
-    
-
-    public UserSettings() {
-    }
-
-    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume) {
-        this.id = id;
-        this.theme = theme;
-        this.language = language;
-        this.largeText = largeText;
-        this.highContrast = highContrast;
-        this.volume = volume;
-    }
-
-    public UserSettings(String theme, String language, Boolean largeText, Boolean highContrast, Integer volume) {
-        this.theme = theme;
-        this.language = language;
-        this.largeText = largeText;
-        this.highContrast = highContrast;
-        this.volume = volume;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public Boolean getLargeText() {
-        return largeText;
-    }
-
-    public void setLargeText(Boolean largeText) {
-        this.largeText = largeText;
-    }
-
-    public Boolean getHighContrast() {
-        return highContrast;
-    }
-
-    public void setHighContrast(Boolean highContrast) {
-        this.highContrast = highContrast;
-    }
-
-    public Integer getVolume() {
-        return volume;
-    }
-
-    public void setVolume(Integer volume) {
-        this.volume = volume;
-    }
+    @JsonBackReference("user-settings")
+    @OneToOne(mappedBy = "settings")
+    private User user;
 
 }
 

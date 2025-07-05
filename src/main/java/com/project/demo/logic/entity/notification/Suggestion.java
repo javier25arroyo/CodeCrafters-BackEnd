@@ -2,11 +2,19 @@ package com.project.demo.logic.entity.notification;
 
 import com.project.demo.logic.entity.auth.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "suggestion")
+@Table(name = "suggestions")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Suggestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,46 +32,7 @@ public class Suggestion {
 
     private LocalDateTime date;
 
-    public Suggestion() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
+    
 }

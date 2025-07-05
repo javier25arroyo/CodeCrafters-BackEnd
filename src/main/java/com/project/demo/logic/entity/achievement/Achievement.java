@@ -1,11 +1,21 @@
 package com.project.demo.logic.entity.achievement;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
 @Entity
-@Table(name = "achievement")
+@Table(name = "achievements")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Achievement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,41 +27,11 @@ public class Achievement {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "achievement")
     private List<UserAchievement> userAchievements;
 
-    public Achievement() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public List<UserAchievement> getUserAchievements() {
-        return userAchievements;
-    }
-
-    public void setUserAchievements(List<UserAchievement> userAchievements) {
-        this.userAchievements = userAchievements;
-    }
+    
 }

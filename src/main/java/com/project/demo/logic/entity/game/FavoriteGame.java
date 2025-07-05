@@ -2,9 +2,17 @@ package com.project.demo.logic.entity.game;
 
 import com.project.demo.logic.entity.auth.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "favorite_game")
+@Table(name = "favorite_games")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class FavoriteGame {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,30 +26,7 @@ public class FavoriteGame {
     @JoinColumn(name = "game_id")
     private Game game;
 
-    public FavoriteGame() {
-    }
+    
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
+    
 }
