@@ -26,4 +26,4 @@ replay_pid*
 src/main/resources/application.properties
 .gradle/
 .idea/
-build/*
+build/
