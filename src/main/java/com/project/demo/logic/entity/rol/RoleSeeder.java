@@ -1,7 +1,10 @@
 package com.project.demo.logic.entity.rol;
 
+import com.project.demo.logic.entity.auth.Role;
+import com.project.demo.logic.entity.auth.RoleEnum;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -9,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Order(0)
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepository roleRepository;
 
@@ -23,10 +27,9 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void loadRoles() {
-        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.SUPER_ADMIN };
+        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.SUPER_ADMIN };
         Map<RoleEnum, String> roleDescriptionMap = Map.of(
                 RoleEnum.USER, "Default user role",
-                RoleEnum.ADMIN, "Administrator role",
                 RoleEnum.SUPER_ADMIN, "Super Administrator role"
         );
 

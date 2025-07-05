@@ -1,84 +1,71 @@
 package com.project.demo.logic.entity.game;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import java.util.Date;
+import java.util.List;
 
-@Table(name = "game")
 @Entity
+@Table(name = "games")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Integer id;
+
+    @Column(length = 100)
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(length = 20)
+    private String difficulty;
+
+    @Column(name = "image_url", columnDefinition = "TEXT")
+    private String imageUrl;
+
+    @Column(length = 20)
     private String status;
-    private String  imgURL;
 
-    @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
-    private Date createdAt;
+    @JsonManagedReference("game-category")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private GameCategory category;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<GameComponent> components;
 
-    public Long getId() {
-        return id;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<GameFeedback> feedbacks;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<GameSession> sessions;
 
-    public String getStatus() {
-        return status;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<GameReport> reports;
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<FavoriteGame> favoritedBy;
 
-    public String getName() {
-        return name;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "game")
+    private List<Streak> streaks;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImgURL() {
-        return imgURL;
-    }
-
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    
 }

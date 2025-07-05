@@ -2,12 +2,13 @@ package com.project.demo.rest.auth;
 
 import com.project.demo.logic.entity.auth.AuthenticationService;
 import com.project.demo.logic.entity.auth.JwtService;
-import com.project.demo.logic.entity.rol.Role;
-import com.project.demo.logic.entity.rol.RoleEnum;
+import com.project.demo.logic.entity.auth.Role;
+import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.LoginResponse;
-import com.project.demo.logic.entity.user.User;
+import com.project.demo.logic.entity.auth.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
-
 @RequestMapping("/auth")
 @RestController
 public class AuthRestController {
