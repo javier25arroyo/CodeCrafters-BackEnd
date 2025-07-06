@@ -1,5 +1,7 @@
 package com.project.demo.logic.entity.auth;
 
+
+import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +28,9 @@ public class AuthenticationService {
 
 
     public User authenticate(User input) {
+        System.out.println("DEBUG - Email: " + input.getEmail());
+        System.out.println("DEBUG - Password received: " + input.getPassword());
+        
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),

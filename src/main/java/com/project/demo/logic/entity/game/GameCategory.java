@@ -1,20 +1,12 @@
 package com.project.demo.logic.entity.game;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "game_categories")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class GameCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +19,36 @@ public class GameCategory {
     @OneToMany(mappedBy = "category")
     private List<Game> games;
 
-    
+    public GameCategory() {
+    }
 
-    
+    public GameCategory(Integer id, String name, List<Game> games) {
+        this.id = id;
+        this.name = name;
+        this.games = games;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+    }
 }

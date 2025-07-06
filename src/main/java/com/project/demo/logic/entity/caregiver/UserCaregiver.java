@@ -1,17 +1,10 @@
 package com.project.demo.logic.entity.caregiver;
-import com.project.demo.logic.entity.auth.User;
+
+import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "user_caregivers")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserCaregiver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +21,45 @@ public class UserCaregiver {
     @Column(length = 50)
     private String relationship;
 
-    
+    public UserCaregiver() {
+    }
+
+    public UserCaregiver(Integer id, User user, Caregiver caregiver, String relationship) {
+        this.id = id;
+        this.user = user;
+        this.caregiver = caregiver;
+        this.relationship = relationship;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Caregiver getCaregiver() {
+        return caregiver;
+    }
+
+    public void setCaregiver(Caregiver caregiver) {
+        this.caregiver = caregiver;
+    }
+
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
 }

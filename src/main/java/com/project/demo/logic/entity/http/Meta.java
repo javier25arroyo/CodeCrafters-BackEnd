@@ -1,30 +1,75 @@
 package com.project.demo.logic.entity.http;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Meta {
     private String method;
     private String url;
-
     private int totalPages;
-
     private long totalElements;
-
     private int pageNumber;
-
     private int pageSize;
+
+    public Meta() {
+    }
+
+    public Meta(String method, String url, int totalPages, long totalElements, int pageNumber, int pageSize) {
+        this.method = method;
+        this.url = url;
+        this.totalPages = totalPages;
+        this.totalElements = totalElements;
+        this.pageNumber = pageNumber;
+        this.pageSize = pageSize;
+    }
 
     public Meta(String method, String url) {
         this.method = method;
         this.url = url;
     }
 
-    
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
 }

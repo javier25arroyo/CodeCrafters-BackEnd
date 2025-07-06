@@ -1,5 +1,9 @@
-package com.project.demo.logic.entity.auth;
+package com.project.demo.logic.entity.user;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.demo.logic.entity.achievement.UserAchievement;
+import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.caregiver.UserCaregiver;
 import com.project.demo.logic.entity.game.*;
 import com.project.demo.logic.entity.history.ActivityLog;
@@ -9,23 +13,15 @@ import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.Level;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,15 +31,8 @@ public class User implements UserDetails {
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
-    @JsonIgnore
     @Column(nullable = false)
     private String password;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
-        return List.of(authority);
-    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
@@ -101,6 +90,37 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
+
+    public User() {
+    }
+
+    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.level = level;
+        this.settings = settings;
+        this.gameFeedbacks = gameFeedbacks;
+        this.gameSessions = gameSessions;
+        this.gameReports = gameReports;
+        this.achievements = achievements;
+        this.suggestions = suggestions;
+        this.notifications = notifications;
+        this.caregivers = caregivers;
+        this.favoriteGames = favoriteGames;
+        this.loginHistories = loginHistories;
+        this.streaks = streaks;
+        this.activityLogs = activityLogs;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
+        return List.of(authority);
+    }
 
     public Long getId() {
         return id;
@@ -279,6 +299,4 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
-
-    
 }
