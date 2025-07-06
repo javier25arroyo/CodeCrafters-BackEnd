@@ -18,13 +18,14 @@ public class UserCaregiver {
     @JoinColumn(name = "caregiver_id")
     private Caregiver caregiver;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private String relationship;
+    private CaregiverRole relationship;
 
     public UserCaregiver() {
     }
 
-    public UserCaregiver(Integer id, User user, Caregiver caregiver, String relationship) {
+    public UserCaregiver(Integer id, User user, Caregiver caregiver, CaregiverRole relationship) {
         this.id = id;
         this.user = user;
         this.caregiver = caregiver;
@@ -55,11 +56,11 @@ public class UserCaregiver {
         this.caregiver = caregiver;
     }
 
-    public String getRelationship() {
+    public CaregiverRole getRelationship() {
         return relationship;
     }
 
-    public void setRelationship(String relationship) {
+    public void setRelationship(CaregiverRole relationship) {
         this.relationship = relationship;
     }
 }
