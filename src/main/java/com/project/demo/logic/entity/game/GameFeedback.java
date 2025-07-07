@@ -1,23 +1,13 @@
 package com.project.demo.logic.entity.game;
 
-import com.project.demo.logic.entity.auth.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDateTime;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "game_feedbacks")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class GameFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +17,7 @@ public class GameFeedback {
     @JoinColumn(name = "game_id")
     private Game game;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -38,5 +29,63 @@ public class GameFeedback {
 
     private LocalDateTime date;
 
-    
+    public GameFeedback() {
+    }
+
+    public GameFeedback(Integer id, Game game, User user, String comment, Integer rating, LocalDateTime date) {
+        this.id = id;
+        this.game = game;
+        this.user = user;
+        this.comment = comment;
+        this.rating = rating;
+        this.date = date;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
 }

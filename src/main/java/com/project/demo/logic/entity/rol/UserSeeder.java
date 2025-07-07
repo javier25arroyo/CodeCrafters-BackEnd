@@ -2,7 +2,7 @@ package com.project.demo.logic.entity.rol;
 
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
-import com.project.demo.logic.entity.auth.User;
+import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

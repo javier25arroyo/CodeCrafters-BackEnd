@@ -1,28 +1,19 @@
 package com.project.demo.logic.entity.game;
 
-import com.project.demo.logic.entity.auth.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import java.time.LocalDateTime;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "game_sessions")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class GameSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -44,7 +35,81 @@ public class GameSession {
 
     private LocalDateTime end;
 
-    
+    public GameSession() {
+    }
 
-    
+    public GameSession(Integer id, User user, Game game, String status, Integer totalDuration, Integer partialScore, LocalDateTime start, LocalDateTime end) {
+        this.id = id;
+        this.user = user;
+        this.game = game;
+        this.status = status;
+        this.totalDuration = totalDuration;
+        this.partialScore = partialScore;
+        this.start = start;
+        this.end = end;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getTotalDuration() {
+        return totalDuration;
+    }
+
+    public void setTotalDuration(Integer totalDuration) {
+        this.totalDuration = totalDuration;
+    }
+
+    public Integer getPartialScore() {
+        return partialScore;
+    }
+
+    public void setPartialScore(Integer partialScore) {
+        this.partialScore = partialScore;
+    }
+
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
 }

@@ -1,6 +1,5 @@
 package com.project.demo.logic.entity.user;
 
-import com.project.demo.logic.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
