@@ -6,32 +6,67 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Representa un comentario o valoración de un juego por parte de un usuario.
+ * Esta entidad mapea la tabla 'game_feedbacks' en la base de datos.
+ */
 @Entity
 @Table(name = "game_feedbacks")
 public class GameFeedback {
+    /**
+     * Identificador único del comentario del juego.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /**
+     * El juego al que se refiere este comentario.
+     */
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
+    /**
+     * El usuario que realizó el comentario.
+     */
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    /**
+     * El contenido del comentario.
+     */
     @Column(columnDefinition = "TEXT")
     private String comment;
 
+    /**
+     * La calificación o puntuación dada al juego (ej. de 1 a 5).
+     */
     private Integer rating;
 
+    /**
+     * La fecha y hora en que se realizó el comentario.
+     */
     private LocalDateTime date;
 
+    /**
+     * Constructor por defecto.
+     */
     public GameFeedback() {
     }
 
+    /**
+     * Constructor para crear una instancia de GameFeedback con todos los parámetros.
+     *
+     * @param id      Identificador único.
+     * @param game    Juego asociado.
+     * @param user    Usuario que realizó el comentario.
+     * @param comment Contenido del comentario.
+     * @param rating  Calificación del juego.
+     * @param date    Fecha del comentario.
+     */
     public GameFeedback(Integer id, Game game, User user, String comment, Integer rating, LocalDateTime date) {
         this.id = id;
         this.game = game;

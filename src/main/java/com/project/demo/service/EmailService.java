@@ -8,11 +8,22 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+/**
+ * Servicio para el envío de correos electrónicos.
+ * Gestiona la construcción y el envío de emails, como el de restablecimiento de contraseña.
+ */
 @Service
 public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    /**
+     * Envía un correo electrónico para el restablecimiento de la contraseña.
+     *
+     * @param toEmail    La dirección de correo electrónico del destinatario.
+     * @param resetToken El token único para el restablecimiento de la contraseña.
+     * @throws MessagingException Si ocurre un error al crear o enviar el mensaje.
+     */
     public void sendPasswordResetEmail(String toEmail, String resetToken) throws MessagingException {
         System.out.println("Sending email to: " + toEmail);
         String subject = "Password Reset Request";
