@@ -1,9 +1,5 @@
 package com.project.demo.logic.entity.http;
 
-/**
- * Clase que representa metadatos de una respuesta HTTP, comúnmente utilizada para paginación.
- * Contiene información sobre el método de la petición, la URL, y detalles de paginación.
- */
 public class Meta {
     private String method;
     private String url;
@@ -12,22 +8,9 @@ public class Meta {
     private int pageNumber;
     private int pageSize;
 
-    /**
-     * Constructor por defecto.
-     */
     public Meta() {
     }
 
-    /**
-     * Constructor completo para crear una instancia de Meta con todos los detalles de paginación.
-     *
-     * @param method        El método HTTP de la petición (ej. "GET", "POST").
-     * @param url           La URL de la petición.
-     * @param totalPages    El número total de páginas disponibles.
-     * @param totalElements El número total de elementos disponibles.
-     * @param pageNumber    El número de la página actual (basado en 0).
-     * @param pageSize      El tamaño de la página (número de elementos por página).
-     */
     public Meta(String method, String url, int totalPages, long totalElements, int pageNumber, int pageSize) {
         this.method = method;
         this.url = url;
@@ -37,12 +20,6 @@ public class Meta {
         this.pageSize = pageSize;
     }
 
-    /**
-     * Constructor para crear una instancia de Meta con solo el método y la URL.
-     *
-     * @param method El método HTTP de la petición.
-     * @param url    La URL de la petición.
-     */
     public Meta(String method, String url) {
         this.method = method;
         this.url = url;
