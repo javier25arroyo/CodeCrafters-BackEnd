@@ -20,80 +20,167 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Representa un usuario en el sistema.
+ * Esta entidad mapea la tabla 'users' en la base de datos e implementa la interfaz
+ * {@link UserDetails} para la integración con Spring Security.
+ */
 @Table(name = "users")
 @Entity
 public class User implements UserDetails {
+    /**
+     * Identificador único del usuario.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * Nombre del usuario.
+     */
     private String name;
+    /**
+     * Apellido del usuario.
+     */
     private String lastname;
+    /**
+     * Correo electrónico del usuario. Debe ser único.
+     */
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
+    /**
+     * Contraseña del usuario. No puede ser nula.
+     */
     @Column(nullable = false)
     private String password;
 
+    /**
+     * Rol asignado al usuario.
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
+    /**
+     * Nivel actual del usuario en el sistema.
+     */
     @ManyToOne
     @JoinColumn(name = "level_id")
     private Level level;
 
+    /**
+     * Configuración personalizada del usuario.
+     */
     @JsonManagedReference("user-settings")
     @OneToOne
     @JoinColumn(name = "settings_id")
     private UserSettings settings;
 
+    /**
+     * Comentarios y valoraciones de juegos realizados por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameFeedback> gameFeedbacks;
 
+    /**
+     * Sesiones de juego registradas por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameSession> gameSessions;
 
+    /**
+     * Reportes de juegos enviados por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameReport> gameReports;
 
+    /**
+     * Logros obtenidos por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserAchievement> achievements;
 
+    /**
+     * Sugerencias enviadas por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Suggestion> suggestions;
 
+    /**
+     * Notificaciones recibidas por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
+    /**
+     * Cuidadores asociados a este usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
+    /**
+     * Juegos marcados como favoritos por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<FavoriteGame> favoriteGames;
 
+    /**
+     * Historial de inicios de sesión del usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<LoginHistory> loginHistories;
 
+    /**
+     * Rachas de juego del usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Streak> streaks;
 
+    /**
+     * Registro de actividades realizadas por el usuario.
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
+    /**
+     * Constructor por defecto.
+     */
     public User() {
     }
 
+    /**
+     * Constructor con todos los parámetros para inicializar un objeto User.
+     * @param id Identificador único.
+     * @param name Nombre del usuario.
+     * @param lastname Apellido del usuario.
+     * @param email Correo electrónico.
+     * @param password Contraseña.
+     * @param role Rol del usuario.
+     * @param level Nivel del usuario.
+     * @param settings Configuración del usuario.
+     * @param gameFeedbacks Comentarios de juegos.
+     * @param gameSessions Sesiones de juego.
+     * @param gameReports Reportes de juegos.
+     * @param achievements Logros del usuario.
+     * @param suggestions Sugerencias del usuario.
+     * @param notifications Notificaciones del usuario.
+     * @param caregivers Cuidadores asociados.
+     * @param favoriteGames Juegos favoritos.
+     * @param loginHistories Historial de inicio de sesión.
+     * @param streaks Rachas de juego.
+     * @param activityLogs Registro de actividades.
+     */
     public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
@@ -116,6 +203,11 @@ public class User implements UserDetails {
         this.activityLogs = activityLogs;
     }
 
+    /**
+     * Devuelve las autorizaciones concedidas al usuario.
+     * Utiliza el nombre del rol para crear una {@link SimpleGrantedAuthority}.
+     * @return Una colección con la autoridad del rol del usuario.
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
@@ -154,6 +246,10 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    /**
+     * Devuelve la contraseña utilizada para autenticar al usuario.
+     * @return La contraseña del usuario.
+     */
     @Override
     public String getPassword() {
         return password;
@@ -275,26 +371,47 @@ public class User implements UserDetails {
         this.activityLogs = activityLogs;
     }
 
+    /**
+     * Indica si la cuenta del usuario ha expirado.
+     * @return siempre {@code true}, indicando que la cuenta nunca expira.
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * Indica si el usuario está bloqueado o no.
+     * @return siempre {@code true}, indicando que la cuenta nunca está bloqueada.
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /**
+     * Indica si las credenciales del usuario (contraseña) han expirado.
+     * @return siempre {@code true}, indicando que las credenciales nunca expiran.
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * Indica si el usuario está habilitado o deshabilitado.
+     * @return siempre {@code true}, indicando que el usuario siempre está habilitado.
+     */
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    /**
+     * Devuelve el nombre de usuario utilizado para autenticar al usuario.
+     * En este caso, es el correo electrónico.
+     * @return el correo electrónico del usuario.
+     */
     @Override
     public String getUsername() {
         return email;

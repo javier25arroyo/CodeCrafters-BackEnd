@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * Controlador REST para la gestión de usuarios.
+ * Proporciona endpoints para operaciones CRUD sobre usuarios y para obtener el usuario autenticado.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
@@ -28,6 +32,15 @@ public class UserRestController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /**
+     * Obtiene una lista paginada de todos los usuarios.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param page    Número de página (por defecto 1).
+     * @param size    Tamaño de la página (por defecto 10).
+     * @param request La petición HTTP.
+     * @return ResponseEntity con la lista de usuarios y metadatos de paginación.
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getAll(
@@ -47,6 +60,14 @@ public class UserRestController {
                 ordersPage.getContent(), HttpStatus.OK, meta);
     }
 
+    /**
+     * Agrega un nuevo usuario al sistema.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param user    El objeto {@link User} a agregar.
+     * @param request La petición HTTP.
+     * @return ResponseEntity con el usuario agregado y un mensaje de éxito.
+     */
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) {
@@ -56,6 +77,15 @@ public class UserRestController {
                 user, HttpStatus.OK, request);
     }
 
+    /**
+     * Actualiza un usuario existente por su ID.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param userId  El ID del usuario a actualizar.
+     * @param user    El objeto {@link User} con los datos actualizados.
+     * @param request La petición HTTP.
+     * @return ResponseEntity con el usuario actualizado o un mensaje de error si no se encuentra.
+     */
     @PutMapping("/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user, HttpServletRequest request) {
@@ -72,6 +102,14 @@ public class UserRestController {
     }
 
 
+    /**
+     * Elimina un usuario por su ID.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param userId  El ID del usuario a eliminar.
+     * @param request La petición HTTP.
+     * @return ResponseEntity con el usuario eliminado o un mensaje de error si no se encuentra.
+     */
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId, HttpServletRequest request) {
@@ -86,6 +124,12 @@ public class UserRestController {
         }
     }
 
+    /**
+     * Obtiene la información del usuario autenticado actualmente.
+     * Requiere que el usuario esté autenticado.
+     *
+     * @return El objeto {@link User} del usuario autenticado.
+     */
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public User authenticatedUser() {
