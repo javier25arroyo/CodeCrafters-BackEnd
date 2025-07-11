@@ -11,38 +11,21 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Componente encargado de sembrar los roles iniciales en la base de datos al iniciar la aplicación.
- * Implementa {@link ApplicationListener} para escuchar el evento {@link ContextRefreshedEvent}.
- */
 @Component
 @Order(0)
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepository roleRepository;
 
-    /**
-     * Constructor para la inyección de dependencias.
-     *
-     * @param roleRepository Repositorio para la gestión de roles.
-     */
+
     public RoleSeeder(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
-    /**
-     * Método que se ejecuta cuando el contexto de la aplicación ha sido refrescado.
-     * Llama al método para cargar los roles iniciales.
-     *
-     * @param contextRefreshedEvent El evento de refresco del contexto.
-     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         this.loadRoles();
     }
 
-    /**
-     * Carga los roles predefinidos (USER, SUPER_ADMIN) en la base de datos si no existen.
-     */
     private void loadRoles() {
         RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.SUPER_ADMIN };
         Map<RoleEnum, String> roleDescriptionMap = Map.of(

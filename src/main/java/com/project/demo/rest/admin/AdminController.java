@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-/**
- * Controlador REST para la gestión de administradores.
- * Proporciona funcionalidades para crear nuevos usuarios administradores.
- */
 @RequestMapping("/admin")
 @RestController
 public class AdminController {
@@ -32,13 +28,6 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /**
-     * Crea un nuevo usuario con rol de administrador.
-     * Requiere que el usuario autenticado tenga el rol 'SUPER_ADMIN'.
-     *
-     * @param newAdminUser El objeto {@link User} con los datos del nuevo administrador a crear.
-     * @return El usuario administrador creado, o null si el rol 'ADMIN' no se encuentra.
-     */
     @PostMapping
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public User createAdministrator(@RequestBody User newAdminUser) {
