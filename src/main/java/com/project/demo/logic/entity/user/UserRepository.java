@@ -29,13 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long>  {
     @Query("SELECT u FROM User u WHERE u.name = ?1")
     Optional<User> findByName(String name);
 
-    /**
-     * Busca un usuario por su apellido exacto.
-     *
-     * @param lastname El apellido del usuario a buscar.
-     * @return Un {@link Optional} que contiene el usuario si se encuentra, o vacío si no.
-     */
-    Optional<User> findByLastname(String lastname);
 
     /**
      * Busca un usuario por su dirección de correo electrónico.

@@ -59,7 +59,6 @@ public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
     private void createUser() {
         User user = new User();
         user.setName("Code");
-        user.setLastname("Crafters");
         user.setEmail("codecrafters@gmail.com");
         user.setPassword("123456");
 
@@ -71,7 +70,6 @@ public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
 
         var userToCreate = new User();
         userToCreate.setName(user.getName());
-        userToCreate.setLastname(user.getLastname());
         userToCreate.setEmail(user.getEmail());
         userToCreate.setPassword(passwordEncoder.encode(user.getPassword()));
         userToCreate.setRole(optionalRole.get());
