@@ -46,9 +46,7 @@ public class AuthenticationService {
      * @throws org.springframework.security.core.AuthenticationException Si la autenticación falla.
      */
     public User authenticate(User input) {
-        System.out.println("DEBUG - Email: " + input.getEmail());
-        System.out.println("DEBUG - Password received: " + input.getPassword());
-        
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),

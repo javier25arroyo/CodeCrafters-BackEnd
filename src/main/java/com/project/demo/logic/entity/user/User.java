@@ -39,10 +39,6 @@ public class User implements UserDetails {
      */
     private String name;
     /**
-     * Apellido del usuario.
-     */
-    private String lastname;
-    /**
      * Correo electrónico del usuario. Debe ser único.
      */
     @Column(unique = true, length = 100, nullable = false)
@@ -163,7 +159,6 @@ public class User implements UserDetails {
      * Constructor con todos los parámetros para inicializar un objeto User.
      * @param id Identificador único.
      * @param name Nombre del usuario.
-     * @param lastname Apellido del usuario.
      * @param email Correo electrónico.
      * @param password Contraseña.
      * @param role Rol del usuario.
@@ -181,10 +176,9 @@ public class User implements UserDetails {
      * @param streaks Rachas de juego.
      * @param activityLogs Registro de actividades.
      */
-    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
-        this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -230,13 +224,6 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 
     public String getEmail() {
         return email;

@@ -59,7 +59,6 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private void createSuperAdministrator() {
         User superAdmin = new User();
         superAdmin.setName("Super");
-        superAdmin.setLastname("Admin");
         superAdmin.setEmail("super.admin@gmail.com");
         superAdmin.setPassword("superadmin123");
 
@@ -72,7 +71,6 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
         var user = new User();
         user.setName(superAdmin.getName());
-        user.setLastname(superAdmin.getLastname());
         user.setEmail(superAdmin.getEmail());
         user.setPassword(passwordEncoder.encode(superAdmin.getPassword()));
         user.setRole(optionalRole.get());
