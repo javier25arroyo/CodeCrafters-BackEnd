@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+/**
+ * Controlador REST para gestionar la autenticación y el registro de usuarios.
+ * Proporciona endpoints para el inicio de sesión (login) y el registro (signup).
+ */
 @RequestMapping("/auth")
 @RestController
 public class AuthRestController {
@@ -38,11 +42,23 @@ public class AuthRestController {
     private final AuthenticationService authenticationService;
     private final JwtService jwtService;
 
+    /**
+     * Constructor para la inyección de dependencias del servicio de autenticación y JWT.
+     *
+     * @param jwtService            Servicio para la generación y validación de tokens JWT.
+     * @param authenticationService Servicio para la lógica de autenticación de usuarios.
+     */
     public AuthRestController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Autentica a un usuario y devuelve un token JWT si las credenciales son válidas.
+     *
+     * @param user El objeto User con las credenciales (email y contraseña) para autenticar.
+     * @return ResponseEntity con un objeto {@link LoginResponse} que contiene el token JWT y la información del usuario.
+     */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody User user) {
         User authenticatedUser = authenticationService.authenticate(user);
@@ -60,6 +76,12 @@ public class AuthRestController {
         return ResponseEntity.ok(loginResponse);
     }
 
+    /**
+     * Registra un nuevo usuario en el sistema.
+     *
+     * @param user El objeto User con los datos del nuevo usuario a registrar.
+     * @return ResponseEntity con el usuario guardado si el registro es exitoso, o un mensaje de error si el email ya está en uso.
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
