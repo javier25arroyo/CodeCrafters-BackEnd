@@ -93,4 +93,19 @@ public class UserRestController {
         return (User) authentication.getPrincipal();
     }
 
+    @PostMapping("/{userId}/reset-password")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        }
+        User user = userOpt.get();
+        String defaultPassword = "password123"; // o genera uno seguro dinámico
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        userRepository.save(user);
+        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
+    }
+
+
 }

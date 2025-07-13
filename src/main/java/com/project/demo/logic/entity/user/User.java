@@ -42,6 +42,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "level_id")
     private Level level;
 
+    @Column(nullable = false)
+    private boolean active = true;
+
     @JsonManagedReference("user-settings")
     @OneToOne
     @JoinColumn(name = "settings_id")
@@ -91,10 +94,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     public User() {
     }
 
-    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -114,6 +120,7 @@ public class User implements UserDetails {
         this.loginHistories = loginHistories;
         this.streaks = streaks;
         this.activityLogs = activityLogs;
+
     }
 
     @Override
@@ -275,6 +282,11 @@ public class User implements UserDetails {
         this.activityLogs = activityLogs;
     }
 
+    public boolean getEnabled() { return this.enabled; }
+
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -291,9 +303,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public boolean isEnabled() { return this.enabled; }
 
     @Override
     public String getUsername() {
