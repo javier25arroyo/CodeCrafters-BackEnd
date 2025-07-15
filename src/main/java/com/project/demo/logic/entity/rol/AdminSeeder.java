@@ -18,6 +18,7 @@ import java.util.Optional;
  */
 @Component
 @Order(2)
+@org.springframework.context.annotation.Profile("!test")
 public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
