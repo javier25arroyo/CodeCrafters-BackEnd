@@ -155,7 +155,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs, Boolean isActive) {
+    public User(Long id, String name, String lastname, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -371,7 +371,7 @@ public class User implements UserDetails {
      * @return siempre {@code true}, indicando que el usuario siempre está habilitado.
      */
     @Override
-    public boolean isEnabled() { return this.enabled; }
+    public boolean isEnabled() { return true; }
 
     /**
      * Devuelve el nombre de usuario utilizado para autenticar al usuario.
