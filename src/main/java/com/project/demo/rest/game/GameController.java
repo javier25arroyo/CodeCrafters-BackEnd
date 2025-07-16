@@ -51,7 +51,6 @@ public class GameController {
         game.setStatus(gameDetails.getStatus());
         game.setCategory(gameDetails.getCategory());
         game.setComponents(gameDetails.getComponents());
-        game.setFeedbacks(gameDetails.getFeedbacks());
         game.setSessions(gameDetails.getSessions());
         game.setReports(gameDetails.getReports());
         game.setFavoritedBy(gameDetails.getFavoritedBy());

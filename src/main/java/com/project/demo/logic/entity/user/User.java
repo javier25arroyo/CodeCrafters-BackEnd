@@ -155,7 +155,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, Role role, Level level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -163,7 +163,6 @@ public class User implements UserDetails {
         this.role = role;
         this.level = level;
         this.settings = settings;
-        this.gameFeedbacks = gameFeedbacks;
         this.gameSessions = gameSessions;
         this.gameReports = gameReports;
         this.achievements = achievements;
@@ -250,13 +249,6 @@ public class User implements UserDetails {
         this.settings = settings;
     }
 
-    public List<GameFeedback> getGameFeedbacks() {
-        return gameFeedbacks;
-    }
-
-    public void setGameFeedbacks(List<GameFeedback> gameFeedbacks) {
-        this.gameFeedbacks = gameFeedbacks;
-    }
 
     public List<GameSession> getGameSessions() {
         return gameSessions;

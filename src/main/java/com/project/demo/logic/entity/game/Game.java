@@ -23,8 +23,6 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 20)
-    private String difficulty;
 
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
@@ -41,9 +39,6 @@ public class Game {
     @OneToMany(mappedBy = "game")
     private List<GameComponent> components;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "game")
-    private List<GameFeedback> feedbacks;
 
     @JsonIgnore
     @OneToMany(mappedBy = "game")
@@ -85,13 +80,12 @@ public class Game {
      * @param status      Estado del juego.
      * @param category    Categoría del juego.
      * @param components  Componentes del juego.
-     * @param feedbacks   Comentarios del juego.
      * @param sessions    Sesiones de juego.
      * @param reports     Reportes del juego.
      * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameFeedback> feedbacks, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks, List<Level> levels) {
+    public Game(Integer id, String name, String description, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks, List<Level> levels) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -99,7 +93,6 @@ public class Game {
         this.status = status;
         this.category = category;
         this.components = components;
-        this.feedbacks = feedbacks;
         this.sessions = sessions;
         this.reports = reports;
         this.favoritedBy = favoritedBy;
@@ -166,13 +159,6 @@ public class Game {
         this.components = components;
     }
 
-    public List<GameFeedback> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(List<GameFeedback> feedbacks) {
-        this.feedbacks = feedbacks;
-    }
 
     public List<GameSession> getSessions() {
         return sessions;
