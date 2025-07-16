@@ -27,3 +27,5 @@ src/main/resources/application.properties
 .gradle/
 .idea/
 build/
+
+src/main/resources/Insomnia.json
