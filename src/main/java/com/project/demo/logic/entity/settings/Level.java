@@ -1,5 +1,7 @@
 package com.project.demo.logic.entity.settings;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.project.demo.logic.entity.game.Game;
 import jakarta.persistence.*;
 
 /**
@@ -9,21 +11,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "levels")
 public class Level {
-    /**
-     * Identificador único del nivel.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * Nombre del nivel.
-     */
+    @Column(length = 100)
     private String name;
-    /**
-     * Puntos requeridos para alcanzar este nivel.
-     */
-    private int points_required;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
 
     /**
      * Constructor por defecto.
@@ -31,17 +32,12 @@ public class Level {
     public Level() {
     }
 
-    /**
-     * Constructor para crear una instancia de Level con todos los parámetros.
-     *
-     * @param id              Identificador único del nivel.
-     * @param name            Nombre del nivel.
-     * @param points_required Puntos necesarios para alcanzar este nivel.
-     */
-    public Level(Long id, String name, int points_required) {
+
+    public Level(Long id, String name, String description, Game game) {
         this.id = id;
         this.name = name;
-        this.points_required = points_required;
+        this.description = description;
+        this.game = game;
     }
 
     public Long getId() {
@@ -60,11 +56,19 @@ public class Level {
         this.name = name;
     }
 
-    public int getPoints_required() {
-        return points_required;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPoints_required(int points_required) {
-        this.points_required = points_required;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game=game;
+}
 }

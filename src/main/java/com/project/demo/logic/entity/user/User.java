@@ -71,9 +71,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "level_id")
     private Level level;
 
-    /**
-     * Configuración personalizada del usuario.
-     */
+    @Column(nullable = false)
+    private boolean active = true;
+
     @JsonManagedReference("user-settings")
     @OneToOne
     @JoinColumn(name = "settings_id")
@@ -156,37 +156,13 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
-    /**
-     * Constructor por defecto.
-     */
+    @Column(nullable = false)
+    private boolean enabled = true;
+
     public User() {
     }
 
-    /**
-     * Constructor con todos los parámetros para inicializar un objeto User.
-     * @param id Identificador único.
-     * @param name Nombre del usuario.
-     * @param email Correo electrónico.
-     * @param password Contraseña.
-     * @param googleId Id de autenticación de Google.
-     * @param role Rol del usuario.
-     * @param level Nivel del usuario.
-     * @param settings Configuración del usuario.
-     * @param gameFeedbacks Comentarios de juegos.
-     * @param gameSessions Sesiones de juego.
-     * @param gameReports Reportes de juegos.
-     * @param achievements Logros del usuario.
-     * @param suggestions Sugerencias del usuario.
-     * @param notifications Notificaciones del usuario.
-     * @param caregivers Cuidadores asociados.
-     * @param favoriteGames Juegos favoritos.
-     * @param loginHistories Historial de inicio de sesión.
-     * @param streaks Rachas de juego.
-     * @param activityLogs Registro de actividades.
-     */
-
-    // Constructor modificado con googleId
-    public User(Long id, String name, String email, String password, String googleId, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, Role role, Level level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -195,7 +171,6 @@ public class User implements UserDetails {
         this.role = role;
         this.level = level;
         this.settings = settings;
-        this.gameFeedbacks = gameFeedbacks;
         this.gameSessions = gameSessions;
         this.gameReports = gameReports;
         this.achievements = achievements;
@@ -206,6 +181,7 @@ public class User implements UserDetails {
         this.loginHistories = loginHistories;
         this.streaks = streaks;
         this.activityLogs = activityLogs;
+
     }
 
     /**
@@ -289,13 +265,6 @@ public class User implements UserDetails {
         this.settings = settings;
     }
 
-    public List<GameFeedback> getGameFeedbacks() {
-        return gameFeedbacks;
-    }
-
-    public void setGameFeedbacks(List<GameFeedback> gameFeedbacks) {
-        this.gameFeedbacks = gameFeedbacks;
-    }
 
     public List<GameSession> getGameSessions() {
         return gameSessions;
@@ -377,10 +346,11 @@ public class User implements UserDetails {
         this.activityLogs = activityLogs;
     }
 
-    /**
-     * Indica si la cuenta del usuario ha expirado.
-     * @return siempre {@code true}, indicando que la cuenta nunca expira.
-     */
+    public boolean getEnabled() { return this.enabled; }
+
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -409,9 +379,7 @@ public class User implements UserDetails {
      * @return siempre {@code true}, indicando que el usuario siempre está habilitado.
      */
     @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public boolean isEnabled() { return true; }
 
     /**
      * Devuelve el nombre de usuario utilizado para autenticar al usuario.

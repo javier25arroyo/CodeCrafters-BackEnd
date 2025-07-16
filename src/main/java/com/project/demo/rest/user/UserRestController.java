@@ -4,6 +4,7 @@ import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.logic.entity.user.UserSummary;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -72,6 +74,7 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
         userRepository.save(user);
         return new GlobalResponseHandler().handleResponse("User updated successfully",
                 user, HttpStatus.OK, request);
@@ -136,5 +139,97 @@ public class UserRestController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
     }
+
+    @PostMapping("/{userId}/reset-password")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        }
+        User user = userOpt.get();
+        String defaultPassword = "password123"; // o genera uno seguro dinámico
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        userRepository.save(user);
+        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
+    }
+
+    /**
+     * Obtiene una lista paginada de usuarios en formato resumido, con opción de búsqueda por nombre o email.
+     * Solo accesible para roles ADMIN y SUPER_ADMIN.
+     *
+     * @param page    Número de la página a recuperar (por defecto 1).
+     * @param size    Tamaño de la página (por defecto 10).
+     * @param search  Término de búsqueda opcional por nombre o correo.
+     * @param request Objeto HTTP usado para construir metadata de la respuesta.
+     * @return Lista paginada de {@link UserSummary} y metadata asociada.
+     */
+    @GetMapping("/summary")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> getUserSummaryList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String search,
+            HttpServletRequest request) {
+
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<User> userPage;
+
+        if (search != null && !search.trim().isEmpty()) {
+            userPage = userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search, pageable);
+        } else {
+            userPage = userRepository.findAll(pageable);
+        }
+
+        List<UserSummary> summaries = userPage.getContent().stream()
+                .map(user -> new UserSummary(
+                        user.getId().intValue(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole() != null ? user.getRole().getName().name() : "N/A",
+                        user.isEnabled()
+                ))
+                .toList();
+
+        Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
+        meta.setTotalPages(userPage.getTotalPages());
+        meta.setTotalElements(userPage.getTotalElements());
+        meta.setPageNumber(userPage.getNumber() + 1);
+        meta.setPageSize(userPage.getSize());
+
+        return new GlobalResponseHandler().handleResponse(
+                "User summaries retrieved successfully",
+                summaries,
+                HttpStatus.OK,
+                meta
+        );
+    }
+    @PatchMapping("/{userId}/enable")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> enableUser(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User not found", HttpStatus.NOT_FOUND, request);
+        }
+        User user = userOpt.get();
+        user.setEnabled(true);
+        userRepository.save(user);
+        return new GlobalResponseHandler().handleResponse("User enabled", user, HttpStatus.OK, request);
+    }
+
+    @PatchMapping("/{userId}/disable")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> disableUser(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User not found", HttpStatus.NOT_FOUND, request);
+        }
+        User user = userOpt.get();
+        user.setEnabled(false);
+        userRepository.save(user);
+        return new GlobalResponseHandler().handleResponse("User disabled", user, HttpStatus.OK, request);
+    }
+
+
 
 }
