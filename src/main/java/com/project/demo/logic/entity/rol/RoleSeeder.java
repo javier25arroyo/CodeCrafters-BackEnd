@@ -17,6 +17,7 @@ import java.util.Optional;
  */
 @Component
 @Order(0)
+@org.springframework.context.annotation.Profile("!test")
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final RoleRepository roleRepository;
 

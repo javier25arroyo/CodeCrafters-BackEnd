@@ -1,6 +1,7 @@
 package com.project.demo.rest.auth;
 
 import com.project.demo.logic.entity.auth.AuthenticationService;
+import com.project.demo.logic.entity.auth.GoogleTokenRequest;
 import com.project.demo.logic.entity.auth.JwtService;
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 /**
@@ -98,6 +101,28 @@ public class AuthRestController {
         user.setRole(optionalRole.get());
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<?> authenticateWithGoogle(@RequestBody GoogleTokenRequest request) {
+        try {
+            User authenticatedUser = authenticationService.authenticateWithGoogle(request.getIdToken());
+            
+            String jwtToken = jwtService.generateToken(authenticatedUser);
+            
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setToken(jwtToken);
+            loginResponse.setExpiresIn(jwtService.getExpirationTime());
+            loginResponse.setAuthUser(authenticatedUser);
+            
+            return ResponseEntity.ok(loginResponse);
+        } catch (GeneralSecurityException | IOException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid Google token");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Authentication failed: " + e.getMessage());
+        }
     }
 
 }
