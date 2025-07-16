@@ -38,7 +38,6 @@ public class UserSummary {
         this.enabled = enabled;
     }
 
-    // Getters y setters documentados
 
     /** @return ID del usuario */
     public Integer getId() { return id; }

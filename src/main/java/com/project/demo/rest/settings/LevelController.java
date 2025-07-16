@@ -2,15 +2,15 @@ package com.project.demo.rest.settings;
 
 import com.project.demo.logic.entity.settings.Level;
 import com.project.demo.logic.entity.settings.repository.LevelRepository;
+import com.project.demo.logic.entity.game.Game;
+import com.project.demo.logic.entity.game.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Controlador REST para gestionar los niveles del sistema.
- * Proporciona endpoints para obtener y crear niveles.
- */
 @RestController
 @RequestMapping("/levels")
 public class LevelController {
@@ -18,24 +18,66 @@ public class LevelController {
     @Autowired
     private LevelRepository levelRepository;
 
-    /**
-     * Obtiene todos los niveles disponibles en el sistema.
-     *
-     * @return Una lista de todos los objetos {@link Level}.
-     */
+    @Autowired
+    private GameRepository gameRepository;
+
     @GetMapping
     public List<Level> getAllLevels() {
         return levelRepository.findAll();
     }
 
-    /**
-     * Crea un nuevo nivel en el sistema.
-     *
-     * @param level El objeto {@link Level} a crear.
-     * @return El nivel guardado.
-     */
-    @PostMapping
-    public Level createLevel(@RequestBody Level level) {
-        return levelRepository.save(level);
+    @GetMapping("/{id}")
+    public ResponseEntity<Level> getLevelById(@PathVariable Long id) {
+        Optional<Level> level = levelRepository.findById(id);
+        return level.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PostMapping
+    public ResponseEntity<Level> createLevel(@RequestBody Level level) {
+        if (level.getGame() != null && level.getGame().getId() != null) {
+            Optional<Game> game = gameRepository.findById(level.getGame().getId());
+            if (game.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            level.setGame(game.get());
+        }
+        Level savedLevel = levelRepository.save(level);
+        return ResponseEntity.ok(savedLevel);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Level> updateLevel(@PathVariable Long id, @RequestBody Level levelDetails) {
+        Optional<Level> optionalLevel = levelRepository.findById(id);
+        if (optionalLevel.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Level level = optionalLevel.get();
+        level.setName(levelDetails.getName());
+        level.setDescription(levelDetails.getDescription());
+        if (levelDetails.getGame() != null && levelDetails.getGame().getId() != null) {
+            Optional<Game> game = gameRepository.findById(levelDetails.getGame().getId());
+            if (game.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+            level.setGame(game.get());
+        }
+        Level updatedLevel = levelRepository.save(level);
+        return ResponseEntity.ok(updatedLevel);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLevel(@PathVariable Long id) {
+        if (!levelRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        levelRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/game/{gameId}")
+    public ResponseEntity<List<Level>> getLevelsByGame(@PathVariable Integer gameId) {
+        Optional<Game> game = gameRepository.findById(gameId);
+        return game.map(g -> ResponseEntity.ok(g.getLevels()))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+}
 }

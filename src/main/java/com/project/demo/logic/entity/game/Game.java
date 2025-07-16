@@ -3,7 +3,7 @@ package com.project.demo.logic.entity.game;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
+import com.project.demo.logic.entity.settings.Level;
 import java.util.List;
 
 /**
@@ -13,92 +13,61 @@ import java.util.List;
 @Entity
 @Table(name = "games")
 public class Game {
-    /**
-     * Identificador único del juego.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * Nombre del juego.
-     */
     @Column(length = 100)
     private String name;
 
-    /**
-     * Descripción detallada del juego.
-     */
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    /**
-     * Nivel de dificultad del juego (ej. "fácil", "medio", "difícil").
-     */
     @Column(length = 20)
     private String difficulty;
 
-    /**
-     * URL de la imagen representativa del juego.
-     */
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-    /**
-     * Estado actual del juego (ej. "activo", "inactivo", "próximamente").
-     */
     @Column(length = 20)
     private String status;
 
-    /**
-     * Categoría a la que pertenece el juego.
-     */
     @JsonManagedReference("game-category")
     @ManyToOne
     @JoinColumn(name = "category_id")
     private GameCategory category;
 
-    /**
-     * Componentes individuales que conforman el juego (ej. preguntas, niveles).
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameComponent> components;
 
-    /**
-     * Comentarios y valoraciones recibidas para este juego.
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameFeedback> feedbacks;
 
-    /**
-     * Sesiones de juego registradas para este juego.
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameSession> sessions;
 
-    /**
-     * Reportes generados para este juego.
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameReport> reports;
 
-    /**
-     * Lista de usuarios que han marcado este juego como favorito.
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<FavoriteGame> favoritedBy;
 
-    /**
-     * Rachas de juego asociadas a este juego.
-     */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<Streak> streaks;
+
+    /**
+     * Niveles asociados a este juego.
+     */
+    @JsonIgnore
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Level> levels;
+
 
     /**
      * Constructor por defecto.
@@ -112,7 +81,6 @@ public class Game {
      * @param id          Identificador único.
      * @param name        Nombre del juego.
      * @param description Descripción del juego.
-     * @param difficulty  Dificultad del juego.
      * @param imageUrl    URL de la imagen.
      * @param status      Estado del juego.
      * @param category    Categoría del juego.
@@ -123,11 +91,10 @@ public class Game {
      * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String difficulty, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameFeedback> feedbacks, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
+    public Game(Integer id, String name, String description, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameFeedback> feedbacks, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks, List<Level> levels) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.difficulty = difficulty;
         this.imageUrl = imageUrl;
         this.status = status;
         this.category = category;
@@ -137,7 +104,10 @@ public class Game {
         this.reports = reports;
         this.favoritedBy = favoritedBy;
         this.streaks = streaks;
+        this.levels = levels;
     }
+
+    // Getters and setters...
 
     public Integer getId() {
         return id;
@@ -163,13 +133,6 @@ public class Game {
         this.description = description;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -242,5 +205,13 @@ public class Game {
     public void setStreaks(List<Streak> streaks) {
         this.streaks = streaks;
     }
-}
 
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(List<Level> levels) {
+        this.levels=levels;
+    }
+
+}
