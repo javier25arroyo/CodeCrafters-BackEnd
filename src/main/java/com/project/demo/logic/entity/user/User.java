@@ -37,6 +37,7 @@ public class User implements UserDetails {
     /**
      * Nombre del usuario.
      */
+    @Column(nullable = false)
     private String name;
     /**
      * Correo electrónico del usuario. Debe ser único.
@@ -49,6 +50,12 @@ public class User implements UserDetails {
      */
     @Column(nullable = false)
     private String password;
+
+    /**
+     * Id de la autenticacion de google. Puede ser nulo.
+     */
+    @Column(unique = true)
+    private String googleId;
 
     /**
      * Rol asignado al usuario.
@@ -161,6 +168,7 @@ public class User implements UserDetails {
      * @param name Nombre del usuario.
      * @param email Correo electrónico.
      * @param password Contraseña.
+     * @param googleId Id de autenticación de Google.
      * @param role Rol del usuario.
      * @param level Nivel del usuario.
      * @param settings Configuración del usuario.
@@ -176,11 +184,14 @@ public class User implements UserDetails {
      * @param streaks Rachas de juego.
      * @param activityLogs Registro de actividades.
      */
-    public User(Long id, String name, String email, String password, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+
+    // Constructor modificado con googleId
+    public User(Long id, String name, String email, String password, String googleId, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.googleId = googleId;
         this.role = role;
         this.level = level;
         this.settings = settings;
@@ -231,6 +242,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     /**
@@ -402,5 +421,19 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='[PROTECTED]'" +
+                ", googleId='" + googleId + '\'' +
+                ", role=" + role +
+                ", level=" + level +
+                ", settings=" + settings +
+                '}';
     }
 }
