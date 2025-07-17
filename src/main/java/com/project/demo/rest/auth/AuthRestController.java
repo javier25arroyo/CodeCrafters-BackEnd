@@ -16,7 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -79,28 +81,14 @@ public class AuthRestController {
         return ResponseEntity.ok(loginResponse);
     }
 
-    /**
-     * Registra un nuevo usuario en el sistema.
-     *
-     * @param user El objeto User con los datos del nuevo usuario a registrar.
-     * @return ResponseEntity con el usuario guardado si el registro es exitoso, o un mensaje de error si el email ya está en uso.
-     */
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+    @PostMapping(value = "/signup", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> registerUser(@RequestPart("user") User user, @RequestPart(value = "file", required = false) MultipartFile file) {
+        try {
+            User savedUser = authenticationService.signup(user, file);
+            return ResponseEntity.ok(savedUser);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
-
-        if (optionalRole.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role not found");
-        }
-        user.setRole(optionalRole.get());
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("/google")

@@ -57,6 +57,12 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String googleId;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
+    @Column(name = "profile_image_public_id")
+    private String profileImagePublicId;
+
     /**
      * Rol asignado al usuario.
      */
@@ -250,6 +256,22 @@ public class User implements UserDetails {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getProfileImagePublicId() {
+        return profileImagePublicId;
+    }
+
+    public void setProfileImagePublicId(String profileImagePublicId) {
+        this.profileImagePublicId = profileImagePublicId;
     }
 
     /**

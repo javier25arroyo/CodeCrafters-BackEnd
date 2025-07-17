@@ -16,7 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -31,6 +33,9 @@ public class UserRestController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Obtiene una lista paginada de todos los usuarios.
@@ -77,26 +82,18 @@ public class UserRestController {
                 user, HttpStatus.OK, request);
     }
 
-    /**
-     * Actualiza un usuario existente por su ID.
-     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
-     *
-     * @param userId  El ID del usuario a actualizar.
-     * @param user    El objeto {@link User} con los datos actualizados.
-     * @param request La petición HTTP.
-     * @return ResponseEntity con el usuario actualizado o un mensaje de error si no se encuentra.
-     */
-    @PutMapping("/{userId}")
+    @PutMapping(value = "/{userId}", consumes = {"multipart/form-data"})
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user, HttpServletRequest request) {
-        Optional<User> foundOrder = userRepository.findById(userId);
-        if(foundOrder.isPresent()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestPart("user") User user, @RequestPart(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+        try {
+            User updatedUser = userService.updateUser(userId, user, file);
             return new GlobalResponseHandler().handleResponse("User updated successfully",
-                    user, HttpStatus.OK, request);
-        } else {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found"  ,
+                    updatedUser, HttpStatus.OK, request);
+        } catch (IOException e) {
+            return new GlobalResponseHandler().handleResponse("Error uploading file",
+                    HttpStatus.INTERNAL_SERVER_ERROR, request);
+        } catch (RuntimeException e) {
+            return new GlobalResponseHandler().handleResponse(e.getMessage(),
                     HttpStatus.NOT_FOUND, request);
         }
     }
