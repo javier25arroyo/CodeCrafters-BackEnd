@@ -39,6 +39,10 @@ public class LevelController {
             if (game.isEmpty()) {
                 return ResponseEntity.badRequest().build();
             }
+            // para validar que el juego no tenga ya un nivel asignado
+            if (game.get().getLevel() != null) {
+                return ResponseEntity.badRequest().build();
+            }
             level.setGame(game.get());
         }
         Level savedLevel = levelRepository.save(level);
@@ -74,10 +78,22 @@ public class LevelController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/game/{gameId}")
-    public ResponseEntity<List<Level>> getLevelsByGame(@PathVariable Integer gameId) {
-        Optional<Game> game = gameRepository.findById(gameId);
-        return game.map(g -> ResponseEntity.ok(g.getLevels()))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-}
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Level> deactivateLevel(@PathVariable Long id) {
+        return levelRepository.findById(id).map(level -> {
+            level.setActive(false);
+            levelRepository.save(level);
+            return ResponseEntity.ok(level);
+        }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/activate")
+    public ResponseEntity<Level> activateLevel(@PathVariable Long id) {
+        return levelRepository.findById(id).map(level -> {
+            level.setActive(true);
+            levelRepository.save(level);
+            return ResponseEntity.ok(level);
+        }).orElse(ResponseEntity.notFound().build());
+    }
 }

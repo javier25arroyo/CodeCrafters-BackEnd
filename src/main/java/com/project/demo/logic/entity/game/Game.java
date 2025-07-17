@@ -23,7 +23,6 @@ public class Game {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
@@ -38,7 +37,6 @@ public class Game {
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameComponent> components;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "game")
@@ -57,12 +55,15 @@ public class Game {
     private List<Streak> streaks;
 
     /**
-     * Niveles asociados a este juego.
+     * Nivel asociado a este juego.
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Level> levels;
+    @OneToOne
+    @JoinColumn(name = "level_id")
+    private Level level;
 
+    @Column(nullable = false)
+    private boolean active = true;
 
     /**
      * Constructor por defecto.
@@ -84,8 +85,9 @@ public class Game {
      * @param reports     Reportes del juego.
      * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
+     * @param level       Nivel asociado al juego.
      */
-    public Game(Integer id, String name, String description, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks, List<Level> levels) {
+    public Game(Integer id, String name, String description, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks, Level level) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -97,10 +99,10 @@ public class Game {
         this.reports = reports;
         this.favoritedBy = favoritedBy;
         this.streaks = streaks;
-        this.levels = levels;
+        this.level = level;
     }
 
-    // Getters and setters...
+    // Getters y setters...
 
     public Integer getId() {
         return id;
@@ -125,7 +127,6 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public String getImageUrl() {
         return imageUrl;
@@ -159,7 +160,6 @@ public class Game {
         this.components = components;
     }
 
-
     public List<GameSession> getSessions() {
         return sessions;
     }
@@ -192,12 +192,17 @@ public class Game {
         this.streaks = streaks;
     }
 
-    public List<Level> getLevels() {
-        return levels;
+    public Level getLevel() {
+        return level;
     }
 
-    public void setLevels(List<Level> levels) {
-        this.levels=levels;
+    public void setLevel(Level level) {
+        this.level = level;
     }
-
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

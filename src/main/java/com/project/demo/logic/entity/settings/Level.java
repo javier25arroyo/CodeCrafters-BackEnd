@@ -22,9 +22,11 @@ public class Level {
     private String description;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "game_id")
+    @OneToOne(mappedBy = "level")
     private Game game;
+
+    @Column(nullable = false)
+    private boolean active = true;
 
     /**
      * Constructor por defecto.
@@ -32,13 +34,14 @@ public class Level {
     public Level() {
     }
 
-
     public Level(Long id, String name, String description, Game game) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.game = game;
     }
+
+    // Getters y setters...
 
     public Long getId() {
         return id;
@@ -69,6 +72,12 @@ public class Level {
     }
 
     public void setGame(Game game) {
-        this.game=game;
-}
+        this.game = game;
+    }
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
