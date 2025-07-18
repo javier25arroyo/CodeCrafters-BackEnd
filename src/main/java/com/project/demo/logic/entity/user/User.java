@@ -58,6 +58,18 @@ public class User implements UserDetails {
     private String googleId;
 
     /**
+     * Indica si el usuario está activo en el sistema.
+     */
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    /**
+     * Indica si el usuario está habilitado en el sistema.
+     */
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    /**
      * Rol asignado al usuario.
      */
     @ManyToOne(fetch = FetchType.EAGER)
@@ -252,6 +264,22 @@ public class User implements UserDetails {
         this.googleId = googleId;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     /**
      * Devuelve la contraseña utilizada para autenticar al usuario.
      * @return La contraseña del usuario.
@@ -410,7 +438,7 @@ public class User implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled != null ? enabled : true;
     }
 
     /**
