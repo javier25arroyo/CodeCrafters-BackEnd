@@ -61,7 +61,7 @@ public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
         User user = new User();
         user.setName("Code");
         user.setEmail("codecrafters@gmail.com");
-        user.setPassword("123456");
+        user.setPassword("superadmin123");
 
         Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
