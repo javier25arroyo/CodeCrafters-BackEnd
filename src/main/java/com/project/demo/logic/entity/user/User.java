@@ -57,11 +57,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String googleId;
 
-    /**
-     * Indica si el usuario está activo en el sistema.
-     */
-    @Column(nullable = false)
-    private Boolean active = true;
+    
 
     /**
      * Indica si el usuario está habilitado en el sistema.
@@ -264,13 +260,7 @@ public class User implements UserDetails {
         this.googleId = googleId;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+    
 
     public Boolean getEnabled() {
         return enabled;

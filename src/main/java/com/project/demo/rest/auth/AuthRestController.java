@@ -99,7 +99,7 @@ public class AuthRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role not found");
         }
         user.setRole(optionalRole.get());
-        user.setActive(true);  // Set user as active by default
+        
         user.setEnabled(true); // Set user as enabled by default
         User savedUser = userRepository.save(user);
         return ResponseEntity.ok(savedUser);
