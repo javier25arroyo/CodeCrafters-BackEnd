@@ -57,7 +57,7 @@ public class Game {
     /**
      * Nivel asociado a este juego.
      */
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne
     @JoinColumn(name = "level_id")
     private Level level;
