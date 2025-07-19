@@ -272,13 +272,8 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
+    public Boolean getEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 
     /**
      * Devuelve la contraseña utilizada para autenticar al usuario.
