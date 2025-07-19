@@ -438,7 +438,7 @@ public class User implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return enabled != null ? enabled : true;
+        return true;
     }
 
     /**
