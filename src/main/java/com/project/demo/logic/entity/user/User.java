@@ -10,7 +10,7 @@ import com.project.demo.logic.entity.history.ActivityLog;
 import com.project.demo.logic.entity.history.LoginHistory;
 import com.project.demo.logic.entity.notification.Notification;
 import com.project.demo.logic.entity.notification.Suggestion;
-import com.project.demo.logic.entity.settings.Level;
+import com.project.demo.logic.entity.settings.LevelEnum;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -73,16 +73,16 @@ public class User implements UserDetails {
     /**
      * Nivel actual del usuario en el sistema.
      */
-    @ManyToOne
-    @JoinColumn(name = "level_id")
-    private Level level;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "level")
+    private LevelEnum level;
 
     /**
      * Configuración personalizada del usuario.
      */
     @JsonManagedReference("user-settings")
-    @OneToOne
-    @JoinColumn(name = "settings_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings settings;
 
     /**
@@ -183,8 +183,7 @@ public class User implements UserDetails {
      * @param activityLogs Registro de actividades.
      */
 
-    // Constructor modificado con googleId
-    public User(Long id, String name, String email, String password, String googleId, Role role, Level level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -277,11 +276,11 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public Level getLevel() {
+    public LevelEnum getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(LevelEnum level) {
         this.level = level;
     }
 
