@@ -4,6 +4,7 @@ import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.rest.user.dto.UserSummaryDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Controlador REST para la gestión de usuarios.
@@ -131,7 +134,7 @@ public class UserRestController {
      * @return El objeto {@link User} del usuario autenticado.
      */
     @GetMapping("/me")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public User authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
@@ -151,6 +154,15 @@ public class UserRestController {
         return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
     }
 
+    @GetMapping("/summary")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
+        List<User> users = userRepository.findAll();
+        List<UserSummaryDTO> userSummaries = users.stream()
+                .map(user -> new UserSummaryDTO(user.getName(), user.getEmail(), user.getEnabled(), user.getRole().getName().toString()))
+                .collect(Collectors.toList());
 
-
+        return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",
+                userSummaries, HttpStatus.OK, request);
+    }
 }
