@@ -58,12 +58,6 @@ public class User implements UserDetails {
     private String googleId;
 
     /**
-     * Indica si el usuario está activo en el sistema.
-     */
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    /**
      * Indica si el usuario está habilitado en el sistema.
      */
     @Column(nullable = false)
@@ -90,13 +84,6 @@ public class User implements UserDetails {
     @OneToOne
     @JoinColumn(name = "settings_id")
     private UserSettings settings;
-
-    /**
-     * Comentarios y valoraciones de juegos realizados por el usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<GameFeedback> gameFeedbacks;
 
     /**
      * Sesiones de juego registradas por el usuario.
@@ -184,7 +171,6 @@ public class User implements UserDetails {
      * @param role Rol del usuario.
      * @param level Nivel del usuario.
      * @param settings Configuración del usuario.
-     * @param gameFeedbacks Comentarios de juegos.
      * @param gameSessions Sesiones de juego.
      * @param gameReports Reportes de juegos.
      * @param achievements Logros del usuario.
@@ -198,7 +184,7 @@ public class User implements UserDetails {
      */
 
     // Constructor modificado con googleId
-    public User(Long id, String name, String email, String password, String googleId, Role role, Level level, UserSettings settings, List<GameFeedback> gameFeedbacks, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, Level level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -207,7 +193,6 @@ public class User implements UserDetails {
         this.role = role;
         this.level = level;
         this.settings = settings;
-        this.gameFeedbacks = gameFeedbacks;
         this.gameSessions = gameSessions;
         this.gameReports = gameReports;
         this.achievements = achievements;
@@ -247,7 +232,6 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-
     public String getEmail() {
         return email;
     }
@@ -262,14 +246,6 @@ public class User implements UserDetails {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public Boolean getEnabled() {
@@ -315,14 +291,6 @@ public class User implements UserDetails {
 
     public void setSettings(UserSettings settings) {
         this.settings = settings;
-    }
-
-    public List<GameFeedback> getGameFeedbacks() {
-        return gameFeedbacks;
-    }
-
-    public void setGameFeedbacks(List<GameFeedback> gameFeedbacks) {
-        this.gameFeedbacks = gameFeedbacks;
     }
 
     public List<GameSession> getGameSessions() {

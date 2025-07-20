@@ -44,11 +44,6 @@ public class Game {
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-    /**
-     * Estado actual del juego (ej. "activo", "inactivo", "próximamente").
-     */
-    @Column(length = 20)
-    private String status;
 
     /**
      * Categoría a la que pertenece el juego.
@@ -64,13 +59,6 @@ public class Game {
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameComponent> components;
-
-    /**
-     * Comentarios y valoraciones recibidas para este juego.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "game")
-    private List<GameFeedback> feedbacks;
 
     /**
      * Sesiones de juego registradas para este juego.
@@ -114,25 +102,21 @@ public class Game {
      * @param description Descripción del juego.
      * @param difficulty  Dificultad del juego.
      * @param imageUrl    URL de la imagen.
-     * @param status      Estado del juego.
      * @param category    Categoría del juego.
      * @param components  Componentes del juego.
-     * @param feedbacks   Comentarios del juego.
      * @param sessions    Sesiones de juego.
      * @param reports     Reportes del juego.
      * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String difficulty, String imageUrl, String status, GameCategory category, List<GameComponent> components, List<GameFeedback> feedbacks, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
+    public Game(Integer id, String name, String description, String difficulty, String imageUrl, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
         this.imageUrl = imageUrl;
-        this.status = status;
         this.category = category;
         this.components = components;
-        this.feedbacks = feedbacks;
         this.sessions = sessions;
         this.reports = reports;
         this.favoritedBy = favoritedBy;
@@ -179,14 +163,6 @@ public class Game {
         this.imageUrl = imageUrl;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public GameCategory getCategory() {
         return category;
     }
@@ -201,14 +177,6 @@ public class Game {
 
     public void setComponents(List<GameComponent> components) {
         this.components = components;
-    }
-
-    public List<GameFeedback> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(List<GameFeedback> feedbacks) {
-        this.feedbacks = feedbacks;
     }
 
     public List<GameSession> getSessions() {
