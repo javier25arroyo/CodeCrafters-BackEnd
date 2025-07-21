@@ -165,4 +165,22 @@ public class UserRestController {
         return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",
                 userSummaries, HttpStatus.OK, request);
     }
+
+    @PatchMapping("/{userId}/toggle-enabled")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> toggleUserEnabled(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        }
+
+        User user = userOpt.get();
+        user.setEnabled(!user.getEnabled()); // cambia el estado actual
+        userRepository.save(user);
+
+        String status = user.getEnabled() ? "enabled" : "disabled";
+        return new GlobalResponseHandler().handleResponse("User " + status + " successfully", user, HttpStatus.OK, request);
+    }
+
 }
