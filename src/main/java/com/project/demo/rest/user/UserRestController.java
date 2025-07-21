@@ -4,7 +4,7 @@ import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
-import com.project.demo.rest.user.dto.UserSummaryDTO;
+import com.project.demo.logic.entity.user.UserSummary;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -158,8 +158,8 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
         List<User> users = userRepository.findAll();
-        List<UserSummaryDTO> userSummaries = users.stream()
-                .map(user -> new UserSummaryDTO(user.getName(), user.getEmail(), user.getEnabled(), user.getRole().getName().toString()))
+        List<UserSummary> userSummaries = users.stream()
+                .map(user -> new UserSummary(user.getName(), user.getEmail(), user.getEnabled(), user.getRole().getName().toString()))
                 .collect(Collectors.toList());
 
         return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",

@@ -1,13 +1,13 @@
 
-package com.project.demo.rest.user.dto;
+package com.project.demo.logic.entity.user;
 
-public class UserSummaryDTO {
+public class UserSummary {
     private String name;
     private String email;
     private boolean enabled;
     private String role;
 
-    public UserSummaryDTO(String name, String email, boolean enabled, String role) {
+    public UserSummary(String name, String email, boolean enabled, String role) {
         this.name = name;
         this.email = email;
         this.enabled = enabled;
