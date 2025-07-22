@@ -134,12 +134,20 @@ public class UserRestController {
      * @return El objeto {@link User} del usuario autenticado.
      */
     @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('USER','ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public User authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
     }
 
+    /**
+     * Restablece la contraseña de un usuario a un valor predeterminado.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param userId  El ID del usuario cuya contraseña se va a restablecer.
+     * @param request La petición HTTP.
+     * @return ResponseEntity con el usuario actualizado y un mensaje de éxito, o un mensaje de error si no se encuentra.
+     */
     @PostMapping("/{userId}/reset-password")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
@@ -154,6 +162,13 @@ public class UserRestController {
         return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
     }
 
+    /**
+     * Obtiene un resumen de todos los usuarios.
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param request La petición HTTP.
+     * @return ResponseEntity con la lista de resúmenes de usuarios y un mensaje de éxito.
+     */
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
@@ -166,6 +181,14 @@ public class UserRestController {
                 userSummaries, HttpStatus.OK, request);
     }
 
+    /**
+     * Alterna el estado de habilitación de un usuario (enabled/disabled).
+     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+     *
+     * @param userId  El ID del usuario cuyo estado se va a alternar.
+     * @param request La petición HTTP.
+     * @return ResponseEntity con el usuario actualizado y un mensaje de éxito, o un mensaje de error si no se encuentra.
+     */
     @PatchMapping("/{userId}/toggle-enabled")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> toggleUserEnabled(@PathVariable Long userId, HttpServletRequest request) {
@@ -176,11 +199,10 @@ public class UserRestController {
         }
 
         User user = userOpt.get();
-        user.setEnabled(!user.getEnabled()); // cambia el estado actual
+        user.setEnabled(!user.getEnabled());
         userRepository.save(user);
 
         String status = user.getEnabled() ? "enabled" : "disabled";
         return new GlobalResponseHandler().handleResponse("User " + status + " successfully", user, HttpStatus.OK, request);
     }
-
 }
