@@ -54,6 +54,10 @@ public class UserSettings {
     @OneToOne(mappedBy = "settings")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "level")
+    private LevelEnum level;
+
     /**
      * Constructor por defecto.
      */
@@ -70,8 +74,9 @@ public class UserSettings {
      * @param highContrast Indicador de alto contraste.
      * @param volume       Volumen preferido.
      * @param user         Usuario asociado a esta configuración.
+     * @param level        Nivel de dificultad preferido.
      */
-    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume, User user) {
+    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume, User user, LevelEnum level) {
         this.id = id;
         this.theme = theme;
         this.language = language;
@@ -79,6 +84,7 @@ public class UserSettings {
         this.highContrast = highContrast;
         this.volume = volume;
         this.user = user;
+        this.level = level;
     }
 
     public Integer getId() {
@@ -135,5 +141,13 @@ public class UserSettings {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public LevelEnum getLevel() {
+        return level;
+    }
+
+    public void setLevel(LevelEnum level) {
+        this.level = level;
     }
 }

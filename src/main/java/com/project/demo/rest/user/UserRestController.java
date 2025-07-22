@@ -4,6 +4,7 @@ import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.logic.entity.user.UserSummary;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Controlador REST para la gestión de usuarios.
@@ -131,10 +134,53 @@ public class UserRestController {
      * @return El objeto {@link User} del usuario autenticado.
      */
     @GetMapping("/me")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public User authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
+    }
+
+    @PostMapping("/{userId}/reset-password")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        }
+        User user = userOpt.get();
+        String defaultPassword = "password123"; // o genera uno seguro dinámico
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        userRepository.save(user);
+        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
+    }
+
+    @GetMapping("/summary")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
+        List<User> users = userRepository.findAll();
+        List<UserSummary> userSummaries = users.stream()
+                .map(user -> new UserSummary(user.getName(), user.getEmail(), user.getEnabled(), user.getRole().getName().toString()))
+                .collect(Collectors.toList());
+
+        return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",
+                userSummaries, HttpStatus.OK, request);
+    }
+
+    @PatchMapping("/{userId}/toggle-enabled")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    public ResponseEntity<?> toggleUserEnabled(@PathVariable Long userId, HttpServletRequest request) {
+        Optional<User> userOpt = userRepository.findById(userId);
+
+        if (userOpt.isEmpty()) {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        }
+
+        User user = userOpt.get();
+        user.setEnabled(!user.getEnabled()); // cambia el estado actual
+        userRepository.save(user);
+
+        String status = user.getEnabled() ? "enabled" : "disabled";
+        return new GlobalResponseHandler().handleResponse("User " + status + " successfully", user, HttpStatus.OK, request);
     }
 
 }

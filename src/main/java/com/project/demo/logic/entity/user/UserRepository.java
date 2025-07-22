@@ -1,5 +1,7 @@
 package com.project.demo.logic.entity.user;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -37,4 +39,6 @@ public interface UserRepository extends JpaRepository<User, Long>  {
      * @return Un {@link Optional} que contiene el usuario si se encuentra, o vacío si no.
      */
     Optional<User> findByEmail(String email);
+
+    Page<User> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String name, String email, Pageable pageable);
 }
