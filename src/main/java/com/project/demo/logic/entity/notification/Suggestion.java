@@ -20,7 +20,7 @@ public class Suggestion {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore // Evita serializar datos innecesarios del usuario al frontend (puede quitarse si ocupás mostrar el nombre)
+    @JsonIgnore
     private User user;
 
     @Column(columnDefinition = "TEXT")
@@ -34,7 +34,6 @@ public class Suggestion {
     public Suggestion() {
     }
 
-    // Este constructor podés eliminarlo si no lo usás, no es obligatorio
     public Suggestion(Integer id, User user, String message, String status, LocalDateTime date) {
         this.id = id;
         this.user = user;

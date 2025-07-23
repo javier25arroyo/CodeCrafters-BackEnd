@@ -16,7 +16,7 @@ import java.util.Map;
  * Controlador REST para gestionar sugerencias.
  */
 @RestController
-@RequestMapping("/api/suggestions")
+@RequestMapping("/suggestions")
 @CrossOrigin(origins = "*")
 public class SuggestionController {
 
