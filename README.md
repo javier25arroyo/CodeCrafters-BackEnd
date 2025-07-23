@@ -78,9 +78,9 @@ cd CodeCrafters-BackEnd
 Crear una base de datos MariaDB:
 
 ```sql
-CREATE DATABASE mentana_proyecto;
-CREATE USER 'proyecto3'@'localhost' IDENTIFIED BY 'proyecto3-mentana*';
-GRANT ALL PRIVILEGES ON mentana_proyecto.* TO 'proyecto3'@'localhost';
+CREATE DATABASE tu-base-de-datos;
+CREATE USER 'tu-usuario'@'localhost' IDENTIFIED BY 'tu-password';
+GRANT ALL PRIVILEGES ON tu-base-de-datos.* TO 'tu-usuario'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -90,8 +90,8 @@ Copiar `src/main/resources/application.properties` y ajustar:
 
 ```properties
 # Base de datos
-spring.datasource.url=jdbc:mariadb://localhost:3306/mentana_proyecto
-spring.datasource.username=proyecto3
+spring.datasource.url=jdbc:mariadb://localhost:3306/tu-base-de-datos
+spring.datasource.username=tu-usuario
 spring.datasource.password=tu-password
 
 # JWT
