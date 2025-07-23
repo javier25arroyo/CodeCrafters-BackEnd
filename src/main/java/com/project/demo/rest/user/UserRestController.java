@@ -134,7 +134,7 @@ public class UserRestController {
      * @return El objeto {@link User} del usuario autenticado.
      */
     @GetMapping("/me")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('USER' , 'ADMIN', 'SUPER_ADMIN')")
     public User authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (User) authentication.getPrincipal();
