@@ -94,10 +94,22 @@ public class UserRestController {
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user, HttpServletRequest request) {
         Optional<User> foundOrder = userRepository.findById(userId);
         if(foundOrder.isPresent()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+
+            User existingUser = foundOrder.get();
+
+            existingUser.setName(user.getName());
+            existingUser.setEmail(user.getEmail());
+
+            if (user.getRole() != null) {
+                existingUser.setRole(user.getRole());
+            }
+
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+            userRepository.save(existingUser);
             return new GlobalResponseHandler().handleResponse("User updated successfully",
-                    user, HttpStatus.OK, request);
+            existingUser, HttpStatus.OK, request);
         } else {
             return new GlobalResponseHandler().handleResponse("User id " + userId + " not found"  ,
                     HttpStatus.NOT_FOUND, request);
@@ -105,14 +117,14 @@ public class UserRestController {
     }
 
 
-    /**
-     * Elimina un usuario por su ID.
-     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
-     *
-     * @param userId  El ID del usuario a eliminar.
-     * @param request La petición HTTP.
-     * @return ResponseEntity con el usuario eliminado o un mensaje de error si no se encuentra.
-     */
+            /**
+             * Elimina un usuario por su ID.
+             * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
+             *
+             * @param userId  El ID del usuario a eliminar.
+             * @param request La petición HTTP.
+             * @return ResponseEntity con el usuario eliminado o un mensaje de error si no se encuentra.
+             */
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId, HttpServletRequest request) {
