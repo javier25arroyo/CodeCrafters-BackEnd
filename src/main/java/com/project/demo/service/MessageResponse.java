@@ -1,8 +1,8 @@
 package com.project.demo.service;
 
 /**
- * Representa una respuesta de mensaje simple.
- * Se utiliza para enviar mensajes de texto genéricos como respuesta desde los endpoints de la API.
+ * Representa una respuesta de mensaje simple. Se utiliza para enviar mensajes de texto genéricos
+ * como respuesta desde los endpoints de la API.
  */
 public class MessageResponse {
     private String message;

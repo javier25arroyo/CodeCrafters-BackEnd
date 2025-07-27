@@ -13,13 +13,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * Clase de configuración para la aplicación, que define beans relacionados con la seguridad y autenticación.
+ * Clase de configuración para la aplicación, que define beans relacionados con la seguridad y
+ * autenticación.
  */
 @Configuration
 public class ApplicationConfiguration {
 
-    @Autowired
-    private final UserRepository userRepository;
+    @Autowired private final UserRepository userRepository;
 
     /**
      * Constructor para la inyección de dependencias del repositorio de usuarios.
@@ -31,14 +31,17 @@ public class ApplicationConfiguration {
     }
 
     /**
-     * Define un bean {@link UserDetailsService} que carga los detalles del usuario por su correo electrónico.
+     * Define un bean {@link UserDetailsService} que carga los detalles del usuario por su correo
+     * electrónico.
      *
      * @return Una implementación de {@link UserDetailsService}.
      */
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username ->
+                userRepository
+                        .findByEmail(username)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     /**
@@ -59,7 +62,8 @@ public class ApplicationConfiguration {
      * @throws Exception Si ocurre un error al obtener el AuthenticationManager.
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
         return config.getAuthenticationManager();
     }
 
@@ -78,5 +82,4 @@ public class ApplicationConfiguration {
 
         return authProvider;
     }
-
 }

@@ -4,17 +4,14 @@ import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.notification.repository.SuggestionRepository;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
-/**
- * Controlador REST para gestionar sugerencias.
- */
+/** Controlador REST para gestionar sugerencias. */
 @RestController
 @RequestMapping("/suggestions")
 @CrossOrigin(origins = "*")
@@ -23,7 +20,8 @@ public class SuggestionController {
     private final SuggestionRepository suggestionRepository;
     private final UserRepository userRepository;
 
-    public SuggestionController(SuggestionRepository suggestionRepository, UserRepository userRepository) {
+    public SuggestionController(
+            SuggestionRepository suggestionRepository, UserRepository userRepository) {
         this.suggestionRepository = suggestionRepository;
         this.userRepository = userRepository;
     }
@@ -53,10 +51,12 @@ public class SuggestionController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<?> updateSuggestionStatus(@PathVariable Integer id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<?> updateSuggestionStatus(
+            @PathVariable Integer id, @RequestBody Map<String, String> body) {
         Suggestion suggestion = suggestionRepository.findById(id).orElse(null);
         if (suggestion == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Sugerencia no encontrada"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Sugerencia no encontrada"));
         }
 
         String newStatus = body.get("status");
@@ -70,6 +70,5 @@ public class SuggestionController {
         return ResponseEntity.ok(Map.of("message", "Estado actualizado"));
     }
 
-    public record SuggestionRequest(Integer userId, String message) {
-    }
+    public record SuggestionRequest(Integer userId, String message) {}
 }

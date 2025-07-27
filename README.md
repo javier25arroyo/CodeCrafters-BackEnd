@@ -2,7 +2,7 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
 
 ## 🚀 Tecnologías
 
-- **Java 21** - Lenguaje de programación
+- **Java 17** - Lenguaje de programación
 - **Spring Boot 3.2.5** - Framework principal
 - **Spring Security** - Autenticación y autorización
 - **Spring Data JPA** - Persistencia de datos
@@ -62,7 +62,7 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
 
 ### Prerrequisitos
 
-- Java 21 o superior
+- Java 17 o superior
 - MariaDB 10.6+
 - Gradle 8.0+
 
@@ -86,7 +86,13 @@ FLUSH PRIVILEGES;
 
 ### 3. Configurar variables de entorno
 
-Copiar `src/main/resources/application.properties` y ajustar:
+Copiar `src/main/resources/application-example.properties` a `src/main/resources/application.properties` y ajustar:
+
+```bash
+cp src/main/resources/application-example.properties src/main/resources/application.properties
+```
+
+Editar `application.properties` con tus valores:
 
 ```properties
 # Base de datos
@@ -184,6 +190,20 @@ src/
 ./gradlew test jacocoTestReport
 ```
 
+## 🎨 Formato de Código
+
+Este proyecto utiliza Spotless para mantener un formato de código consistente:
+
+```bash
+# Verificar formato de código
+./gradlew spotlessCheck
+
+# Aplicar formato automáticamente
+./gradlew spotlessApply
+```
+
+El proyecto está configurado con Google Java Format (AOSP) y EditorConfig para mantener consistencia en el estilo de código.
+
 ## 🚀 Despliegue
 
 ### Heroku
@@ -229,9 +249,18 @@ Importar `src/main/resources/Insomnia.json` en Insomnia o Postman para probar to
 
 1. Fork el proyecto
 2. Crear rama feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit cambios (`git commit -m 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crear Pull Request
+3. Ejecutar formato de código (`./gradlew spotlessApply`)
+4. Ejecutar tests (`./gradlew test`)
+5. Commit cambios (`git commit -m 'Agregar nueva funcionalidad'`)
+6. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+7. Crear Pull Request
+
+### Directrices de Desarrollo
+
+- El código debe seguir el formato establecido por Spotless (Google Java Format)
+- Todos los tests deben pasar antes de hacer commit
+- Las nuevas funcionalidades deben incluir tests
+- Documentar métodos públicos con JavaDoc
 
 ## 📝 Licencia
 

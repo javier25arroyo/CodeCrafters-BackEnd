@@ -5,51 +5,37 @@ import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
 
 /**
- * Representa la configuración de usuario en el sistema.
- * Esta entidad mapea la tabla 'user_settings' en la base de datos.
+ * Representa la configuración de usuario en el sistema. Esta entidad mapea la tabla 'user_settings'
+ * en la base de datos.
  */
 @Entity
 @Table(name = "user_settings")
 public class UserSettings {
-    /**
-     * Identificador único de la configuración de usuario.
-     */
+    /** Identificador único de la configuración de usuario. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * Tema de la interfaz de usuario (ej. "claro", "oscuro").
-     */
+    /** Tema de la interfaz de usuario (ej. "claro", "oscuro"). */
     @Column(length = 20)
     private String theme;
 
-    /**
-     * Idioma preferido del usuario (ej. "es", "en").
-     */
+    /** Idioma preferido del usuario (ej. "es", "en"). */
     @Column(length = 20)
     private String language;
 
-    /**
-     * Indica si el texto grande está habilitado para accesibilidad.
-     */
+    /** Indica si el texto grande está habilitado para accesibilidad. */
     @Column(name = "large_text")
     private Boolean largeText;
 
-    /**
-     * Indica si el modo de alto contraste está habilitado para accesibilidad.
-     */
+    /** Indica si el modo de alto contraste está habilitado para accesibilidad. */
     @Column(name = "high_contrast")
     private Boolean highContrast;
 
-    /**
-     * Volumen preferido para los sonidos de la aplicación.
-     */
+    /** Volumen preferido para los sonidos de la aplicación. */
     private Integer volume;
 
-    /**
-     * El usuario al que pertenece esta configuración.
-     */
+    /** El usuario al que pertenece esta configuración. */
     @JsonBackReference("user-settings")
     @OneToOne(mappedBy = "settings")
     private User user;
@@ -58,25 +44,30 @@ public class UserSettings {
     @Column(name = "level")
     private LevelEnum level;
 
-    /**
-     * Constructor por defecto.
-     */
-    public UserSettings() {
-    }
+    /** Constructor por defecto. */
+    public UserSettings() {}
 
     /**
      * Constructor para crear una instancia de UserSettings con todos los parámetros.
      *
-     * @param id           Identificador único.
-     * @param theme        Tema de la interfaz de usuario.
-     * @param language     Idioma preferido.
-     * @param largeText    Indicador de texto grande.
+     * @param id Identificador único.
+     * @param theme Tema de la interfaz de usuario.
+     * @param language Idioma preferido.
+     * @param largeText Indicador de texto grande.
      * @param highContrast Indicador de alto contraste.
-     * @param volume       Volumen preferido.
-     * @param user         Usuario asociado a esta configuración.
-     * @param level        Nivel de dificultad preferido.
+     * @param volume Volumen preferido.
+     * @param user Usuario asociado a esta configuración.
+     * @param level Nivel de dificultad preferido.
      */
-    public UserSettings(Integer id, String theme, String language, Boolean largeText, Boolean highContrast, Integer volume, User user, LevelEnum level) {
+    public UserSettings(
+            Integer id,
+            String theme,
+            String language,
+            Boolean largeText,
+            Boolean highContrast,
+            Integer volume,
+            User user,
+            LevelEnum level) {
         this.id = id;
         this.theme = theme;
         this.language = language;

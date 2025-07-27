@@ -3,12 +3,11 @@ package com.project.demo.logic.entity.notification;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 /**
- * Representa una sugerencia enviada por un usuario.
- * Esta entidad mapea la tabla 'suggestions' en la base de datos.
+ * Representa una sugerencia enviada por un usuario. Esta entidad mapea la tabla 'suggestions' en la
+ * base de datos.
  */
 @Entity
 @Table(name = "suggestions")
@@ -31,8 +30,7 @@ public class Suggestion {
 
     private LocalDateTime date;
 
-    public Suggestion() {
-    }
+    public Suggestion() {}
 
     public Suggestion(Integer id, User user, String message, String status, LocalDateTime date) {
         this.id = id;

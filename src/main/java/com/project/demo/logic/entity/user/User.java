@@ -13,156 +13,116 @@ import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.LevelEnum;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
- * Representa un usuario en el sistema.
- * Esta entidad mapea la tabla 'users' en la base de datos e implementa la interfaz
- * {@link UserDetails} para la integración con Spring Security.
+ * Representa un usuario en el sistema. Esta entidad mapea la tabla 'users' en la base de datos e
+ * implementa la interfaz {@link UserDetails} para la integración con Spring Security.
  */
 @Table(name = "users")
 @Entity
 public class User implements UserDetails {
-    /**
-     * Identificador único del usuario.
-     */
+    /** Identificador único del usuario. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /**
-     * Nombre del usuario.
-     */
+
+    /** Nombre del usuario. */
     @Column(nullable = false)
     private String name;
-    /**
-     * Correo electrónico del usuario. Debe ser único.
-     */
+
+    /** Correo electrónico del usuario. Debe ser único. */
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
-    /**
-     * Contraseña del usuario. No puede ser nula.
-     */
+    /** Contraseña del usuario. No puede ser nula. */
     @Column(nullable = false)
     private String password;
 
-    /**
-     * Id de la autenticacion de google. Puede ser nulo.
-     */
+    /** Id de la autenticacion de google. Puede ser nulo. */
     @Column(unique = true)
     private String googleId;
 
-    /**
-     * Indica si el usuario está habilitado en el sistema.
-     */
+    /** Indica si el usuario está habilitado en el sistema. */
     @Column(nullable = false)
     private Boolean enabled = true;
 
-    /**
-     * Rol asignado al usuario.
-     */
+    /** Rol asignado al usuario. */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    /**
-     * Nivel actual del usuario en el sistema.
-     */
+    /** Nivel actual del usuario en el sistema. */
     @Enumerated(EnumType.STRING)
     @Column(name = "level")
     private LevelEnum level;
 
-    /**
-     * Configuración personalizada del usuario.
-     */
+    /** Configuración personalizada del usuario. */
     @JsonManagedReference("user-settings")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings settings;
 
-    /**
-     * Sesiones de juego registradas por el usuario.
-     */
+    /** Sesiones de juego registradas por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameSession> gameSessions;
 
-    /**
-     * Reportes de juegos enviados por el usuario.
-     */
+    /** Reportes de juegos enviados por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<GameReport> gameReports;
 
-    /**
-     * Logros obtenidos por el usuario.
-     */
+    /** Logros obtenidos por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserAchievement> achievements;
 
-    /**
-     * Sugerencias enviadas por el usuario.
-     */
+    /** Sugerencias enviadas por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Suggestion> suggestions;
 
-    /**
-     * Notificaciones recibidas por el usuario.
-     */
+    /** Notificaciones recibidas por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
-    /**
-     * Cuidadores asociados a este usuario.
-     */
+    /** Cuidadores asociados a este usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
-    /**
-     * Juegos marcados como favoritos por el usuario.
-     */
+    /** Juegos marcados como favoritos por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<FavoriteGame> favoriteGames;
 
-    /**
-     * Historial de inicios de sesión del usuario.
-     */
+    /** Historial de inicios de sesión del usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<LoginHistory> loginHistories;
 
-    /**
-     * Rachas de juego del usuario.
-     */
+    /** Rachas de juego del usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Streak> streaks;
 
-    /**
-     * Registro de actividades realizadas por el usuario.
-     */
+    /** Registro de actividades realizadas por el usuario. */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<ActivityLog> activityLogs;
 
-    /**
-     * Constructor por defecto.
-     */
-    public User() {
-    }
+    /** Constructor por defecto. */
+    public User() {}
 
     /**
      * Constructor con todos los parámetros para inicializar un objeto User.
+     *
      * @param id Identificador único.
      * @param name Nombre del usuario.
      * @param email Correo electrónico.
@@ -182,8 +142,25 @@ public class User implements UserDetails {
      * @param streaks Rachas de juego.
      * @param activityLogs Registro de actividades.
      */
-
-    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(
+            Long id,
+            String name,
+            String email,
+            String password,
+            String googleId,
+            Role role,
+            LevelEnum level,
+            UserSettings settings,
+            List<GameSession> gameSessions,
+            List<GameReport> gameReports,
+            List<UserAchievement> achievements,
+            List<Suggestion> suggestions,
+            List<Notification> notifications,
+            List<UserCaregiver> caregivers,
+            List<FavoriteGame> favoriteGames,
+            List<LoginHistory> loginHistories,
+            List<Streak> streaks,
+            List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -205,13 +182,15 @@ public class User implements UserDetails {
     }
 
     /**
-     * Devuelve las autorizaciones concedidas al usuario.
-     * Utiliza el nombre del rol para crear una {@link SimpleGrantedAuthority}.
+     * Devuelve las autorizaciones concedidas al usuario. Utiliza el nombre del rol para crear una
+     * {@link SimpleGrantedAuthority}.
+     *
      * @return Una colección con la autoridad del rol del usuario.
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
+        SimpleGrantedAuthority authority =
+                new SimpleGrantedAuthority("ROLE_" + role.getName().toString());
         return List.of(authority);
     }
 
@@ -257,6 +236,7 @@ public class User implements UserDetails {
 
     /**
      * Devuelve la contraseña utilizada para autenticar al usuario.
+     *
      * @return La contraseña del usuario.
      */
     @Override
@@ -374,6 +354,7 @@ public class User implements UserDetails {
 
     /**
      * Indica si la cuenta del usuario ha expirado.
+     *
      * @return siempre {@code true}, indicando que la cuenta nunca expira.
      */
     @Override
@@ -383,6 +364,7 @@ public class User implements UserDetails {
 
     /**
      * Indica si el usuario está bloqueado o no.
+     *
      * @return siempre {@code true}, indicando que la cuenta nunca está bloqueada.
      */
     @Override
@@ -392,6 +374,7 @@ public class User implements UserDetails {
 
     /**
      * Indica si las credenciales del usuario (contraseña) han expirado.
+     *
      * @return siempre {@code true}, indicando que las credenciales nunca expiran.
      */
     @Override
@@ -401,6 +384,7 @@ public class User implements UserDetails {
 
     /**
      * Indica si el usuario está habilitado o deshabilitado.
+     *
      * @return siempre {@code true}, indicando que el usuario siempre está habilitado.
      */
     @Override
@@ -409,8 +393,9 @@ public class User implements UserDetails {
     }
 
     /**
-     * Devuelve el nombre de usuario utilizado para autenticar al usuario.
-     * En este caso, es el correo electrónico.
+     * Devuelve el nombre de usuario utilizado para autenticar al usuario. En este caso, es el
+     * correo electrónico.
+     *
      * @return el correo electrónico del usuario.
      */
     @Override
@@ -420,15 +405,25 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='[PROTECTED]'" +
-                ", googleId='" + googleId + '\'' +
-                ", role=" + role +
-                ", level=" + level +
-                ", settings=" + settings +
-                '}';
+        return "User{"
+                + "id="
+                + id
+                + ", name='"
+                + name
+                + '\''
+                + ", email='"
+                + email
+                + '\''
+                + ", password='[PROTECTED]'"
+                + ", googleId='"
+                + googleId
+                + '\''
+                + ", role="
+                + role
+                + ", level="
+                + level
+                + ", settings="
+                + settings
+                + '}';
     }
 }

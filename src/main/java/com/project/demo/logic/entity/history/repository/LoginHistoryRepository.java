@@ -5,5 +5,4 @@ package com.project.demo.logic.entity.history.repository;
  * Proporciona métodos para realizar operaciones CRUD sobre el historial de inicio de sesión.
  * (Actualmente sin implementar métodos específicos)
  */
-public interface LoginHistoryRepository {
-}
+public interface LoginHistoryRepository {}

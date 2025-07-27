@@ -12,8 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Configuración de seguridad principal para la aplicación.
- * Habilita la seguridad web y la seguridad a nivel de método, y define la cadena de filtros de seguridad.
+ * Configuración de seguridad principal para la aplicación. Habilita la seguridad web y la seguridad
+ * a nivel de método, y define la cadena de filtros de seguridad.
  */
 @Configuration
 @EnableWebSecurity
@@ -26,11 +26,14 @@ public class SecurityConfiguration {
      * Constructor para inyectar las dependencias del proveedor de autenticación y el filtro JWT.
      *
      * @param jwtAuthenticationFilter Filtro para la autenticación basada en JWT.
-     * @param authenticationProvider  Proveedor que gestiona la autenticación de los usuarios.
+     * @param authenticationProvider Proveedor que gestiona la autenticación de los usuarios.
      */
     private final CoopHeaderFilter coopHeaderFilter;
 
-    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider, CoopHeaderFilter coopHeaderFilter) {
+    public SecurityConfiguration(
+            JwtAuthenticationFilter jwtAuthenticationFilter,
+            AuthenticationProvider authenticationProvider,
+            CoopHeaderFilter coopHeaderFilter) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.coopHeaderFilter = coopHeaderFilter;
@@ -45,20 +48,23 @@ public class SecurityConfiguration {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("http://localhost:4200/login")
-                        .permitAll()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(
+                        (authorize) ->
+                                authorize
+                                        .requestMatchers(HttpMethod.POST, "/auth/**")
+                                        .permitAll()
+                                        .anyRequest()
+                                        .authenticated())
+                .logout(
+                        logout ->
+                                logout.logoutSuccessUrl("http://localhost:4200/login").permitAll())
+                .sessionManagement(
+                        session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(coopHeaderFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

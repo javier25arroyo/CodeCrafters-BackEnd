@@ -4,56 +4,44 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 /**
- * Representa la relación entre un usuario y un logro, indicando que un usuario ha obtenido un logro.
- * Esta entidad mapea la tabla 'user_achievements' en la base de datos.
+ * Representa la relación entre un usuario y un logro, indicando que un usuario ha obtenido un
+ * logro. Esta entidad mapea la tabla 'user_achievements' en la base de datos.
  */
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 @Table(name = "user_achievements")
 public class UserAchievement {
-    /**
-     * Identificador único de la relación usuario-logro.
-     */
+    /** Identificador único de la relación usuario-logro. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * El usuario que ha obtenido el logro.
-     */
+    /** El usuario que ha obtenido el logro. */
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    /**
-     * El logro que ha sido obtenido por el usuario.
-     */
+    /** El logro que ha sido obtenido por el usuario. */
     @ManyToOne
     @JoinColumn(name = "achievement_id")
     private Achievement achievement;
 
-    /**
-     * La fecha y hora en que el usuario obtuvo el logro.
-     */
+    /** La fecha y hora en que el usuario obtuvo el logro. */
     private LocalDateTime date;
 
-    /**
-     * Constructor por defecto.
-     */
-    public UserAchievement() {
-    }
+    /** Constructor por defecto. */
+    public UserAchievement() {}
 
     /**
      * Constructor para crear una instancia de UserAchievement con todos los parámetros.
      *
-     * @param id          Identificador único.
-     * @param user        Usuario que obtuvo el logro.
+     * @param id Identificador único.
+     * @param user Usuario que obtuvo el logro.
      * @param achievement Logro obtenido.
-     * @param date        Fecha en que se obtuvo el logro.
+     * @param date Fecha en que se obtuvo el logro.
      */
     public UserAchievement(Integer id, User user, Achievement achievement, LocalDateTime date) {
         this.id = id;

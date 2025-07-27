@@ -1,25 +1,23 @@
 package com.project.demo.logic.entity.user;
 
 /**
- * Representa la respuesta devuelta al usuario después de un inicio de sesión exitoso.
- * Contiene el token de autenticación, la información del usuario autenticado y el tiempo de expiración del token.
+ * Representa la respuesta devuelta al usuario después de un inicio de sesión exitoso. Contiene el
+ * token de autenticación, la información del usuario autenticado y el tiempo de expiración del
+ * token.
  */
 public class LoginResponse {
     private String token;
     private User authUser;
     private long expiresIn;
 
-    /**
-     * Constructor por defecto.
-     */
-    public LoginResponse() {
-    }
+    /** Constructor por defecto. */
+    public LoginResponse() {}
 
     /**
      * Constructor para crear una instancia de LoginResponse con todos los detalles.
      *
-     * @param token     El token JWT generado para la sesión.
-     * @param authUser  El objeto {@link User} del usuario autenticado.
+     * @param token El token JWT generado para la sesión.
+     * @param authUser El objeto {@link User} del usuario autenticado.
      * @param expiresIn El tiempo en milisegundos hasta que el token expire.
      */
     public LoginResponse(String token, User authUser, long expiresIn) {

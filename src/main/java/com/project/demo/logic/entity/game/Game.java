@@ -3,113 +3,94 @@ package com.project.demo.logic.entity.game;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.List;
 
-/**
- * Representa un juego en el sistema.
- * Esta entidad mapea la tabla 'games' en la base de datos.
- */
+/** Representa un juego en el sistema. Esta entidad mapea la tabla 'games' en la base de datos. */
 @Entity
 @Table(name = "games")
 public class Game {
-    /**
-     * Identificador único del juego.
-     */
+    /** Identificador único del juego. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * Nombre del juego.
-     */
+    /** Nombre del juego. */
     @Column(length = 100)
     private String name;
 
-    /**
-     * Descripción detallada del juego.
-     */
+    /** Descripción detallada del juego. */
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    /**
-     * Nivel de dificultad del juego (ej. "fácil", "medio", "difícil").
-     */
+    /** Nivel de dificultad del juego (ej. "fácil", "medio", "difícil"). */
     @Column(length = 20)
     private String difficulty;
 
-    /**
-     * URL de la imagen representativa del juego.
-     */
+    /** URL de la imagen representativa del juego. */
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-
-    /**
-     * Categoría a la que pertenece el juego.
-     */
+    /** Categoría a la que pertenece el juego. */
     @JsonManagedReference("game-category")
     @ManyToOne
     @JoinColumn(name = "category_id")
     private GameCategory category;
 
-    /**
-     * Componentes individuales que conforman el juego (ej. preguntas, niveles).
-     */
+    /** Componentes individuales que conforman el juego (ej. preguntas, niveles). */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameComponent> components;
 
-    /**
-     * Sesiones de juego registradas para este juego.
-     */
+    /** Sesiones de juego registradas para este juego. */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameSession> sessions;
 
-    /**
-     * Reportes generados para este juego.
-     */
+    /** Reportes generados para este juego. */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<GameReport> reports;
 
-    /**
-     * Lista de usuarios que han marcado este juego como favorito.
-     */
+    /** Lista de usuarios que han marcado este juego como favorito. */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<FavoriteGame> favoritedBy;
 
-    /**
-     * Rachas de juego asociadas a este juego.
-     */
+    /** Rachas de juego asociadas a este juego. */
     @JsonIgnore
     @OneToMany(mappedBy = "game")
     private List<Streak> streaks;
 
-    /**
-     * Constructor por defecto.
-     */
-    public Game() {
-    }
+    /** Constructor por defecto. */
+    public Game() {}
 
     /**
      * Constructor para crear una instancia de Game con todos los parámetros.
      *
-     * @param id          Identificador único.
-     * @param name        Nombre del juego.
+     * @param id Identificador único.
+     * @param name Nombre del juego.
      * @param description Descripción del juego.
-     * @param difficulty  Dificultad del juego.
-     * @param imageUrl    URL de la imagen.
-     * @param category    Categoría del juego.
-     * @param components  Componentes del juego.
-     * @param sessions    Sesiones de juego.
-     * @param reports     Reportes del juego.
+     * @param difficulty Dificultad del juego.
+     * @param imageUrl URL de la imagen.
+     * @param category Categoría del juego.
+     * @param components Componentes del juego.
+     * @param sessions Sesiones de juego.
+     * @param reports Reportes del juego.
      * @param favoritedBy Usuarios que lo marcaron como favorito.
-     * @param streaks     Rachas de juego.
+     * @param streaks Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String difficulty, String imageUrl, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
+    public Game(
+            Integer id,
+            String name,
+            String description,
+            String difficulty,
+            String imageUrl,
+            GameCategory category,
+            List<GameComponent> components,
+            List<GameSession> sessions,
+            List<GameReport> reports,
+            List<FavoriteGame> favoritedBy,
+            List<Streak> streaks) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -211,4 +192,3 @@ public class Game {
         this.streaks = streaks;
     }
 }
-

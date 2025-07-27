@@ -1,9 +1,7 @@
 package com.project.demo.rest.caregiver;
 
 /**
- * Controlador REST para gestionar los cuidadores.
- * Proporcionará endpoints para operaciones relacionadas con la gestión de cuidadores.
- * (Actualmente sin implementar)
+ * Controlador REST para gestionar los cuidadores. Proporcionará endpoints para operaciones
+ * relacionadas con la gestión de cuidadores. (Actualmente sin implementar)
  */
-public class CaregiverController {
-}
+public class CaregiverController {}

@@ -2,57 +2,46 @@ package com.project.demo.logic.entity.achievement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 /**
- * Representa un logro que los usuarios pueden obtener en el sistema.
- * Esta entidad mapea la tabla 'achievements' en la base de datos.
+ * Representa un logro que los usuarios pueden obtener en el sistema. Esta entidad mapea la tabla
+ * 'achievements' en la base de datos.
  */
 @Entity
 @Table(name = "achievements")
 public class Achievement {
-    /**
-     * Identificador único del logro.
-     */
+    /** Identificador único del logro. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * Nombre del logro.
-     */
+    /** Nombre del logro. */
     @Column(length = 100)
     private String name;
 
-    /**
-     * Descripción detallada del logro.
-     */
+    /** Descripción detallada del logro. */
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    /**
-     * Lista de relaciones entre este logro y los usuarios que lo han obtenido.
-     */
+    /** Lista de relaciones entre este logro y los usuarios que lo han obtenido. */
     @JsonIgnore
     @OneToMany(mappedBy = "achievement")
     private List<UserAchievement> userAchievements;
 
-    /**
-     * Constructor por defecto.
-     */
-    public Achievement() {
-    }
+    /** Constructor por defecto. */
+    public Achievement() {}
 
     /**
      * Constructor para crear una instancia de Achievement con todos los parámetros.
      *
-     * @param id             Identificador único.
-     * @param name           Nombre del logro.
-     * @param description    Descripción del logro.
+     * @param id Identificador único.
+     * @param name Nombre del logro.
+     * @param description Descripción del logro.
      * @param userAchievements Lista de usuarios que han obtenido este logro.
      */
-    public Achievement(Integer id, String name, String description, List<UserAchievement> userAchievements) {
+    public Achievement(
+            Integer id, String name, String description, List<UserAchievement> userAchievements) {
         this.id = id;
         this.name = name;
         this.description = description;

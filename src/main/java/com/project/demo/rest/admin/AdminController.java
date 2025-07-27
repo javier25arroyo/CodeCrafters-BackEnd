@@ -5,6 +5,7 @@ import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,28 +14,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 /**
- * Controlador REST para la gestión de administradores.
- * Proporciona funcionalidades para crear nuevos usuarios administradores.
+ * Controlador REST para la gestión de administradores. Proporciona funcionalidades para crear
+ * nuevos usuarios administradores.
  */
 @RequestMapping("/admin")
 @RestController
 public class AdminController {
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    @Autowired private RoleRepository roleRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     /**
-     * Crea un nuevo usuario con rol de administrador.
-     * Requiere que el usuario autenticado tenga el rol 'SUPER_ADMIN'.
+     * Crea un nuevo usuario con rol de administrador. Requiere que el usuario autenticado tenga el
+     * rol 'SUPER_ADMIN'.
      *
      * @param newAdminUser El objeto {@link User} con los datos del nuevo administrador a crear.
      * @return El usuario administrador creado, o null si el rol 'ADMIN' no se encuentra.

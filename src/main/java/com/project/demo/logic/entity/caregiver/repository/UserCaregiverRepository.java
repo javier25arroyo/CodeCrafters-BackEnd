@@ -5,5 +5,4 @@ package com.project.demo.logic.entity.caregiver.repository;
  * Proporciona métodos para realizar operaciones CRUD sobre las relaciones usuario-cuidador.
  * (Actualmente sin implementar métodos específicos)
  */
-public interface UserCaregiverRepository {
-}
+public interface UserCaregiverRepository {}

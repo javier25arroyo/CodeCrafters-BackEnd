@@ -4,17 +4,17 @@ import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import java.util.Optional;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 /**
- * Componente encargado de sembrar un usuario Super Administrador en la base de datos al iniciar la aplicación.
- * Implementa {@link ApplicationListener} para escuchar el evento {@link ContextRefreshedEvent}.
+ * Componente encargado de sembrar un usuario Super Administrador en la base de datos al iniciar la
+ * aplicación. Implementa {@link ApplicationListener} para escuchar el evento {@link
+ * ContextRefreshedEvent}.
  */
 @Component
 @Order(2)
@@ -34,17 +34,16 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
      */
     public AdminSeeder(
             RoleRepository roleRepository,
-            UserRepository  userRepository,
-            PasswordEncoder passwordEncoder
-    ) {
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     /**
-     * Método que se ejecuta cuando el contexto de la aplicación ha sido refrescado.
-     * Llama al método para crear el usuario Super Administrador.
+     * Método que se ejecuta cuando el contexto de la aplicación ha sido refrescado. Llama al método
+     * para crear el usuario Super Administrador.
      *
      * @param contextRefreshedEvent El evento de refresco del contexto.
      */
@@ -54,8 +53,8 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     /**
-     * Crea un usuario Super Administrador por defecto si no existe ya en la base de datos.
-     * El usuario tendrá el rol de {@link RoleEnum#SUPER_ADMIN}.
+     * Crea un usuario Super Administrador por defecto si no existe ya en la base de datos. El
+     * usuario tendrá el rol de {@link RoleEnum#SUPER_ADMIN}.
      */
     private void createSuperAdministrator() {
         User superAdmin = new User();

@@ -4,8 +4,7 @@ import com.project.demo.logic.entity.game.Game;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Repositorio para la entidad {@link com.project.demo.logic.entity.game.Game}.
- * Proporciona métodos para realizar operaciones CRUD sobre los juegos.
+ * Repositorio para la entidad {@link com.project.demo.logic.entity.game.Game}. Proporciona métodos
+ * para realizar operaciones CRUD sobre los juegos.
  */
-public interface GameRepository extends JpaRepository<Game, Integer> {
-}
+public interface GameRepository extends JpaRepository<Game, Integer> {}

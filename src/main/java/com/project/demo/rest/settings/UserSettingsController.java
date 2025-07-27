@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/settings")
 public class UserSettingsController {
 
-    @Autowired
-    private UserSettingsService userSettingsService;
+    @Autowired private UserSettingsService userSettingsService;
 
     @PutMapping("/{userId}")
     @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'USER')")
-    public ResponseEntity<UserSettings> updateUserSettings(@PathVariable Long userId, @RequestBody UserSettings settings) {
+    public ResponseEntity<UserSettings> updateUserSettings(
+            @PathVariable Long userId, @RequestBody UserSettings settings) {
         return ResponseEntity.ok(userSettingsService.updateUserSettings(userId, settings));
     }
 

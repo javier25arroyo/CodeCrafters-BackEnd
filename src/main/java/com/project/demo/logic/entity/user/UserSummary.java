@@ -1,4 +1,3 @@
-
 package com.project.demo.logic.entity.user;
 
 public class UserSummary {

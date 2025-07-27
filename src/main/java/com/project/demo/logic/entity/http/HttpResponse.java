@@ -1,8 +1,8 @@
 package com.project.demo.logic.entity.http;
 
 /**
- * Clase genérica que representa una respuesta HTTP estandarizada.
- * Incluye un mensaje, los datos de la respuesta y metadatos adicionales.
+ * Clase genérica que representa una respuesta HTTP estandarizada. Incluye un mensaje, los datos de
+ * la respuesta y metadatos adicionales.
  *
  * @param <T> El tipo de los datos contenidos en la respuesta.
  */
@@ -25,7 +25,7 @@ public class HttpResponse<T> {
      * Constructor para crear una respuesta HTTP con un mensaje y datos.
      *
      * @param message El mensaje descriptivo de la respuesta.
-     * @param data    Los datos a incluir en la respuesta.
+     * @param data Los datos a incluir en la respuesta.
      */
     public HttpResponse(String message, T data) {
         this.message = message;
@@ -36,7 +36,7 @@ public class HttpResponse<T> {
      * Constructor para crear una respuesta HTTP con un mensaje y metadatos.
      *
      * @param message El mensaje descriptivo de la respuesta.
-     * @param meta    Los metadatos de la respuesta.
+     * @param meta Los metadatos de la respuesta.
      */
     public HttpResponse(String message, Meta meta) {
         this.message = message;
@@ -47,8 +47,8 @@ public class HttpResponse<T> {
      * Constructor completo para crear una respuesta HTTP con un mensaje, datos y metadatos.
      *
      * @param message El mensaje descriptivo de la respuesta.
-     * @param data    Los datos a incluir en la respuesta.
-     * @param meta    Los metadatos de la respuesta.
+     * @param data Los datos a incluir en la respuesta.
+     * @param meta Los metadatos de la respuesta.
      */
     public HttpResponse(String message, T data, Meta meta) {
         this.message = message;
@@ -79,5 +79,4 @@ public class HttpResponse<T> {
     public void setMeta(Meta meta) {
         this.meta = meta;
     }
-
 }

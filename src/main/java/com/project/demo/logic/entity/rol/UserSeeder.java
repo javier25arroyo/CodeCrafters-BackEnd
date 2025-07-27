@@ -4,13 +4,12 @@ import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import java.util.Optional;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 /**
  * Componente encargado de sembrar un usuario inicial en la base de datos al iniciar la aplicación.
@@ -19,32 +18,31 @@ import java.util.Optional;
 @Order(1)
 @Component
 @org.springframework.context.annotation.Profile("!test")
-public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
-        private final RoleRepository roleRepository;
-        private final UserRepository userRepository;
+public class UserSeeder implements ApplicationListener<ContextRefreshedEvent> {
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
-        private final PasswordEncoder passwordEncoder;
-
-        /**
-         * Constructor para la inyección de dependencias.
-         *
-         * @param roleRepository Repositorio para la gestión de roles.
-         * @param userRepository Repositorio para la gestión de usuarios.
-         * @param passwordEncoder Codificador de contraseñas.
-         */
-        public UserSeeder(
-                RoleRepository roleRepository,
-                UserRepository userRepository,
-                PasswordEncoder passwordEncoder
-        ) {
-                this.roleRepository = roleRepository;
-                this.userRepository = userRepository;
-                this.passwordEncoder = passwordEncoder;
-        }
+    private final PasswordEncoder passwordEncoder;
 
     /**
-     * Método que se ejecuta cuando el contexto de la aplicación ha sido refrescado.
-     * Llama al método para crear el usuario inicial.
+     * Constructor para la inyección de dependencias.
+     *
+     * @param roleRepository Repositorio para la gestión de roles.
+     * @param userRepository Repositorio para la gestión de usuarios.
+     * @param passwordEncoder Codificador de contraseñas.
+     */
+    public UserSeeder(
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    /**
+     * Método que se ejecuta cuando el contexto de la aplicación ha sido refrescado. Llama al método
+     * para crear el usuario inicial.
      *
      * @param contextRefreshedEvent El evento de refresco del contexto.
      */
@@ -54,8 +52,8 @@ public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
     }
 
     /**
-     * Crea un usuario por defecto si no existe ya en la base de datos.
-     * El usuario tendrá el rol de {@link RoleEnum#USER}.
+     * Crea un usuario por defecto si no existe ya en la base de datos. El usuario tendrá el rol de
+     * {@link RoleEnum#USER}.
      */
     private void createUser() {
         User user = new User();
@@ -78,4 +76,3 @@ public class UserSeeder implements ApplicationListener<ContextRefreshedEvent>{
         userRepository.save(userToCreate);
     }
 }
-

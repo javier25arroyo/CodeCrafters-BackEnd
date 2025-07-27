@@ -2,14 +2,13 @@ package com.project.demo.logic.entity.rol;
 
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 /**
- * Repositorio para la entidad {@link Role}.
- * Proporciona métodos para realizar operaciones CRUD sobre los roles y buscar roles por su nombre.
+ * Repositorio para la entidad {@link Role}. Proporciona métodos para realizar operaciones CRUD
+ * sobre los roles y buscar roles por su nombre.
  */
 @Repository
 public interface RoleRepository extends CrudRepository<Role, Integer> {

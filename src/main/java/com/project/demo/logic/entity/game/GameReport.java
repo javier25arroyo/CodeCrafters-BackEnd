@@ -3,84 +3,72 @@ package com.project.demo.logic.entity.game;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 /**
- * Representa un reporte de juego, que resume el resultado de una sesión de juego.
- * Esta entidad mapea la tabla 'game_reports' en la base de datos.
+ * Representa un reporte de juego, que resume el resultado de una sesión de juego. Esta entidad
+ * mapea la tabla 'game_reports' en la base de datos.
  */
 @Entity
 @Table(name = "game_reports")
 public class GameReport {
-    /**
-     * Identificador único del reporte de juego.
-     */
+    /** Identificador único del reporte de juego. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * El usuario que generó este reporte de juego.
-     */
+    /** El usuario que generó este reporte de juego. */
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    /**
-     * El juego al que corresponde este reporte.
-     */
+    /** El juego al que corresponde este reporte. */
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    /**
-     * Duración del juego en segundos.
-     */
+    /** Duración del juego en segundos. */
     private Integer duration;
 
-    /**
-     * Puntuación obtenida en el juego.
-     */
+    /** Puntuación obtenida en el juego. */
     private Integer score;
 
-    /**
-     * Resultado del juego (ej. "victoria", "derrota", "empate").
-     */
+    /** Resultado del juego (ej. "victoria", "derrota", "empate"). */
     @Column(length = 50)
     private String result;
 
-    /**
-     * Logros obtenidos durante el juego, almacenados como texto.
-     */
+    /** Logros obtenidos durante el juego, almacenados como texto. */
     @Column(columnDefinition = "TEXT")
     private String achievements;
 
-    /**
-     * Fecha y hora en que se generó el reporte.
-     */
+    /** Fecha y hora en que se generó el reporte. */
     private LocalDateTime date;
 
-    /**
-     * Constructor por defecto.
-     */
-    public GameReport() {
-    }
+    /** Constructor por defecto. */
+    public GameReport() {}
 
     /**
      * Constructor para crear una instancia de GameReport con todos los parámetros.
      *
-     * @param id           Identificador único.
-     * @param user         Usuario que generó el reporte.
-     * @param game         Juego asociado.
-     * @param duration     Duración del juego.
-     * @param score        Puntuación obtenida.
-     * @param result       Resultado del juego.
+     * @param id Identificador único.
+     * @param user Usuario que generó el reporte.
+     * @param game Juego asociado.
+     * @param duration Duración del juego.
+     * @param score Puntuación obtenida.
+     * @param result Resultado del juego.
      * @param achievements Logros obtenidos.
-     * @param date         Fecha del reporte.
+     * @param date Fecha del reporte.
      */
-    public GameReport(Integer id, User user, Game game, Integer duration, Integer score, String result, String achievements, LocalDateTime date) {
+    public GameReport(
+            Integer id,
+            User user,
+            Game game,
+            Integer duration,
+            Integer score,
+            String result,
+            String achievements,
+            LocalDateTime date) {
         this.id = id;
         this.user = user;
         this.game = game;
@@ -155,4 +143,3 @@ public class GameReport {
         this.date = date;
     }
 }
-

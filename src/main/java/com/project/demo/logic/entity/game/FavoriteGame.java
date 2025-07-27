@@ -4,43 +4,34 @@ import com.project.demo.logic.entity.user.User;
 import jakarta.persistence.*;
 
 /**
- * Representa un juego marcado como favorito por un usuario.
- * Esta entidad mapea la tabla 'favorite_games' en la base de datos.
+ * Representa un juego marcado como favorito por un usuario. Esta entidad mapea la tabla
+ * 'favorite_games' en la base de datos.
  */
 @Entity
 @Table(name = "favorite_games")
 public class FavoriteGame {
-    /**
-     * Identificador único del registro de juego favorito.
-     */
+    /** Identificador único del registro de juego favorito. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * El usuario que marcó el juego como favorito.
-     */
+    /** El usuario que marcó el juego como favorito. */
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    /**
-     * El juego que ha sido marcado como favorito.
-     */
+    /** El juego que ha sido marcado como favorito. */
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-    /**
-     * Constructor por defecto.
-     */
-    public FavoriteGame() {
-    }
+    /** Constructor por defecto. */
+    public FavoriteGame() {}
 
     /**
      * Constructor para crear una instancia de FavoriteGame con todos los parámetros.
      *
-     * @param id   Identificador único.
+     * @param id Identificador único.
      * @param user Usuario que marcó el juego como favorito.
      * @param game Juego favorito.
      */

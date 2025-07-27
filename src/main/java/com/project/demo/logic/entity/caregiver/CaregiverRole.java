@@ -1,19 +1,11 @@
 package com.project.demo.logic.entity.caregiver;
 
-/**
- * Enumeración que define los posibles roles o tipos de relación de un cuidador.
- */
+/** Enumeración que define los posibles roles o tipos de relación de un cuidador. */
 public enum CaregiverRole {
-    /**
-     * Rol de cuidador general.
-     */
+    /** Rol de cuidador general. */
     CAREGIVER,
-    /**
-     * Rol de familiar.
-     */
+    /** Rol de familiar. */
     RELATIVE,
-    /**
-     * Rol de médico.
-     */
+    /** Rol de médico. */
     DOCTOR
 }

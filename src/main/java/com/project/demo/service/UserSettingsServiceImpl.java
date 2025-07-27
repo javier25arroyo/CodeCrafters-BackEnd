@@ -10,15 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserSettingsServiceImpl implements UserSettingsService {
 
-    @Autowired
-    private UserSettingsRepository userSettingsRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private UserRepository userRepository;
 
     @Override
     public UserSettings updateUserSettings(Long userId, UserSettings settings) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
         UserSettings userSettings = user.getSettings();
         if (userSettings == null) {
             userSettings = new UserSettings();
@@ -36,7 +37,10 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 
     @Override
     public UserSettings getUserSettings(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
         return user.getSettings();
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
- * Configuración de CORS (Cross-Origin Resource Sharing) para la aplicación.
- * Permite peticiones desde orígenes específicos, como el frontend de Angular en desarrollo.
+ * Configuración de CORS (Cross-Origin Resource Sharing) para la aplicación. Permite peticiones
+ * desde orígenes específicos, como el frontend de Angular en desarrollo.
  */
 @Configuration
 public class CorsConfig {

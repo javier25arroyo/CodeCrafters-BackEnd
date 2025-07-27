@@ -10,27 +10,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 /**
- * Servicio para la gestión de tokens JWT (JSON Web Token).
- * Proporciona métodos para generar, validar y extraer información de los tokens JWT.
+ * Servicio para la gestión de tokens JWT (JSON Web Token). Proporciona métodos para generar,
+ * validar y extraer información de los tokens JWT.
  */
 @Service
 public class JwtService {
     /**
-     * Clave secreta utilizada para firmar y verificar los tokens JWT.
-     * Se inyecta desde las propiedades de configuración.
+     * Clave secreta utilizada para firmar y verificar los tokens JWT. Se inyecta desde las
+     * propiedades de configuración.
      */
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
     /**
-     * Tiempo de expiración de los tokens JWT en milisegundos.
-     * Se inyecta desde las propiedades de configuración.
+     * Tiempo de expiración de los tokens JWT en milisegundos. Se inyecta desde las propiedades de
+     * configuración.
      */
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
@@ -48,9 +47,10 @@ public class JwtService {
     /**
      * Extrae un "claim" específico de un token JWT.
      *
-     * @param token        El token JWT del que se extraerá el claim.
-     * @param claimsResolver Una función que resuelve el claim deseado a partir de los claims del token.
-     * @param <T>          El tipo del claim a extraer.
+     * @param token El token JWT del que se extraerá el claim.
+     * @param claimsResolver Una función que resuelve el claim deseado a partir de los claims del
+     *     token.
+     * @param <T> El tipo del claim a extraer.
      * @return El valor del claim extraído.
      */
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -93,16 +93,12 @@ public class JwtService {
      *
      * @param extraClaims Claims adicionales.
      * @param userDetails Detalles del usuario.
-     * @param expiration  Tiempo de expiración del token.
+     * @param expiration Tiempo de expiración del token.
      * @return El token JWT construido.
      */
     private String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration
-    ) {
-        return Jwts
-                .builder()
+            Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
+        return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -114,7 +110,7 @@ public class JwtService {
     /**
      * Valida si un token JWT es válido para un usuario dado.
      *
-     * @param token       El token JWT a validar.
+     * @param token El token JWT a validar.
      * @param userDetails Los detalles del usuario con los que se validará el token.
      * @return {@code true} si el token es válido, {@code false} en caso contrario.
      */
@@ -150,8 +146,7 @@ public class JwtService {
      * @return Un objeto {@link Claims} que contiene todos los claims del token.
      */
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
                 .parseClaimsJws(token)
@@ -159,8 +154,8 @@ public class JwtService {
     }
 
     /**
-     * Obtiene la clave de firma utilizada para los tokens JWT.
-     * Decodifica la clave secreta de Base64 y la convierte en un objeto {@link Key}.
+     * Obtiene la clave de firma utilizada para los tokens JWT. Decodifica la clave secreta de
+     * Base64 y la convierte en un objeto {@link Key}.
      *
      * @return La clave de firma.
      */
@@ -169,4 +164,3 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
-
