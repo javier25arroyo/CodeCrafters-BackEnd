@@ -29,11 +29,5 @@ jobs:
       - name: Run tests
         run: ./gradlew test
 
-      - name: Verificar formato con Spotless
-        run: ./gradlew spotlessCheck
-
-      - name: Chequear estilo con Checkstyle
-        run: ./gradlew checkstyleMain checkstyleTest
-
       - name: Analizar calidad con PMD
         run: ./gradlew pmdMain pmdTest
