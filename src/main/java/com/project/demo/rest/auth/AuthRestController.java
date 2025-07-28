@@ -1,10 +1,6 @@
 package com.project.demo.rest.auth;
 
-import com.project.demo.logic.entity.auth.AuthenticationService;
-import com.project.demo.logic.entity.auth.GoogleTokenRequest;
-import com.project.demo.logic.entity.auth.JwtService;
-import com.project.demo.logic.entity.auth.Role;
-import com.project.demo.logic.entity.auth.RoleEnum;
+import com.project.demo.logic.entity.auth.*;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.LoginResponse;
 import com.project.demo.logic.entity.user.User;
@@ -82,26 +78,29 @@ public class AuthRestController {
     /**
      * Registra un nuevo usuario en el sistema.
      *
-     * @param user El objeto User con los datos del nuevo usuario a registrar.
+     * @param req El objeto User con los datos del nuevo usuario a registrar.
      * @return ResponseEntity con el usuario guardado si el registro es exitoso, o un mensaje de error si el email ya está en uso.
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest req) {
+        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Email already in use");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
+        User user = new User();
+        user.setName(req.getName());
+        user.setEmail(req.getEmail());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setCaregiver(req.isCaregiver());
+        user.setEnabled(true);
 
-        if (optionalRole.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role not found");
-        }
-        user.setRole(optionalRole.get());
-        user.setEnabled(true); // Set user as enabled by default
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+        Role role = roleRepository.findByName(RoleEnum.USER)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
+
+        User saved = userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PostMapping("/google")

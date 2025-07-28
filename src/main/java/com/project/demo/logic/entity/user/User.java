@@ -71,6 +71,12 @@ public class User implements UserDetails {
     private Role role;
 
     /**
+     * Cuando el rol es de cuidador.
+     */
+    @Column(nullable = false)
+    private boolean isCaregiver;
+
+    /**
      * Nivel actual del usuario en el sistema.
      */
     @Enumerated(EnumType.STRING)
@@ -181,9 +187,10 @@ public class User implements UserDetails {
      * @param loginHistories Historial de inicio de sesión.
      * @param streaks Rachas de juego.
      * @param activityLogs Registro de actividades.
+     * @param isCaregiver si es cuidador.
      */
 
-    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions,boolean isCaregiver, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -202,6 +209,7 @@ public class User implements UserDetails {
         this.loginHistories = loginHistories;
         this.streaks = streaks;
         this.activityLogs = activityLogs;
+        this.isCaregiver = isCaregiver;
     }
 
     /**
@@ -235,9 +243,7 @@ public class User implements UserDetails {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public String getGoogleId() {
         return googleId;
@@ -299,6 +305,10 @@ public class User implements UserDetails {
     public void setGameSessions(List<GameSession> gameSessions) {
         this.gameSessions = gameSessions;
     }
+
+    public boolean isCaregiver() { return isCaregiver; }
+
+    public void setCaregiver(boolean caregiver) { isCaregiver = caregiver; }
 
     public List<GameReport> getGameReports() {
         return gameReports;
