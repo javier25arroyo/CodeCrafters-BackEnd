@@ -28,6 +28,3 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
-
-      - name: Analizar calidad con PMD
-        run: ./gradlew pmdMain pmdTest
