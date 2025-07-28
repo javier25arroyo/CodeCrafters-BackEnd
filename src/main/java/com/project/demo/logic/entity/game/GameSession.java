@@ -92,66 +92,146 @@ public class GameSession {
         this.end = end;
     }
 
+    /**
+     * Obtiene el ID de la sesión de juego.
+     *
+     * @return El ID de la sesión de juego.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la sesión de juego.
+     *
+     * @param id El nuevo ID de la sesión de juego.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario que participa en esta sesión de juego.
+     *
+     * @return El usuario que participa en esta sesión de juego.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario que participa en esta sesión de juego.
+     *
+     * @param user El nuevo usuario que participa en esta sesión de juego.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el juego al que corresponde esta sesión.
+     *
+     * @return El juego al que corresponde esta sesión.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Establece el juego al que corresponde esta sesión.
+     *
+     * @param game El nuevo juego al que corresponde esta sesión.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Obtiene el estado actual de la sesión de juego.
+     *
+     * @return El estado actual de la sesión de juego.
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * Establece el estado actual de la sesión de juego.
+     *
+     * @param status El nuevo estado actual de la sesión de juego.
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * Obtiene la duración total de la sesión de juego en segundos.
+     *
+     * @return La duración total de la sesión de juego en segundos.
+     */
     public Integer getTotalDuration() {
         return totalDuration;
     }
 
+    /**
+     * Establece la duración total de la sesión de juego en segundos.
+     *
+     * @param totalDuration La nueva duración total de la sesión de juego en segundos.
+     */
     public void setTotalDuration(Integer totalDuration) {
         this.totalDuration = totalDuration;
     }
 
+    /**
+     * Obtiene la puntuación parcial obtenida durante la sesión.
+     *
+     * @return La puntuación parcial obtenida durante la sesión.
+     */
     public Integer getPartialScore() {
         return partialScore;
     }
 
+    /**
+     * Establece la puntuación parcial obtenida durante la sesión.
+     *
+     * @param partialScore La nueva puntuación parcial obtenida durante la sesión.
+     */
     public void setPartialScore(Integer partialScore) {
         this.partialScore = partialScore;
     }
 
+    /**
+     * Obtiene la fecha y hora de inicio de la sesión de juego.
+     *
+     * @return La fecha y hora de inicio de la sesión de juego.
+     */
     public LocalDateTime getStart() {
         return start;
     }
 
+    /**
+     * Establece la fecha y hora de inicio de la sesión de juego.
+     *
+     * @param start La nueva fecha y hora de inicio de la sesión de juego.
+     */
     public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
+    /**
+     * Obtiene la fecha y hora de finalización de la sesión de juego.
+     *
+     * @return La fecha y hora de finalización de la sesión de juego.
+     */
     public LocalDateTime getEnd() {
         return end;
     }
 
+    /**
+     * Establece la fecha y hora de finalización de la sesión de juego.
+     *
+     * @param end La nueva fecha y hora de finalización de la sesión de juego.
+     */
     public void setEnd(LocalDateTime end) {
         this.end = end;
     }

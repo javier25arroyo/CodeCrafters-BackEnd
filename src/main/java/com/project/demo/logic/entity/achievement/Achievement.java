@@ -59,34 +59,74 @@ public class Achievement {
         this.userAchievements = userAchievements;
     }
 
+    /**
+     * Obtiene el ID del logro.
+     *
+     * @return El ID del logro.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del logro.
+     *
+     * @param id El nuevo ID del logro.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el nombre del logro.
+     *
+     * @return El nombre del logro.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Establece el nombre del logro.
+     *
+     * @param name El nuevo nombre del logro.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Obtiene la descripción del logro.
+     *
+     * @return La descripción del logro.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Establece la descripción del logro.
+     *
+     * @param description La nueva descripción del logro.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Obtiene la lista de logros de usuario.
+     *
+     * @return La lista de logros de usuario.
+     */
     public List<UserAchievement> getUserAchievements() {
         return userAchievements;
     }
 
+    /**
+     * Establece la lista de logros de usuario.
+     *
+     * @param userAchievements La nueva lista de logros de usuario.
+     */
     public void setUserAchievements(List<UserAchievement> userAchievements) {
         this.userAchievements = userAchievements;
     }

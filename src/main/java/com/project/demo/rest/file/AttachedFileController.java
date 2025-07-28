@@ -6,4 +6,9 @@ package com.project.demo.rest.file;
  * (Actualmente sin implementar)
  */
 public class AttachedFileController {
+    /**
+     * Constructor por defecto.
+     */
+    public AttachedFileController() {
+    }
 }

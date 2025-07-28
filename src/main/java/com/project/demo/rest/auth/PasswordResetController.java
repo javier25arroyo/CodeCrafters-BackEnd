@@ -3,12 +3,16 @@ package com.project.demo.rest.auth;
 import com.project.demo.logic.entity.auth.PasswordResetRequest;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.logic.exceptions.BusinessException;
+import com.project.demo.logic.exceptions.ValidationException;
 import com.project.demo.service.EmailService;
+import com.project.demo.service.LoggingService;
+import com.project.demo.service.MessageResponse;
+import com.project.demo.service.PasswordService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -23,14 +27,23 @@ import java.util.regex.Pattern;
 @RequestMapping("/auth")
 public class PasswordResetController {
 
+    /**
+     * Constructor por defecto.
+     */
+    public PasswordResetController() {
+    }
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordService passwordService;
 
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private LoggingService loggingService;
 
     /**
      * Patrón de expresión regular para validar el formato de un correo electrónico.
@@ -40,30 +53,6 @@ public class PasswordResetController {
             Pattern.CASE_INSENSITIVE
     );
 
-    /**
-     * Clase interna para encapsular mensajes de respuesta.
-     */
-    public static class MessageResponse {
-        private String message;
-
-        /**
-         * Constructor para crear una nueva instancia de MessageResponse.
-         * @param message El mensaje a encapsular.
-         */
-        public MessageResponse(String message) {
-            this.message = message;
-        }
-        /**
-         * Obtiene el mensaje de la respuesta.
-         * @return El mensaje de texto.
-         */
-        public String getMessage() { return message; }
-        /**
-         * Establece el mensaje de la respuesta.
-         * @param message El mensaje de texto a establecer.
-         */
-        public void setMessage(String message) { this.message = message; }
-    }
 
     /**
      * Endpoint para solicitar un restablecimiento de contraseña.
@@ -77,13 +66,13 @@ public class PasswordResetController {
         String email = request.getEmail();
 
         if (email == null || email.trim().isEmpty()) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Email is required."));
+            loggingService.logSecurityEvent("FORGOT_PASSWORD_INVALID_EMAIL", "Empty email provided", null);
+            throw new ValidationException.RequiredFieldException("email", "forgotPassword");
         }
 
         if (!EMAIL_PATTERN.matcher(email).matches()) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Invalid email format."));
+            loggingService.logSecurityEvent("FORGOT_PASSWORD_INVALID_FORMAT", "Invalid email format: " + email, null);
+            throw new ValidationException.InvalidEmailException(email, "forgotPassword");
         }
 
         Optional<User> userOptional = userRepository.findByEmail(email);
@@ -93,11 +82,10 @@ public class PasswordResetController {
 
             try {
                 emailService.sendPasswordResetEmail(email, resetToken);
-                System.out.println("Email successfully sent to: " + email);
+                loggingService.logSecurityEvent("PASSWORD_RESET_EMAIL_SENT", "Reset email sent successfully", email);
             } catch (MessagingException e) {
-                e.printStackTrace();
-                return ResponseEntity.internalServerError()
-                        .body(new MessageResponse("Error sending email."));
+                loggingService.logError(e, "PasswordResetController", "forgotPassword", "SEND_RESET_EMAIL");
+                throw new BusinessException.EmailServiceException("forgotPassword", e);
             }
         }
 
@@ -142,7 +130,7 @@ public class PasswordResetController {
         }
 
         User user = userOptional.get();
-        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setPassword(passwordService.encode(newPassword));
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("Password updated successfully."));

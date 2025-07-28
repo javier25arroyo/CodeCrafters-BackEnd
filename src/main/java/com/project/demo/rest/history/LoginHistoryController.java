@@ -6,4 +6,9 @@ package com.project.demo.rest.history;
  * (Actualmente sin implementar)
  */
 public class LoginHistoryController {
+    /**
+     * Constructor por defecto.
+     */
+    public LoginHistoryController() {
+    }
 }

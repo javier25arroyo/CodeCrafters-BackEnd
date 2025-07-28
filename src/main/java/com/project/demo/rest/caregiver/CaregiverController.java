@@ -6,4 +6,9 @@ package com.project.demo.rest.caregiver;
  * (Actualmente sin implementar)
  */
 public class CaregiverController {
+    /**
+     * Constructor por defecto.
+     */
+    public CaregiverController() {
+    }
 }

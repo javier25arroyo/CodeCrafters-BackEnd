@@ -33,6 +33,12 @@ public class AdminController {
     private PasswordEncoder passwordEncoder;
 
     /**
+     * Constructor por defecto.
+     */
+    public AdminController() {
+    }
+
+    /**
      * Crea un nuevo usuario con rol de administrador.
      * Requiere que el usuario autenticado tenga el rol 'SUPER_ADMIN'.
      *

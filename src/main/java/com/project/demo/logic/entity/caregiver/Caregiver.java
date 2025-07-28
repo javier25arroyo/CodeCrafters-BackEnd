@@ -67,42 +67,92 @@ public class Caregiver {
         this.userCaregivers = userCaregivers;
     }
 
+    /**
+     * Obtiene el ID del cuidador.
+     *
+     * @return El ID del cuidador.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del cuidador.
+     *
+     * @param id El nuevo ID del cuidador.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el nombre del cuidador.
+     *
+     * @return El nombre del cuidador.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Establece el nombre del cuidador.
+     *
+     * @param name El nuevo nombre del cuidador.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Obtiene el email del cuidador.
+     *
+     * @return El email del cuidador.
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Establece el email del cuidador.
+     *
+     * @param email El nuevo email del cuidador.
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Obtiene el teléfono del cuidador.
+     *
+     * @return El teléfono del cuidador.
+     */
     public String getPhone() {
         return phone;
     }
 
+    /**
+     * Establece el teléfono del cuidador.
+     *
+     * @param phone El nuevo teléfono del cuidador.
+     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
+    /**
+     * Obtiene la lista de cuidadores de usuario.
+     *
+     * @return La lista de cuidadores de usuario.
+     */
     public List<UserCaregiver> getUserCaregivers() {
         return userCaregivers;
     }
 
+    /**
+     * Establece la lista de cuidadores de usuario.
+     *
+     * @param userCaregivers La nueva lista de cuidadores de usuario.
+     */
     public void setUserCaregivers(List<UserCaregiver> userCaregivers) {
         this.userCaregivers = userCaregivers;
     }
