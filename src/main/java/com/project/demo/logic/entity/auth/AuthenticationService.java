@@ -7,9 +7,11 @@ import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.logic.exceptions.BusinessException;
+import com.project.demo.service.LoggingService;
+import com.project.demo.service.PasswordService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,36 +25,36 @@ import java.util.Optional;
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
+    private final PasswordService passwordService;
     private final AuthenticationManager authenticationManager;
-    
     private final GoogleAuthService googleAuthService;
-    
     private final RoleRepository roleRepository;
+    private final LoggingService loggingService;
 
     /**
      * Constructor para la inyección de dependencias.
      *
      * @param userRepository        Repositorio para la gestión de usuarios.
      * @param authenticationManager Gestor de autenticación de Spring Security.
-     * @param passwordEncoder       Codificador de contraseñas.
+     * @param passwordService       Servicio para el manejo de contraseñas.
      * @param googleAuthService     Servicio para la autenticación con Google.
      * @param roleRepository        Repositorio para la gestión de roles.
+     * @param loggingService        Servicio de logging.
      */
     public AuthenticationService(
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder,
+            PasswordService passwordService,
             GoogleAuthService googleAuthService,
-            RoleRepository roleRepository
+            RoleRepository roleRepository,
+            LoggingService loggingService
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordService = passwordService;
         this.googleAuthService = googleAuthService;
         this.roleRepository = roleRepository;
+        this.loggingService = loggingService;
     }
 
 
@@ -83,30 +85,30 @@ public class AuthenticationService {
         String googleId = payload.getSubject();
         String name = (String) payload.get("name");
 
-        Optional<User> existingUser = userRepository.findByEmail(email);
-        
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
-            if (user.getGoogleId() == null) {
-                user.setGoogleId(googleId);
-                userRepository.save(user);
-            }
-            return user;
-        } else {
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setName(name);
-            newUser.setGoogleId(googleId);
-            newUser.setPassword(passwordEncoder.encode("GOOGLE_AUTH_" + googleId));
-            
-            Optional<Role> userRole = roleRepository.findByName(RoleEnum.USER);
-            if (userRole.isPresent()) {
-                newUser.setRole(userRole.get());
-            } else {
-                throw new RuntimeException("Default USER role not found");
-            }
-            
-            return userRepository.save(newUser);
+        return userRepository.findByEmail(email)
+            .map(user -> updateExistingUserWithGoogleId(user, googleId))
+            .orElseGet(() -> createNewGoogleUser(email, name, googleId));
+    }
+    
+    private User updateExistingUserWithGoogleId(User user, String googleId) {
+        if (user.getGoogleId() == null) {
+            user.setGoogleId(googleId);
+            return userRepository.save(user);
         }
+        return user;
+    }
+    
+    private User createNewGoogleUser(String email, String name, String googleId) {
+        User newUser = new User();
+        newUser.setEmail(email);
+        newUser.setName(name);
+        newUser.setGoogleId(googleId);
+        newUser.setPassword(passwordService.encode("GOOGLE_AUTH_" + googleId));
+        
+        Role userRole = roleRepository.findByName(RoleEnum.USER)
+            .orElseThrow(() -> new BusinessException.RoleNotFoundException("USER", "createNewGoogleUser"));
+        newUser.setRole(userRole);
+        
+        return userRepository.save(newUser);
     }
 }

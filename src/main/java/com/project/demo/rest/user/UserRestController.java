@@ -3,8 +3,8 @@ package com.project.demo.rest.user;
 import com.project.demo.logic.entity.http.GlobalResponseHandler;
 import com.project.demo.logic.entity.http.Meta;
 import com.project.demo.logic.entity.user.User;
-import com.project.demo.logic.entity.user.UserRepository;
 import com.project.demo.logic.entity.user.UserSummary;
+import com.project.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,14 +13,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Controlador REST para la gestión de usuarios.
@@ -29,11 +25,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
+    
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserService userService;
 
     /**
      * Obtiene una lista paginada de todos los usuarios.
@@ -52,15 +46,16 @@ public class UserRestController {
             HttpServletRequest request) {
 
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<User> ordersPage = userRepository.findAll(pageable);
+        Page<User> usersPage = userService.getAllUsers(pageable);
+        
         Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
-        meta.setTotalPages(ordersPage.getTotalPages());
-        meta.setTotalElements(ordersPage.getTotalElements());
-        meta.setPageNumber(ordersPage.getNumber() + 1);
-        meta.setPageSize(ordersPage.getSize());
+        meta.setTotalPages(usersPage.getTotalPages());
+        meta.setTotalElements(usersPage.getTotalElements());
+        meta.setPageNumber(usersPage.getNumber() + 1);
+        meta.setPageSize(usersPage.getSize());
 
         return new GlobalResponseHandler().handleResponse("Users retrieved successfully",
-                ordersPage.getContent(), HttpStatus.OK, meta);
+                usersPage.getContent(), HttpStatus.OK, meta);
     }
 
     /**
@@ -74,10 +69,9 @@ public class UserRestController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        User createdUser = userService.createUser(user);
         return new GlobalResponseHandler().handleResponse("User updated successfully",
-                user, HttpStatus.OK, request);
+                createdUser, HttpStatus.OK, request);
     }
 
     /**
@@ -92,26 +86,13 @@ public class UserRestController {
     @PutMapping("/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user, HttpServletRequest request) {
-        Optional<User> foundOrder = userRepository.findById(userId);
-        if(foundOrder.isPresent()) {
-
-            User existingUser = foundOrder.get();
-
-            existingUser.setName(user.getName());
-            existingUser.setEmail(user.getEmail());
-
-            if (user.getRole() != null) {
-                existingUser.setRole(user.getRole());
-            }
-
-            if (user.getPassword() != null && !user.getPassword().isBlank()) {
-                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
-            }
-            userRepository.save(existingUser);
+        Optional<User> updatedUser = userService.updateUser(userId, user);
+        
+        if (updatedUser.isPresent()) {
             return new GlobalResponseHandler().handleResponse("User updated successfully",
-            existingUser, HttpStatus.OK, request);
+                    updatedUser.get(), HttpStatus.OK, request);
         } else {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found"  ,
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found",
                     HttpStatus.NOT_FOUND, request);
         }
     }
@@ -128,13 +109,13 @@ public class UserRestController {
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId, HttpServletRequest request) {
-        Optional<User> foundOrder = userRepository.findById(userId);
-        if(foundOrder.isPresent()) {
-            userRepository.deleteById(userId);
+        Optional<User> foundUser = userService.findUserById(userId);
+        if(foundUser.isPresent()) {
+            userService.deleteUser(userId);
             return new GlobalResponseHandler().handleResponse("User deleted successfully",
-                    foundOrder.get(), HttpStatus.OK, request);
+                    foundUser.get(), HttpStatus.OK, request);
         } else {
-            return new GlobalResponseHandler().handleResponse("Order id " + userId + " not found"  ,
+            return new GlobalResponseHandler().handleResponse("Order id " + userId + " not found",
                     HttpStatus.NOT_FOUND, request);
         }
     }
@@ -148,8 +129,7 @@ public class UserRestController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('USER' , 'ADMIN', 'SUPER_ADMIN')")
     public User authenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (User) authentication.getPrincipal();
+        return userService.getCurrentUser();
     }
 
     /**
@@ -163,15 +143,14 @@ public class UserRestController {
     @PostMapping("/{userId}/reset-password")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
-        Optional<User> userOpt = userRepository.findById(userId);
+        Optional<User> userOpt = userService.findUserById(userId);
         if (userOpt.isEmpty()) {
             return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
         }
-        User user = userOpt.get();
-        String defaultPassword = "password123"; // o genera uno seguro dinámico
-        user.setPassword(passwordEncoder.encode(defaultPassword));
-        userRepository.save(user);
-        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, user, HttpStatus.OK, request);
+        
+        Optional<User> updatedUser = userService.resetPasswordAndGetUser(userId);
+        String defaultPassword = "password123";
+        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, updatedUser.get(), HttpStatus.OK, request);
     }
 
     /**
@@ -184,11 +163,8 @@ public class UserRestController {
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
-        List<User> users = userRepository.findAll();
-        List<UserSummary> userSummaries = users.stream()
-                .map(user -> new UserSummary(user.getName(), user.getEmail(), user.getEnabled(), user.getRole().getName().toString()))
-                .collect(Collectors.toList());
-
+        List<UserSummary> userSummaries = userService.getUserSummary();
+        
         return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",
                 userSummaries, HttpStatus.OK, request);
     }
@@ -204,17 +180,16 @@ public class UserRestController {
     @PatchMapping("/{userId}/toggle-enabled")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> toggleUserEnabled(@PathVariable Long userId, HttpServletRequest request) {
-        Optional<User> userOpt = userRepository.findById(userId);
-
-        if (userOpt.isEmpty()) {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+        Optional<User> updatedUser = userService.toggleUserEnabled(userId);
+        
+        if (updatedUser.isPresent()) {
+            User user = updatedUser.get();
+            String status = user.getEnabled() ? "enabled" : "disabled";
+            return new GlobalResponseHandler().handleResponse("User " + status + " successfully", 
+                    user, HttpStatus.OK, request);
+        } else {
+            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", 
+                    HttpStatus.NOT_FOUND, request);
         }
-
-        User user = userOpt.get();
-        user.setEnabled(!user.getEnabled());
-        userRepository.save(user);
-
-        String status = user.getEnabled() ? "enabled" : "disabled";
-        return new GlobalResponseHandler().handleResponse("User " + status + " successfully", user, HttpStatus.OK, request);
     }
 }
