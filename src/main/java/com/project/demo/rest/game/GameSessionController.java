@@ -6,4 +6,9 @@ package com.project.demo.rest.game;
  * (Actualmente sin implementar)
  */
 public class GameSessionController {
+    /**
+     * Constructor por defecto.
+     */
+    public GameSessionController() {
+    }
 }

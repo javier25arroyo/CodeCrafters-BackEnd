@@ -64,6 +64,12 @@ public class UserSettingsServiceImpl implements UserSettingsService {
         }
     }
     
+    /**
+     * Actualiza los campos de configuración de usuario del objeto destino con los valores del objeto fuente.
+     *
+     * @param target El objeto UserSettings a actualizar.
+     * @param source El objeto UserSettings del que se obtienen los nuevos valores.
+     */
     private void updateSettingsFields(UserSettings target, UserSettings source) {
         target.setTheme(source.getTheme());
         target.setLanguage(source.getLanguage());

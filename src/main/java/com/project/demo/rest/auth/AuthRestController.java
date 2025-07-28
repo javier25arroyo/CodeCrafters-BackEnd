@@ -104,18 +104,24 @@ public class AuthRestController {
         return ResponseEntity.ok(savedUser);
     }
 
+    /**
+     * Autentica a un usuario utilizando un token de ID de Google.
+     *
+     * @param request El objeto que contiene el token de ID de Google.
+     * @return ResponseEntity con un objeto {@link LoginResponse} que contiene el token JWT y la información del usuario.
+     */
     @PostMapping("/google")
     public ResponseEntity<?> authenticateWithGoogle(@RequestBody GoogleTokenRequest request) {
         try {
             User authenticatedUser = authenticationService.authenticateWithGoogle(request.getIdToken());
-            
+
             String jwtToken = jwtService.generateToken(authenticatedUser);
-            
+
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setToken(jwtToken);
             loginResponse.setExpiresIn(jwtService.getExpirationTime());
             loginResponse.setAuthUser(authenticatedUser);
-            
+
             return ResponseEntity.ok(loginResponse);
         } catch (GeneralSecurityException | IOException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

@@ -72,50 +72,110 @@ public class AttachedFile {
         this.entityId = entityId;
     }
 
+    /**
+     * Obtiene el ID del archivo adjunto.
+     *
+     * @return El ID del archivo adjunto.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del archivo adjunto.
+     *
+     * @param id El nuevo ID del archivo adjunto.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene la URL del archivo adjunto.
+     *
+     * @return La URL del archivo adjunto.
+     */
     public String getUrl() {
         return url;
     }
 
+    /**
+     * Establece la URL del archivo adjunto.
+     *
+     * @param url La nueva URL del archivo adjunto.
+     */
     public void setUrl(String url) {
         this.url = url;
     }
 
+    /**
+     * Obtiene el tipo de archivo adjunto.
+     *
+     * @return El tipo de archivo adjunto.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Establece el tipo de archivo adjunto.
+     *
+     * @param type El nuevo tipo de archivo adjunto.
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Obtiene la fecha de creación del archivo adjunto.
+     *
+     * @return La fecha de creación del archivo adjunto.
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha de creación del archivo adjunto.
+     *
+     * @param date La nueva fecha de creación del archivo adjunto.
+     */
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
+    /**
+     * Obtiene la entidad relacionada con el archivo adjunto.
+     *
+     * @return La entidad relacionada con el archivo adjunto.
+     */
     public String getRelatedEntity() {
         return relatedEntity;
     }
 
+    /**
+     * Establece la entidad relacionada con el archivo adjunto.
+     *
+     * @param relatedEntity La nueva entidad relacionada con el archivo adjunto.
+     */
     public void setRelatedEntity(String relatedEntity) {
         this.relatedEntity = relatedEntity;
     }
 
+    /**
+     * Obtiene el ID de la entidad relacionada con el archivo adjunto.
+     *
+     * @return El ID de la entidad relacionada con el archivo adjunto.
+     */
     public Integer getEntityId() {
         return entityId;
     }
 
+    /**
+     * Establece el ID de la entidad relacionada con el archivo adjunto.
+     *
+     * @param entityId El nuevo ID de la entidad relacionada con el archivo adjunto.
+     */
     public void setEntityId(Integer entityId) {
         this.entityId = entityId;
     }

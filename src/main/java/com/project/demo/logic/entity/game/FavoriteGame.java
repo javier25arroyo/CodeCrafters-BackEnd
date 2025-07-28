@@ -50,26 +50,56 @@ public class FavoriteGame {
         this.game = game;
     }
 
+    /**
+     * Obtiene el ID del juego favorito.
+     *
+     * @return El ID del juego favorito.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del juego favorito.
+     *
+     * @param id El nuevo ID del juego favorito.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario que marcó el juego como favorito.
+     *
+     * @return El usuario que marcó el juego como favorito.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario que marcó el juego como favorito.
+     *
+     * @param user El nuevo usuario que marcó el juego como favorito.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el juego que ha sido marcado como favorito.
+     *
+     * @return El juego que ha sido marcado como favorito.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Establece el juego que ha sido marcado como favorito.
+     *
+     * @param game El nuevo juego que ha sido marcado como favorito.
+     */
     public void setGame(Game game) {
         this.game = game;
     }

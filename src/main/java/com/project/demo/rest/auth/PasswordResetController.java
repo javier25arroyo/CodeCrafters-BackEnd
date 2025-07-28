@@ -27,6 +27,12 @@ import java.util.regex.Pattern;
 @RequestMapping("/auth")
 public class PasswordResetController {
 
+    /**
+     * Constructor por defecto.
+     */
+    public PasswordResetController() {
+    }
+
     @Autowired
     private UserRepository userRepository;
 

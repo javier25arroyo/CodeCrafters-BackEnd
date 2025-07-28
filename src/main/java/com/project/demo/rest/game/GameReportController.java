@@ -6,4 +6,9 @@ package com.project.demo.rest.game;
  * (Actualmente sin implementar)
  */
 public class GameReportController {
+    /**
+     * Constructor por defecto.
+     */
+    public GameReportController() {
+    }
 }

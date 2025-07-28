@@ -56,34 +56,74 @@ public class GameComponent {
         this.content = content;
     }
 
+    /**
+     * Obtiene el ID del componente del juego.
+     *
+     * @return El ID del componente del juego.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del componente del juego.
+     *
+     * @param id El nuevo ID del componente del juego.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el juego al que pertenece este componente.
+     *
+     * @return El juego al que pertenece este componente.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Establece el juego al que pertenece este componente.
+     *
+     * @param game El nuevo juego al que pertenece este componente.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Obtiene el tipo de componente.
+     *
+     * @return El tipo de componente.
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Establece el tipo de componente.
+     *
+     * @param type El nuevo tipo de componente.
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Obtiene el contenido del componente.
+     *
+     * @return El contenido del componente.
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Establece el contenido del componente.
+     *
+     * @param content El nuevo contenido del componente.
+     */
     public void setContent(String content) {
         this.content = content;
     }

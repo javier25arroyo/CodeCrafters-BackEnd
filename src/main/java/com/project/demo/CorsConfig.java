@@ -14,6 +14,12 @@ import org.springframework.web.filter.CorsFilter;
 public class CorsConfig {
 
     /**
+     * Constructor por defecto.
+     */
+    public CorsConfig() {
+    }
+
+    /**
      * Define un filtro de CORS para permitir peticiones desde el frontend.
      *
      * @return Un {@link CorsFilter} configurado para permitir el origen de localhost:4200.

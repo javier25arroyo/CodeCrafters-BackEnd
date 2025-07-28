@@ -78,16 +78,24 @@ public class AuthenticationService {
                 .orElseThrow();
     }
 
+    /**
+     * Autentica a un usuario utilizando un token de ID de Google.
+     *
+     * @param idToken El token de ID de Google.
+     * @return El objeto {@link User} autenticado.
+     * @throws GeneralSecurityException Si ocurre un error de seguridad general.
+     * @throws IOException              Si ocurre un error de entrada/salida.
+     */
     public User authenticateWithGoogle(String idToken) throws GeneralSecurityException, IOException {
         GoogleIdToken.Payload payload = googleAuthService.verifyToken(idToken);
-        
+
         String email = payload.getEmail();
         String googleId = payload.getSubject();
         String name = (String) payload.get("name");
 
         return userRepository.findByEmail(email)
-            .map(user -> updateExistingUserWithGoogleId(user, googleId))
-            .orElseGet(() -> createNewGoogleUser(email, name, googleId));
+                .map(user -> updateExistingUserWithGoogleId(user, googleId))
+                .orElseGet(() -> createNewGoogleUser(email, name, googleId));
     }
     
     private User updateExistingUserWithGoogleId(User user, String googleId) {

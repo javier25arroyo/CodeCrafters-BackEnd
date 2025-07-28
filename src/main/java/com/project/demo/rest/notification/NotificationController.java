@@ -6,4 +6,9 @@ package com.project.demo.rest.notification;
  * (Actualmente sin implementar)
  */
 public class NotificationController {
+    /**
+     * Constructor por defecto.
+     */
+    public NotificationController() {
+    }
 }

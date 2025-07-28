@@ -91,66 +91,146 @@ public class GameReport {
         this.date = date;
     }
 
+    /**
+     * Obtiene el ID del reporte de juego.
+     *
+     * @return El ID del reporte de juego.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del reporte de juego.
+     *
+     * @param id El nuevo ID del reporte de juego.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario que generó este reporte de juego.
+     *
+     * @return El usuario que generó este reporte de juego.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario que generó este reporte de juego.
+     *
+     * @param user El nuevo usuario que generó este reporte de juego.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el juego al que corresponde este reporte.
+     *
+     * @return El juego al que corresponde este reporte.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Establece el juego al que corresponde este reporte.
+     *
+     * @param game El nuevo juego al que corresponde este reporte.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Obtiene la duración del juego en segundos.
+     *
+     * @return La duración del juego en segundos.
+     */
     public Integer getDuration() {
         return duration;
     }
 
+    /**
+     * Establece la duración del juego en segundos.
+     *
+     * @param duration La nueva duración del juego en segundos.
+     */
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
+    /**
+     * Obtiene la puntuación obtenida en el juego.
+     *
+     * @return La puntuación obtenida en el juego.
+     */
     public Integer getScore() {
         return score;
     }
 
+    /**
+     * Establece la puntuación obtenida en el juego.
+     *
+     * @param score La nueva puntuación obtenida en el juego.
+     */
     public void setScore(Integer score) {
         this.score = score;
     }
 
+    /**
+     * Obtiene el resultado del juego.
+     *
+     * @return El resultado del juego.
+     */
     public String getResult() {
         return result;
     }
 
+    /**
+     * Establece el resultado del juego.
+     *
+     * @param result El nuevo resultado del juego.
+     */
     public void setResult(String result) {
         this.result = result;
     }
 
+    /**
+     * Obtiene los logros obtenidos durante el juego.
+     *
+     * @return Los logros obtenidos durante el juego.
+     */
     public String getAchievements() {
         return achievements;
     }
 
+    /**
+     * Establece los logros obtenidos durante el juego.
+     *
+     * @param achievements Los nuevos logros obtenidos durante el juego.
+     */
     public void setAchievements(String achievements) {
         this.achievements = achievements;
     }
 
+    /**
+     * Obtiene la fecha y hora en que se generó el reporte.
+     *
+     * @return La fecha y hora en que se generó el reporte.
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha y hora en que se generó el reporte.
+     *
+     * @param date La nueva fecha y hora en que se generó el reporte.
+     */
     public void setDate(LocalDateTime date) {
         this.date = date;
     }

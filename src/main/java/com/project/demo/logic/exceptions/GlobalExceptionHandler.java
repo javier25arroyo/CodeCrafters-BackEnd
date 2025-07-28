@@ -23,8 +23,18 @@ public class GlobalExceptionHandler {
     
     @Autowired
     private LoggingService loggingService;
+
+    /**
+     * Constructor por defecto.
+     */
+    public GlobalExceptionHandler() {
+    }
     /**
      * Maneja excepciones personalizadas de la aplicación.
+     *
+     * @param exception La excepción base que ha sido lanzada.
+     * @param request La petición HTTP.
+     * @return Un {@link ProblemDetail} que describe el error.
      */
     @ExceptionHandler(BaseException.class)
     public ProblemDetail handleBaseException(BaseException exception, HttpServletRequest request) {
@@ -47,6 +57,7 @@ public class GlobalExceptionHandler {
      * Convierte las excepciones en un formato de {@link ProblemDetail} con detalles específicos.
      *
      * @param exception La excepción que ha sido lanzada.
+     * @param request La petición HTTP.
      * @return Un {@link ProblemDetail} que describe el error.
      */
     @ExceptionHandler(Exception.class)
@@ -100,6 +111,12 @@ public class GlobalExceptionHandler {
         return errorDetail;
     }
     
+    /**
+     * Determina el código de estado HTTP apropiado para una excepción personalizada.
+     *
+     * @param exception La excepción personalizada.
+     * @return El código de estado HTTP.
+     */
     private int getStatusCodeForException(BaseException exception) {
         if (exception instanceof UserNotFoundException) {
             return 404;

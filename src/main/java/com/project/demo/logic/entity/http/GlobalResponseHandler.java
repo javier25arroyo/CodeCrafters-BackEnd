@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalResponseHandler {
     /**
+     * Constructor por defecto.
+     */
+    public GlobalResponseHandler() {
+    }
+    /**
      * Maneja y estandariza las respuestas HTTP con un cuerpo de respuesta.
      *
      * @param message El mensaje descriptivo de la respuesta.

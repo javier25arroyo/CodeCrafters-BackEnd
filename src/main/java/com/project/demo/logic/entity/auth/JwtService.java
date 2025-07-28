@@ -36,6 +36,12 @@ public class JwtService {
     private long jwtExpiration;
 
     /**
+     * Constructor por defecto.
+     */
+    public JwtService() {
+    }
+
+    /**
      * Extrae el nombre de usuario (subject) de un token JWT.
      *
      * @param token El token JWT del que se extraerá el nombre de usuario.

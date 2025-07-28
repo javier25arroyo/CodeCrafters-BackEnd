@@ -10,12 +10,20 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ExceptionUsageExample {
-    
+    /**
+     * Constructor por defecto.
+     */
+    public ExceptionUsageExample() {
+    }
+
     @Autowired
     private LoggingService loggingService;
     
     /**
      * Ejemplo de validación con excepción específica
+     *
+     * @param email El email a validar.
+     * @param password La contraseña a validar.
      */
     public void validateUserInput(String email, String password) {
         // Validación de email
@@ -35,6 +43,8 @@ public class ExceptionUsageExample {
     
     /**
      * Ejemplo de manejo de operaciones de negocio
+     *
+     * @param userId El ID del usuario.
      */
     public void performBusinessOperation(Long userId) {
         try {
@@ -65,6 +75,9 @@ public class ExceptionUsageExample {
     
     /**
      * Ejemplo de autenticación con logging de seguridad
+     *
+     * @param username El nombre de usuario.
+     * @param password La contraseña.
      */
     public void authenticateUser(String username, String password) {
         try {

@@ -30,6 +30,12 @@ public class UserRestController {
     private UserService userService;
 
     /**
+     * Constructor por defecto.
+     */
+    public UserRestController() {
+    }
+
+    /**
      * Obtiene una lista paginada de todos los usuarios.
      * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
      *

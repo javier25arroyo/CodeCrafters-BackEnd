@@ -18,6 +18,12 @@ public class EmailService {
     private JavaMailSender javaMailSender;
 
     /**
+     * Constructor por defecto.
+     */
+    public EmailService() {
+    }
+
+    /**
      * Envía un correo electrónico para el restablecimiento de la contraseña.
      *
      * @param toEmail    La dirección de correo electrónico del destinatario.

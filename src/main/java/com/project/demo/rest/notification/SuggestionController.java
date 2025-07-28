@@ -28,6 +28,12 @@ public class SuggestionController {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Crea una nueva sugerencia.
+     *
+     * @param request El objeto {@link SuggestionRequest} que contiene los datos de la sugerencia.
+     * @return ResponseEntity con un mensaje de éxito o error.
+     */
     @PostMapping
     public ResponseEntity<?> createSuggestion(@RequestBody SuggestionRequest request) {
         User user = userRepository.findById(request.userId().longValue()).orElse(null);
@@ -46,12 +52,24 @@ public class SuggestionController {
         return ResponseEntity.ok(Map.of("message", "Sugerencia recibida"));
     }
 
+    /**
+     * Obtiene todas las sugerencias.
+     *
+     * @return ResponseEntity con una lista de {@link Suggestion}.
+     */
     @GetMapping
     public ResponseEntity<List<Suggestion>> getAllSuggestions() {
         List<Suggestion> suggestions = suggestionRepository.findAll();
         return ResponseEntity.ok(suggestions);
     }
 
+    /**
+     * Actualiza el estado de una sugerencia.
+     *
+     * @param id   El ID de la sugerencia a actualizar.
+     * @param body El cuerpo de la solicitud que contiene el nuevo estado.
+     * @return ResponseEntity con un mensaje de éxito o error.
+     */
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateSuggestionStatus(@PathVariable Integer id, @RequestBody Map<String, String> body) {
         Suggestion suggestion = suggestionRepository.findById(id).orElse(null);
@@ -70,6 +88,12 @@ public class SuggestionController {
         return ResponseEntity.ok(Map.of("message", "Estado actualizado"));
     }
 
+    /**
+     * Record que representa la estructura de una solicitud para crear una sugerencia.
+     *
+     * @param userId El ID del usuario que envía la sugerencia.
+     * @param message El contenido del mensaje de la sugerencia.
+     */
     public record SuggestionRequest(Integer userId, String message) {
     }
 }
