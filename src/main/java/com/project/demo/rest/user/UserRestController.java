@@ -138,28 +138,6 @@ public class UserRestController {
         return userService.getCurrentUser();
     }
 
-    /**
-     * Restablece la contraseña de un usuario a un valor predeterminado.
-     * Requiere que el usuario autenticado tenga el rol 'ADMIN' o 'SUPER_ADMIN'.
-     *
-     * @param userId  El ID del usuario cuya contraseña se va a restablecer.
-     * @param request La petición HTTP.
-     * @return ResponseEntity con el usuario actualizado y un mensaje de éxito, o un mensaje de error si no se encuentra.
-     */
-    @PostMapping("/{userId}/reset-password")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
-    public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
-        Optional<User> userOpt = userService.findUserById(userId);
-        if (userOpt.isEmpty()) {
-            return new GlobalResponseHandler().handleResponse("El usuario con ID " + userId + " no fue encontrado",
-                    HttpStatus.NOT_FOUND, request);
-        }
-
-        Optional<User> updatedUser = userService.resetPasswordAndGetUser(userId);
-        String defaultPassword = "password123";
-        return new GlobalResponseHandler().handleResponse("Contraseña restablecida exitosamente a: " + defaultPassword,
-                updatedUser.get(), HttpStatus.OK, request);
-    }
 
     /**
      * Obtiene un resumen de todos los usuarios.
