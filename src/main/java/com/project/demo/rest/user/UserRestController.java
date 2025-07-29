@@ -51,16 +51,16 @@ public class UserRestController {
             @RequestParam(defaultValue = "10") int size,
             HttpServletRequest request) {
 
-        Pageable pageable = PageRequest.of(page-1, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         Page<User> usersPage = userService.getAllUsers(pageable);
-        
+
         Meta meta = new Meta(request.getMethod(), request.getRequestURL().toString());
         meta.setTotalPages(usersPage.getTotalPages());
         meta.setTotalElements(usersPage.getTotalElements());
         meta.setPageNumber(usersPage.getNumber() + 1);
         meta.setPageSize(usersPage.getSize());
 
-        return new GlobalResponseHandler().handleResponse("Users retrieved successfully",
+        return new GlobalResponseHandler().handleResponse("Usuarios obtenidos exitosamente",
                 usersPage.getContent(), HttpStatus.OK, meta);
     }
 
@@ -76,7 +76,7 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) {
         User createdUser = userService.createUser(user);
-        return new GlobalResponseHandler().handleResponse("User updated successfully",
+        return new GlobalResponseHandler().handleResponse("Usuario creado exitosamente",
                 createdUser, HttpStatus.OK, request);
     }
 
@@ -93,12 +93,12 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody User user, HttpServletRequest request) {
         Optional<User> updatedUser = userService.updateUser(userId, user);
-        
+
         if (updatedUser.isPresent()) {
-            return new GlobalResponseHandler().handleResponse("User updated successfully",
+            return new GlobalResponseHandler().handleResponse("Usuario actualizado exitosamente",
                     updatedUser.get(), HttpStatus.OK, request);
         } else {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found",
+            return new GlobalResponseHandler().handleResponse("El usuario con ID " + userId + " no fue encontrado",
                     HttpStatus.NOT_FOUND, request);
         }
     }
@@ -116,12 +116,12 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId, HttpServletRequest request) {
         Optional<User> foundUser = userService.findUserById(userId);
-        if(foundUser.isPresent()) {
+        if (foundUser.isPresent()) {
             userService.deleteUser(userId);
-            return new GlobalResponseHandler().handleResponse("User deleted successfully",
+            return new GlobalResponseHandler().handleResponse("Usuario eliminado exitosamente",
                     foundUser.get(), HttpStatus.OK, request);
         } else {
-            return new GlobalResponseHandler().handleResponse("Order id " + userId + " not found",
+            return new GlobalResponseHandler().handleResponse("El usuario con ID " + userId + " no fue encontrado",
                     HttpStatus.NOT_FOUND, request);
         }
     }
@@ -151,12 +151,14 @@ public class UserRestController {
     public ResponseEntity<?> resetPassword(@PathVariable Long userId, HttpServletRequest request) {
         Optional<User> userOpt = userService.findUserById(userId);
         if (userOpt.isEmpty()) {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", HttpStatus.NOT_FOUND, request);
+            return new GlobalResponseHandler().handleResponse("El usuario con ID " + userId + " no fue encontrado",
+                    HttpStatus.NOT_FOUND, request);
         }
-        
+
         Optional<User> updatedUser = userService.resetPasswordAndGetUser(userId);
         String defaultPassword = "password123";
-        return new GlobalResponseHandler().handleResponse("Password reset successfully to default: " + defaultPassword, updatedUser.get(), HttpStatus.OK, request);
+        return new GlobalResponseHandler().handleResponse("Contraseña restablecida exitosamente a: " + defaultPassword,
+                updatedUser.get(), HttpStatus.OK, request);
     }
 
     /**
@@ -170,8 +172,8 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> getUserSummary(HttpServletRequest request) {
         List<UserSummary> userSummaries = userService.getUserSummary();
-        
-        return new GlobalResponseHandler().handleResponse("Users summary retrieved successfully",
+
+        return new GlobalResponseHandler().handleResponse("Resumen de usuarios obtenido exitosamente",
                 userSummaries, HttpStatus.OK, request);
     }
 
@@ -187,14 +189,14 @@ public class UserRestController {
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public ResponseEntity<?> toggleUserEnabled(@PathVariable Long userId, HttpServletRequest request) {
         Optional<User> updatedUser = userService.toggleUserEnabled(userId);
-        
+
         if (updatedUser.isPresent()) {
             User user = updatedUser.get();
-            String status = user.getEnabled() ? "enabled" : "disabled";
-            return new GlobalResponseHandler().handleResponse("User " + status + " successfully", 
+            String status = user.getEnabled() ? "habilitado" : "deshabilitado";
+            return new GlobalResponseHandler().handleResponse("Usuario " + status + " exitosamente",
                     user, HttpStatus.OK, request);
         } else {
-            return new GlobalResponseHandler().handleResponse("User id " + userId + " not found", 
+            return new GlobalResponseHandler().handleResponse("El usuario con ID " + userId + " no fue encontrado",
                     HttpStatus.NOT_FOUND, request);
         }
     }
