@@ -223,40 +223,92 @@ public class User implements UserDetails {
         return List.of(authority);
     }
 
+    /**
+     * Obtiene el ID del usuario.
+     *
+     * @return El ID del usuario.
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del usuario.
+     *
+     * @param id El nuevo ID del usuario.
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el nombre del usuario.
+     *
+     * @return El nombre del usuario.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Establece el nombre del usuario.
+     *
+     * @param name El nuevo nombre del usuario.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Obtiene el correo electrónico del usuario.
+     *
+     * @return El correo electrónico del usuario.
+     */
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) { this.email = email; }
+    /**
+     * Establece el correo electrónico del usuario.
+     *
+     * @param email El nuevo correo electrónico del usuario.
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    /**
+     * Obtiene el ID de Google del usuario.
+     *
+     * @return El ID de Google del usuario.
+     */
     public String getGoogleId() {
         return googleId;
     }
 
+    /**
+     * Establece el ID de Google del usuario.
+     *
+     * @param googleId El nuevo ID de Google del usuario.
+     */
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
 
+    /**
+     * Indica si el usuario está habilitado.
+     *
+     * @return True si el usuario está habilitado, false en caso contrario.
+     */
     public Boolean getEnabled() {
         return enabled;
     }
 
+    /**
+     * Establece si el usuario está habilitado.
+     *
+     * @param enabled El nuevo estado de habilitación del usuario.
+     */
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
@@ -270,38 +322,83 @@ public class User implements UserDetails {
         return password;
     }
 
+    /**
+     * Establece la contraseña del usuario.
+     *
+     * @param password La nueva contraseña del usuario.
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Obtiene el rol del usuario.
+     *
+     * @return El rol del usuario.
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     * Establece el rol del usuario.
+     *
+     * @param role El nuevo rol del usuario.
+     */
     public void setRole(Role role) {
         this.role = role;
     }
 
+    /**
+     * Obtiene el nivel del usuario.
+     *
+     * @return El nivel del usuario.
+     */
     public LevelEnum getLevel() {
         return level;
     }
 
+    /**
+     * Establece el nivel del usuario.
+     *
+     * @param level El nuevo nivel del usuario.
+     */
     public void setLevel(LevelEnum level) {
         this.level = level;
     }
 
+    /**
+     * Obtiene la configuración del usuario.
+     *
+     * @return La configuración del usuario.
+     */
     public UserSettings getSettings() {
         return settings;
     }
 
+    /**
+     * Establece la configuración del usuario.
+     *
+     * @param settings La nueva configuración del usuario.
+     */
     public void setSettings(UserSettings settings) {
         this.settings = settings;
     }
 
+    /**
+     * Obtiene las sesiones de juego del usuario.
+     *
+     * @return Las sesiones de juego del usuario.
+     */
     public List<GameSession> getGameSessions() {
         return gameSessions;
     }
 
+    /**
+     * Establece las sesiones de juego del usuario.
+     *
+     * @param gameSessions Las nuevas sesiones de juego del usuario.
+     */
     public void setGameSessions(List<GameSession> gameSessions) {
         this.gameSessions = gameSessions;
     }
@@ -310,74 +407,164 @@ public class User implements UserDetails {
 
     public void setCaregiver(boolean caregiver) { isCaregiver = caregiver; }
 
+    /**
+     * Obtiene los reportes de juego del usuario.
+     *
+     * @return Los reportes de juego del usuario.
+     */
     public List<GameReport> getGameReports() {
         return gameReports;
     }
 
+    /**
+     * Establece los reportes de juego del usuario.
+     *
+     * @param gameReports Los nuevos reportes de juego del usuario.
+     */
     public void setGameReports(List<GameReport> gameReports) {
         this.gameReports = gameReports;
     }
 
+    /**
+     * Obtiene los logros del usuario.
+     *
+     * @return Los logros del usuario.
+     */
     public List<UserAchievement> getAchievements() {
         return achievements;
     }
 
+    /**
+     * Establece los logros del usuario.
+     *
+     * @param achievements Los nuevos logros del usuario.
+     */
     public void setAchievements(List<UserAchievement> achievements) {
         this.achievements = achievements;
     }
 
+    /**
+     * Obtiene las sugerencias del usuario.
+     *
+     * @return Las sugerencias del usuario.
+     */
     public List<Suggestion> getSuggestions() {
         return suggestions;
     }
 
+    /**
+     * Establece las sugerencias del usuario.
+     *
+     * @param suggestions Las nuevas sugerencias del usuario.
+     */
     public void setSuggestions(List<Suggestion> suggestions) {
         this.suggestions = suggestions;
     }
 
+    /**
+     * Obtiene las notificaciones del usuario.
+     *
+     * @return Las notificaciones del usuario.
+     */
     public List<Notification> getNotifications() {
         return notifications;
     }
 
+    /**
+     * Establece las notificaciones del usuario.
+     *
+     * @param notifications Las nuevas notificaciones del usuario.
+     */
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
 
+    /**
+     * Obtiene los cuidadores asociados a este usuario.
+     *
+     * @return Los cuidadores asociados a este usuario.
+     */
     public List<UserCaregiver> getCaregivers() {
         return caregivers;
     }
 
+    /**
+     * Establece los cuidadores asociados a este usuario.
+     *
+     * @param caregivers Los nuevos cuidadores asociados a este usuario.
+     */
     public void setCaregivers(List<UserCaregiver> caregivers) {
         this.caregivers = caregivers;
     }
 
+    /**
+     * Obtiene los juegos favoritos del usuario.
+     *
+     * @return Los juegos favoritos del usuario.
+     */
     public List<FavoriteGame> getFavoriteGames() {
         return favoriteGames;
     }
 
+    /**
+     * Establece los juegos favoritos del usuario.
+     *
+     * @param favoriteGames Los nuevos juegos favoritos del usuario.
+     */
     public void setFavoriteGames(List<FavoriteGame> favoriteGames) {
         this.favoriteGames = favoriteGames;
     }
 
+    /**
+     * Obtiene el historial de inicios de sesión del usuario.
+     *
+     * @return El historial de inicios de sesión del usuario.
+     */
     public List<LoginHistory> getLoginHistories() {
         return loginHistories;
     }
 
+    /**
+     * Establece el historial de inicios de sesión del usuario.
+     *
+     * @param loginHistories El nuevo historial de inicios de sesión del usuario.
+     */
     public void setLoginHistories(List<LoginHistory> loginHistories) {
         this.loginHistories = loginHistories;
     }
 
+    /**
+     * Obtiene las rachas de juego del usuario.
+     *
+     * @return Las rachas de juego del usuario.
+     */
     public List<Streak> getStreaks() {
         return streaks;
     }
 
+    /**
+     * Establece las rachas de juego del usuario.
+     *
+     * @param streaks Las nuevas rachas de juego del usuario.
+     */
     public void setStreaks(List<Streak> streaks) {
         this.streaks = streaks;
     }
 
+    /**
+     * Obtiene el registro de actividades realizadas por el usuario.
+     *
+     * @return El registro de actividades realizadas por el usuario.
+     */
     public List<ActivityLog> getActivityLogs() {
         return activityLogs;
     }
 
+    /**
+     * Establece el registro de actividades realizadas por el usuario.
+     *
+     * @param activityLogs El nuevo registro de actividades realizadas por el usuario.
+     */
     public void setActivityLogs(List<ActivityLog> activityLogs) {
         this.activityLogs = activityLogs;
     }

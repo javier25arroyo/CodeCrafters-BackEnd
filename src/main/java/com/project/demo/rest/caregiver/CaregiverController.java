@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/caregivers")
 public class CaregiverController {
-
     @Autowired
     private CaregiverService service;
 
@@ -35,3 +34,4 @@ public class CaregiverController {
         return ResponseEntity.ok(datos);
     }
 }
+
