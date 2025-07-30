@@ -6,4 +6,9 @@ package com.project.demo.rest.history;
  * (Actualmente sin implementar)
  */
 public class ActivityLogController {
+    /**
+     * Constructor por defecto.
+     */
+    public ActivityLogController() {
+    }
 }

@@ -11,6 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
 	/**
+	 * Constructor por defecto.
+	 */
+	public DemoApplication() {
+	}
+
+	/**
 	 * Método principal que arranca la aplicación Spring Boot.
 	 *
 	 * @param args Argumentos de línea de comandos pasados a la aplicación.

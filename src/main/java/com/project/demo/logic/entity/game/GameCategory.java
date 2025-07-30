@@ -51,26 +51,56 @@ public class GameCategory {
         this.games = games;
     }
 
+    /**
+     * Obtiene el ID de la categoría de juego.
+     *
+     * @return El ID de la categoría de juego.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la categoría de juego.
+     *
+     * @param id El nuevo ID de la categoría de juego.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el nombre de la categoría de juego.
+     *
+     * @return El nombre de la categoría de juego.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Establece el nombre de la categoría de juego.
+     *
+     * @param name El nuevo nombre de la categoría de juego.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Obtiene la lista de juegos asociados a esta categoría.
+     *
+     * @return La lista de juegos asociados a esta categoría.
+     */
     public List<Game> getGames() {
         return games;
     }
 
+    /**
+     * Establece la lista de juegos asociados a esta categoría.
+     *
+     * @param games La nueva lista de juegos asociados a esta categoría.
+     */
     public void setGames(List<Game> games) {
         this.games = games;
     }

@@ -66,42 +66,92 @@ public class Notification {
         this.read = read;
     }
 
+    /**
+     * Obtiene el ID de la notificación.
+     *
+     * @return El ID de la notificación.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la notificación.
+     *
+     * @param id El nuevo ID de la notificación.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario al que está dirigida la notificación.
+     *
+     * @return El usuario al que está dirigida la notificación.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario al que está dirigida la notificación.
+     *
+     * @param user El nuevo usuario al que está dirigida la notificación.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el contenido del mensaje de la notificación.
+     *
+     * @return El contenido del mensaje de la notificación.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Establece el contenido del mensaje de la notificación.
+     *
+     * @param message El nuevo contenido del mensaje de la notificación.
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Obtiene la fecha y hora en que se creó la notificación.
+     *
+     * @return La fecha y hora en que se creó la notificación.
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha y hora en que se creó la notificación.
+     *
+     * @param date La nueva fecha y hora en que se creó la notificación.
+     */
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
+    /**
+     * Indica si la notificación ha sido leída por el usuario.
+     *
+     * @return True si la notificación ha sido leída, false en caso contrario.
+     */
     public Boolean getRead() {
         return read;
     }
 
+    /**
+     * Establece si la notificación ha sido leída por el usuario.
+     *
+     * @param read True si la notificación ha sido leída, false en caso contrario.
+     */
     public void setRead(Boolean read) {
         this.read = read;
     }

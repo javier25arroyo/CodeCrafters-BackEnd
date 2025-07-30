@@ -66,42 +66,92 @@ public class Streak {
         this.maxStreak = maxStreak;
     }
 
+    /**
+     * Obtiene el ID de la racha.
+     *
+     * @return El ID de la racha.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la racha.
+     *
+     * @param id El nuevo ID de la racha.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario al que pertenece esta racha.
+     *
+     * @return El usuario al que pertenece esta racha.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario al que pertenece esta racha.
+     *
+     * @param user El nuevo usuario al que pertenece esta racha.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el juego al que se refiere esta racha.
+     *
+     * @return El juego al que se refiere esta racha.
+     */
     public Game getGame() {
         return game;
     }
 
+    /**
+     * Establece el juego al que se refiere esta racha.
+     *
+     * @param game El nuevo juego al que se refiere esta racha.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Obtiene la racha actual del usuario para este juego.
+     *
+     * @return La racha actual del usuario para este juego.
+     */
     public Integer getCurrentStreak() {
         return currentStreak;
     }
 
+    /**
+     * Establece la racha actual del usuario para este juego.
+     *
+     * @param currentStreak La nueva racha actual del usuario para este juego.
+     */
     public void setCurrentStreak(Integer currentStreak) {
         this.currentStreak = currentStreak;
     }
 
+    /**
+     * Obtiene la racha máxima alcanzada por el usuario para este juego.
+     *
+     * @return La racha máxima alcanzada por el usuario para este juego.
+     */
     public Integer getMaxStreak() {
         return maxStreak;
     }
 
+    /**
+     * Establece la racha máxima alcanzada por el usuario para este juego.
+     *
+     * @param maxStreak La nueva racha máxima alcanzada por el usuario para este juego.
+     */
     public void setMaxStreak(Integer maxStreak) {
         this.maxStreak = maxStreak;
     }

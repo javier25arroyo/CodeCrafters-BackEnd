@@ -21,15 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
+    private final CoopHeaderFilter coopHeaderFilter;
     /**
-     * Constructor para inyectar las dependencias del proveedor de autenticación y el filtro JWT.
+     * Constructor para inyectar las dependencias del proveedor de autenticación, el filtro JWT y el filtro COOP.
      *
      * @param jwtAuthenticationFilter Filtro para la autenticación basada en JWT.
      * @param authenticationProvider  Proveedor que gestiona la autenticación de los usuarios.
+     * @param coopHeaderFilter        Filtro para las cabeceras COOP.
      */
-    private final CoopHeaderFilter coopHeaderFilter;
-
     public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter, AuthenticationProvider authenticationProvider, CoopHeaderFilter coopHeaderFilter) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;

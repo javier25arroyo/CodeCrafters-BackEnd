@@ -59,34 +59,74 @@ public class UserCaregiver {
         this.relationship = relationship;
     }
 
+    /**
+     * Obtiene el ID de la relación usuario-cuidador.
+     *
+     * @return El ID de la relación usuario-cuidador.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la relación usuario-cuidador.
+     *
+     * @param id El nuevo ID de la relación usuario-cuidador.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario asociado a esta relación.
+     *
+     * @return El usuario asociado a esta relación.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario asociado a esta relación.
+     *
+     * @param user El nuevo usuario asociado a esta relación.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el cuidador asociado a esta relación.
+     *
+     * @return El cuidador asociado a esta relación.
+     */
     public Caregiver getCaregiver() {
         return caregiver;
     }
 
+    /**
+     * Establece el cuidador asociado a esta relación.
+     *
+     * @param caregiver El nuevo cuidador asociado a esta relación.
+     */
     public void setCaregiver(Caregiver caregiver) {
         this.caregiver = caregiver;
     }
 
+    /**
+     * Obtiene el tipo de relación entre el usuario y el cuidador.
+     *
+     * @return El tipo de relación entre el usuario y el cuidador.
+     */
     public CaregiverRole getRelationship() {
         return relationship;
     }
 
+    /**
+     * Establece el tipo de relación entre el usuario y el cuidador.
+     *
+     * @param relationship El nuevo tipo de relación entre el usuario y el cuidador.
+     */
     public void setRelationship(CaregiverRole relationship) {
         this.relationship = relationship;
     }

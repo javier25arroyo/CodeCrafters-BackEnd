@@ -40,5 +40,13 @@ public interface UserRepository extends JpaRepository<User, Long>  {
      */
     Optional<User> findByEmail(String email);
 
+    /**
+     * Busca usuarios por nombre o email, ignorando mayúsculas y minúsculas, con paginación.
+     *
+     * @param name     El nombre a buscar.
+     * @param email    El email a buscar.
+     * @param pageable Objeto Pageable para la paginación.
+     * @return Una página de usuarios que coinciden con el nombre o el email.
+     */
     Page<User> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(String name, String email, Pageable pageable);
 }

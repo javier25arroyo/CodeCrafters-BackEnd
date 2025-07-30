@@ -62,34 +62,74 @@ public class UserAchievement {
         this.date = date;
     }
 
+    /**
+     * Obtiene el ID de la relación usuario-logro.
+     *
+     * @return El ID de la relación usuario-logro.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la relación usuario-logro.
+     *
+     * @param id El nuevo ID de la relación usuario-logro.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario que ha obtenido el logro.
+     *
+     * @return El usuario que ha obtenido el logro.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario que ha obtenido el logro.
+     *
+     * @param user El nuevo usuario que ha obtenido el logro.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el logro que ha sido obtenido por el usuario.
+     *
+     * @return El logro que ha sido obtenido por el usuario.
+     */
     public Achievement getAchievement() {
         return achievement;
     }
 
+    /**
+     * Establece el logro que ha sido obtenido por el usuario.
+     *
+     * @param achievement El nuevo logro que ha sido obtenido por el usuario.
+     */
     public void setAchievement(Achievement achievement) {
         this.achievement = achievement;
     }
 
+    /**
+     * Obtiene la fecha y hora en que el usuario obtuvo el logro.
+     *
+     * @return La fecha y hora en que el usuario obtuvo el logro.
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha y hora en que el usuario obtuvo el logro.
+     *
+     * @param date La nueva fecha y hora en que el usuario obtuvo el logro.
+     */
     public void setDate(LocalDateTime date) {
         this.date = date;
     }

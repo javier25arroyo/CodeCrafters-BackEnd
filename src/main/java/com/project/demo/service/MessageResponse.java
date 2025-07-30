@@ -8,6 +8,12 @@ public class MessageResponse {
     private String message;
 
     /**
+     * Constructor por defecto.
+     */
+    public MessageResponse() {
+    }
+
+    /**
      * Constructor para crear una nueva instancia de MessageResponse.
      *
      * @param message El mensaje a encapsular en la respuesta.

@@ -71,42 +71,92 @@ public class Role {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Obtiene el ID del rol.
+     *
+     * @return El ID del rol.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del rol.
+     *
+     * @param id El nuevo ID del rol.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el nombre del rol.
+     *
+     * @return El nombre del rol.
+     */
     public RoleEnum getName() {
         return name;
     }
 
+    /**
+     * Establece el nombre del rol.
+     *
+     * @param name El nuevo nombre del rol.
+     */
     public void setName(RoleEnum name) {
         this.name = name;
     }
 
+    /**
+     * Obtiene la descripción del rol.
+     *
+     * @return La descripción del rol.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Establece la descripción del rol.
+     *
+     * @param description La nueva descripción del rol.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Obtiene la fecha de creación del rol.
+     *
+     * @return La fecha de creación del rol.
+     */
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * Establece la fecha de creación del rol.
+     *
+     * @param createdAt La nueva fecha de creación del rol.
+     */
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    /**
+     * Obtiene la fecha de la última actualización del rol.
+     *
+     * @return La fecha de la última actualización del rol.
+     */
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    /**
+     * Establece la fecha de la última actualización del rol.
+     *
+     * @param updatedAt La nueva fecha de la última actualización del rol.
+     */
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }

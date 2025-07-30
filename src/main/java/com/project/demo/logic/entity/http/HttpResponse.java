@@ -56,26 +56,56 @@ public class HttpResponse<T> {
         this.meta = meta;
     }
 
+    /**
+     * Obtiene el mensaje de la respuesta.
+     *
+     * @return El mensaje de la respuesta.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Establece el mensaje de la respuesta.
+     *
+     * @param message El nuevo mensaje de la respuesta.
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Obtiene los datos de la respuesta.
+     *
+     * @return Los datos de la respuesta.
+     */
     public T getData() {
         return data;
     }
 
+    /**
+     * Establece los datos de la respuesta.
+     *
+     * @param data Los nuevos datos de la respuesta.
+     */
     public void setData(T data) {
         this.data = data;
     }
 
+    /**
+     * Obtiene los metadatos de la respuesta.
+     *
+     * @return Los metadatos de la respuesta.
+     */
     public Meta getMeta() {
         return meta;
     }
 
+    /**
+     * Establece los metadatos de la respuesta.
+     *
+     * @param meta Los nuevos metadatos de la respuesta.
+     */
     public void setMeta(Meta meta) {
         this.meta = meta;
     }

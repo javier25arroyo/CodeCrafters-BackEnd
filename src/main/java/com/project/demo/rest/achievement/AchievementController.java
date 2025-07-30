@@ -6,4 +6,9 @@ package com.project.demo.rest.achievement;
  * (Actualmente sin implementar)
  */
 public class AchievementController {
+    /**
+     * Constructor por defecto.
+     */
+    public AchievementController() {
+    }
 }

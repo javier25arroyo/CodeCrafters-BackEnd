@@ -87,66 +87,146 @@ public class UserSettings {
         this.level = level;
     }
 
+    /**
+     * Obtiene el ID de la configuración de usuario.
+     *
+     * @return El ID de la configuración de usuario.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID de la configuración de usuario.
+     *
+     * @param id El nuevo ID de la configuración de usuario.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el tema de la interfaz de usuario.
+     *
+     * @return El tema de la interfaz de usuario.
+     */
     public String getTheme() {
         return theme;
     }
 
+    /**
+     * Establece el tema de la interfaz de usuario.
+     *
+     * @param theme El nuevo tema de la interfaz de usuario.
+     */
     public void setTheme(String theme) {
         this.theme = theme;
     }
 
+    /**
+     * Obtiene el idioma preferido del usuario.
+     *
+     * @return El idioma preferido del usuario.
+     */
     public String getLanguage() {
         return language;
     }
 
+    /**
+     * Establece el idioma preferido del usuario.
+     *
+     * @param language El nuevo idioma preferido del usuario.
+     */
     public void setLanguage(String language) {
         this.language = language;
     }
 
+    /**
+     * Indica si el texto grande está habilitado para accesibilidad.
+     *
+     * @return True si el texto grande está habilitado, false en caso contrario.
+     */
     public Boolean getLargeText() {
         return largeText;
     }
 
+    /**
+     * Establece si el texto grande está habilitado para accesibilidad.
+     *
+     * @param largeText El nuevo estado de texto grande.
+     */
     public void setLargeText(Boolean largeText) {
         this.largeText = largeText;
     }
 
+    /**
+     * Indica si el modo de alto contraste está habilitado para accesibilidad.
+     *
+     * @return True si el modo de alto contraste está habilitado, false en caso contrario.
+     */
     public Boolean getHighContrast() {
         return highContrast;
     }
 
+    /**
+     * Establece si el modo de alto contraste está habilitado para accesibilidad.
+     *
+     * @param highContrast El nuevo estado de alto contraste.
+     */
     public void setHighContrast(Boolean highContrast) {
         this.highContrast = highContrast;
     }
 
+    /**
+     * Obtiene el volumen preferido para los sonidos de la aplicación.
+     *
+     * @return El volumen preferido.
+     */
     public Integer getVolume() {
         return volume;
     }
 
+    /**
+     * Establece el volumen preferido para los sonidos de la aplicación.
+     *
+     * @param volume El nuevo volumen preferido.
+     */
     public void setVolume(Integer volume) {
         this.volume = volume;
     }
 
+    /**
+     * Obtiene el usuario al que pertenece esta configuración.
+     *
+     * @return El usuario al que pertenece esta configuración.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario al que pertenece esta configuración.
+     *
+     * @param user El nuevo usuario al que pertenece esta configuración.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene el nivel de dificultad preferido.
+     *
+     * @return El nivel de dificultad preferido.
+     */
     public LevelEnum getLevel() {
         return level;
     }
 
+    /**
+     * Establece el nivel de dificultad preferido.
+     *
+     * @param level El nuevo nivel de dificultad preferido.
+     */
     public void setLevel(LevelEnum level) {
         this.level = level;
     }

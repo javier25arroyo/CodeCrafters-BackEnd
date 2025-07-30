@@ -66,42 +66,92 @@ public class LoginHistory {
         this.device = device;
     }
 
+    /**
+     * Obtiene el ID del registro de historial de inicio de sesión.
+     *
+     * @return El ID del registro de historial de inicio de sesión.
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     * Establece el ID del registro de historial de inicio de sesión.
+     *
+     * @param id El nuevo ID del registro de historial de inicio de sesión.
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Obtiene el usuario asociado a este registro de inicio de sesión.
+     *
+     * @return El usuario asociado a este registro de inicio de sesión.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Establece el usuario asociado a este registro de inicio de sesión.
+     *
+     * @param user El nuevo usuario asociado a este registro de inicio de sesión.
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
+    /**
+     * Obtiene la fecha y hora del inicio de sesión.
+     *
+     * @return La fecha y hora del inicio de sesión.
+     */
     public LocalDateTime getDate() {
         return date;
     }
 
+    /**
+     * Establece la fecha y hora del inicio de sesión.
+     *
+     * @param date La nueva fecha y hora del inicio de sesión.
+     */
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
+    /**
+     * Obtiene la dirección IP desde la que se realizó el inicio de sesión.
+     *
+     * @return La dirección IP desde la que se realizó el inicio de sesión.
+     */
     public String getIp() {
         return ip;
     }
 
+    /**
+     * Establece la dirección IP desde la que se realizó el inicio de sesión.
+     *
+     * @param ip La nueva dirección IP desde la que se realizó el inicio de sesión.
+     */
     public void setIp(String ip) {
         this.ip = ip;
     }
 
+    /**
+     * Obtiene la información sobre el dispositivo utilizado para el inicio de sesión.
+     *
+     * @return La información sobre el dispositivo utilizado para el inicio de sesión.
+     */
     public String getDevice() {
         return device;
     }
 
+    /**
+     * Establece la información sobre el dispositivo utilizado para el inicio de sesión.
+     *
+     * @param device La nueva información sobre el dispositivo utilizado para el inicio de sesión.
+     */
     public void setDevice(String device) {
         this.device = device;
     }

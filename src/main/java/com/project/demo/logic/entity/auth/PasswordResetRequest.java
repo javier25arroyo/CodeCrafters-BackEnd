@@ -28,6 +28,11 @@ public class PasswordResetRequest {
         return email;
     }
 
+    /**
+     * Establece el correo electrónico del usuario.
+     *
+     * @param email El nuevo correo electrónico del usuario.
+     */
     public void setEmail(String email) {
         this.email = email;
     }
