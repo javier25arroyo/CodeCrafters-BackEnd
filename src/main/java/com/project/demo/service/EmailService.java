@@ -4,9 +4,12 @@ package com.project.demo.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Servicio para el envío de correos electrónicos.
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class EmailService {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -31,16 +37,12 @@ public class EmailService {
      * @throws MessagingException Si ocurre un error al crear o enviar el mensaje.
      */
     public void sendPasswordResetEmail(String toEmail, String resetToken) throws MessagingException {
-        System.out.println("Sending email to: " + toEmail);
-        String subject = "Password Reset Request";
-        String resetUrl = "http://localhost:4200/reset-password?token=" + resetToken;
+        logger.info("Sending password reset email to: {}", toEmail);
 
-        String content = "<p>Hello,</p>"
-                + "<p>We received a request to reset your password.</p>"
-                + "<p>Click the following link to change your password:</p>"
-                + "<p><a href=\"" + resetUrl + "\">Reset Password</a></p>"
-                + "<br>"
-                + "<p>If you did not request this, please ignore this message.</p>";
+        String subject = "Password Reset Request";
+        String resetUrl = appBaseUrl + "/reset-password?token=" + resetToken + "&email=" + toEmail;
+
+        String content = buildResetEmailContent(resetUrl);
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -51,4 +53,15 @@ public class EmailService {
 
         javaMailSender.send(message);
     }
+
+    private String buildResetEmailContent(String resetUrl) {
+        return "<p>Hola,</p>"
+                + "<p>Hemos recibido una solicitud para cambiar tu contraseña</p>"
+                + "<p>Siguel el link para cambiar tu contraseña:</p>"
+                + "<p><a href=\"" + resetUrl + "\">Cambiar contraseña/a></p>"
+                + "<br><p>Si tu no solicitaste esto, porfavor ignora este mensaje.</p>";
+    }
+
+    @Value("${app.frontend.base-url}")
+    private String appBaseUrl;
 }
