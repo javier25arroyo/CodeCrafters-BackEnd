@@ -58,7 +58,7 @@ public class EmailService {
         return "<p>Hola,</p>"
                 + "<p>Hemos recibido una solicitud para cambiar tu contraseña</p>"
                 + "<p>Siguel el link para cambiar tu contraseña:</p>"
-                + "<p><a href=\"" + resetUrl + "\">Cambiar contraseña/a></p>"
+                + "<p><a href=\"" + resetUrl + "\">Cambiar contraseña></p>"
                 + "<br><p>Si tu no solicitaste esto, porfavor ignora este mensaje.</p>";
     }
 
