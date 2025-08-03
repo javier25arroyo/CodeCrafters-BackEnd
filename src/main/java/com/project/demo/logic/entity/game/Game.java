@@ -1,7 +1,6 @@
 package com.project.demo.logic.entity.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -38,27 +37,13 @@ public class Game {
     @Column(length = 20)
     private String difficulty;
 
-    /**
-     * URL de la imagen representativa del juego.
-     */
-    @Column(name = "image_url", columnDefinition = "TEXT")
-    private String imageUrl;
-
 
     /**
-     * Categoría a la que pertenece el juego.
+     * Tipo de juego definido por el enum GameTypeEnum.
      */
-    @JsonManagedReference("game-category")
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private GameCategory category;
-
-    /**
-     * Componentes individuales que conforman el juego (ej. preguntas, niveles).
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "game")
-    private List<GameComponent> components;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_type", nullable = false)
+    private GameTypeEnum gameType;
 
     /**
      * Sesiones de juego registradas para este juego.
@@ -101,22 +86,18 @@ public class Game {
      * @param name        Nombre del juego.
      * @param description Descripción del juego.
      * @param difficulty  Dificultad del juego.
-     * @param imageUrl    URL de la imagen.
-     * @param category    Categoría del juego.
-     * @param components  Componentes del juego.
+     * @param gameType    Tipo de juego.
      * @param sessions    Sesiones de juego.
      * @param reports     Reportes del juego.
      * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String difficulty, String imageUrl, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
+    public Game(Integer id, String name, String description, String difficulty, GameTypeEnum gameType, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.difficulty = difficulty;
-        this.imageUrl = imageUrl;
-        this.category = category;
-        this.components = components;
+        this.gameType = gameType;
         this.sessions = sessions;
         this.reports = reports;
         this.favoritedBy = favoritedBy;
@@ -196,58 +177,24 @@ public class Game {
     }
 
     /**
-     * Obtiene la URL de la imagen del juego.
+     * Obtiene el tipo de juego.
      *
-     * @return La URL de la imagen del juego.
+     * @return El tipo de juego.
      */
-    public String getImageUrl() {
-        return imageUrl;
+    public GameTypeEnum getGameType() {
+        return gameType;
     }
 
     /**
-     * Establece la URL de la imagen del juego.
+     * Establece el tipo de juego.
      *
-     * @param imageUrl La nueva URL de la imagen del juego.
+     * @param gameType El nuevo tipo de juego.
      */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setGameType(GameTypeEnum gameType) {
+        this.gameType = gameType;
     }
 
-    /**
-     * Obtiene la categoría del juego.
-     *
-     * @return La categoría del juego.
-     */
-    public GameCategory getCategory() {
-        return category;
-    }
 
-    /**
-     * Establece la categoría del juego.
-     *
-     * @param category La nueva categoría del juego.
-     */
-    public void setCategory(GameCategory category) {
-        this.category = category;
-    }
-
-    /**
-     * Obtiene la lista de componentes del juego.
-     *
-     * @return La lista de componentes del juego.
-     */
-    public List<GameComponent> getComponents() {
-        return components;
-    }
-
-    /**
-     * Establece la lista de componentes del juego.
-     *
-     * @param components La nueva lista de componentes del juego.
-     */
-    public void setComponents(List<GameComponent> components) {
-        this.components = components;
-    }
 
     /**
      * Obtiene la lista de sesiones del juego.
