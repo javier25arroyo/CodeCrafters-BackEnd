@@ -127,12 +127,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
-    /**
-     * Juegos marcados como favoritos por el usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<FavoriteGame> favoriteGames;
 
     /**
      * Historial de inicios de sesión del usuario.
@@ -177,13 +171,12 @@ public class User implements UserDetails {
      * @param suggestions Sugerencias del usuario.
      * @param notifications Notificaciones del usuario.
      * @param caregivers Cuidadores asociados.
-     * @param favoriteGames Juegos favoritos.
      * @param loginHistories Historial de inicio de sesión.
      * @param streaks Rachas de juego.
      * @param activityLogs Registro de actividades.
      */
 
-    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<FavoriteGame> favoriteGames, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -198,7 +191,6 @@ public class User implements UserDetails {
         this.suggestions = suggestions;
         this.notifications = notifications;
         this.caregivers = caregivers;
-        this.favoriteGames = favoriteGames;
         this.loginHistories = loginHistories;
         this.streaks = streaks;
         this.activityLogs = activityLogs;
@@ -485,23 +477,6 @@ public class User implements UserDetails {
         this.caregivers = caregivers;
     }
 
-    /**
-     * Obtiene los juegos favoritos del usuario.
-     *
-     * @return Los juegos favoritos del usuario.
-     */
-    public List<FavoriteGame> getFavoriteGames() {
-        return favoriteGames;
-    }
-
-    /**
-     * Establece los juegos favoritos del usuario.
-     *
-     * @param favoriteGames Los nuevos juegos favoritos del usuario.
-     */
-    public void setFavoriteGames(List<FavoriteGame> favoriteGames) {
-        this.favoriteGames = favoriteGames;
-    }
 
     /**
      * Obtiene el historial de inicios de sesión del usuario.
