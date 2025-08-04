@@ -1,6 +1,7 @@
 package com.project.demo.logic.entity.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.demo.logic.entity.settings.LevelEnum;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -28,10 +29,11 @@ public class Game {
 
 
     /**
-     * Nivel de dificultad del juego (ej. "fácil", "medio", "difícil").
+     * Nivel del juego según la enumeración LevelEnum.
      */
+    @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private String difficulty;
+    private LevelEnum level;
 
 
     /**
@@ -67,15 +69,15 @@ public class Game {
      *
      * @param id          Identificador único.
      * @param gameType    Tipo de juego.
-     * @param difficulty  Dificultad del juego.
+     * @param level       Nivel del juego.
      * @param sessions    Sesiones de juego.
      * @param reports     Reportes del juego.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, GameTypeEnum gameType, String difficulty, List<GameSession> sessions, List<GameReport> reports, List<Streak> streaks) {
+    public Game(Integer id, GameTypeEnum gameType, LevelEnum level, List<GameSession> sessions, List<GameReport> reports, List<Streak> streaks) {
         this.id = id;
         this.gameType = gameType;
-        this.difficulty = difficulty;
+        this.level = level;
         this.sessions = sessions;
         this.reports = reports;
         this.streaks = streaks;
@@ -119,21 +121,21 @@ public class Game {
 
 
     /**
-     * Obtiene la dificultad del juego.
+     * Obtiene el nivel del juego.
      *
-     * @return La dificultad del juego.
+     * @return El nivel del juego.
      */
-    public String getDifficulty() {
-        return difficulty;
+    public LevelEnum getLevel() {
+        return level;
     }
 
     /**
-     * Establece la dificultad del juego.
+     * Establece el nivel del juego.
      *
-     * @param difficulty La nueva dificultad del juego.
+     * @param level El nuevo nivel del juego.
      */
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public void setLevel(LevelEnum level) {
+        this.level = level;
     }
 
 
@@ -191,4 +193,3 @@ public class Game {
         this.streaks = streaks;
     }
 }
-
