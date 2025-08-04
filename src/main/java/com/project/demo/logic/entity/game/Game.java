@@ -1,9 +1,7 @@
 package com.project.demo.logic.entity.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 /**
@@ -20,17 +18,14 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * Nombre del juego.
-     */
-    @Column(length = 100)
-    private String name;
 
     /**
-     * Descripción detallada del juego.
+     * Tipo de juego según la enumeración GameTypeEnum.
      */
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GameTypeEnum gameType;
+
 
     /**
      * Nivel de dificultad del juego (ej. "fácil", "medio", "difícil").
@@ -38,27 +33,6 @@ public class Game {
     @Column(length = 20)
     private String difficulty;
 
-    /**
-     * URL de la imagen representativa del juego.
-     */
-    @Column(name = "image_url", columnDefinition = "TEXT")
-    private String imageUrl;
-
-
-    /**
-     * Categoría a la que pertenece el juego.
-     */
-    @JsonManagedReference("game-category")
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private GameCategory category;
-
-    /**
-     * Componentes individuales que conforman el juego (ej. preguntas, niveles).
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "game")
-    private List<GameComponent> components;
 
     /**
      * Sesiones de juego registradas para este juego.
@@ -74,12 +48,6 @@ public class Game {
     @OneToMany(mappedBy = "game")
     private List<GameReport> reports;
 
-    /**
-     * Lista de usuarios que han marcado este juego como favorito.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "game")
-    private List<FavoriteGame> favoritedBy;
 
     /**
      * Rachas de juego asociadas a este juego.
@@ -98,28 +66,18 @@ public class Game {
      * Constructor para crear una instancia de Game con todos los parámetros.
      *
      * @param id          Identificador único.
-     * @param name        Nombre del juego.
-     * @param description Descripción del juego.
+     * @param gameType    Tipo de juego.
      * @param difficulty  Dificultad del juego.
-     * @param imageUrl    URL de la imagen.
-     * @param category    Categoría del juego.
-     * @param components  Componentes del juego.
      * @param sessions    Sesiones de juego.
      * @param reports     Reportes del juego.
-     * @param favoritedBy Usuarios que lo marcaron como favorito.
      * @param streaks     Rachas de juego.
      */
-    public Game(Integer id, String name, String description, String difficulty, String imageUrl, GameCategory category, List<GameComponent> components, List<GameSession> sessions, List<GameReport> reports, List<FavoriteGame> favoritedBy, List<Streak> streaks) {
+    public Game(Integer id, GameTypeEnum gameType, String difficulty, List<GameSession> sessions, List<GameReport> reports, List<Streak> streaks) {
         this.id = id;
-        this.name = name;
-        this.description = description;
+        this.gameType = gameType;
         this.difficulty = difficulty;
-        this.imageUrl = imageUrl;
-        this.category = category;
-        this.components = components;
         this.sessions = sessions;
         this.reports = reports;
-        this.favoritedBy = favoritedBy;
         this.streaks = streaks;
     }
 
@@ -142,40 +100,23 @@ public class Game {
     }
 
     /**
-     * Obtiene el nombre del juego.
+     * Obtiene el tipo de juego.
      *
-     * @return El nombre del juego.
+     * @return El tipo de juego.
      */
-    public String getName() {
-        return name;
+    public GameTypeEnum getGameType() {
+        return gameType;
     }
 
     /**
-     * Establece el nombre del juego.
+     * Establece el tipo de juego.
      *
-     * @param name El nuevo nombre del juego.
+     * @param gameType El nuevo tipo de juego.
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setGameType(GameTypeEnum gameType) {
+        this.gameType = gameType;
     }
 
-    /**
-     * Obtiene la descripción del juego.
-     *
-     * @return La descripción del juego.
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Establece la descripción del juego.
-     *
-     * @param description La nueva descripción del juego.
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     /**
      * Obtiene la dificultad del juego.
@@ -195,59 +136,6 @@ public class Game {
         this.difficulty = difficulty;
     }
 
-    /**
-     * Obtiene la URL de la imagen del juego.
-     *
-     * @return La URL de la imagen del juego.
-     */
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    /**
-     * Establece la URL de la imagen del juego.
-     *
-     * @param imageUrl La nueva URL de la imagen del juego.
-     */
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    /**
-     * Obtiene la categoría del juego.
-     *
-     * @return La categoría del juego.
-     */
-    public GameCategory getCategory() {
-        return category;
-    }
-
-    /**
-     * Establece la categoría del juego.
-     *
-     * @param category La nueva categoría del juego.
-     */
-    public void setCategory(GameCategory category) {
-        this.category = category;
-    }
-
-    /**
-     * Obtiene la lista de componentes del juego.
-     *
-     * @return La lista de componentes del juego.
-     */
-    public List<GameComponent> getComponents() {
-        return components;
-    }
-
-    /**
-     * Establece la lista de componentes del juego.
-     *
-     * @param components La nueva lista de componentes del juego.
-     */
-    public void setComponents(List<GameComponent> components) {
-        this.components = components;
-    }
 
     /**
      * Obtiene la lista de sesiones del juego.
@@ -283,24 +171,6 @@ public class Game {
      */
     public void setReports(List<GameReport> reports) {
         this.reports = reports;
-    }
-
-    /**
-     * Obtiene la lista de usuarios que han marcado este juego como favorito.
-     *
-     * @return La lista de usuarios que han marcado este juego como favorito.
-     */
-    public List<FavoriteGame> getFavoritedBy() {
-        return favoritedBy;
-    }
-
-    /**
-     * Establece la lista de usuarios que han marcado este juego como favorito.
-     *
-     * @param favoritedBy La nueva lista de usuarios que han marcado este juego como favorito.
-     */
-    public void setFavoritedBy(List<FavoriteGame> favoritedBy) {
-        this.favoritedBy = favoritedBy;
     }
 
     /**
