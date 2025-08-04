@@ -1,7 +1,10 @@
 package com.project.demo.logic.entity.game.repository;
 
 import com.project.demo.logic.entity.game.Game;
+import com.project.demo.logic.entity.game.GameTypeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * Repositorio para la entidad {@link com.project.demo.logic.entity.game.Game}.
