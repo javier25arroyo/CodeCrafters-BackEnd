@@ -6,7 +6,7 @@ import com.project.demo.logic.entity.achievement.UserAchievement;
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.caregiver.UserCaregiver;
 import com.project.demo.logic.entity.game.*;
-import com.project.demo.logic.entity.history.ActivityLog;
+
 import com.project.demo.logic.entity.history.LoginHistory;
 import com.project.demo.logic.entity.notification.Notification;
 import com.project.demo.logic.entity.notification.Suggestion;
@@ -85,19 +85,14 @@ public class User implements UserDetails {
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings settings;
 
-    /**
-     * Sesiones de juego registradas por el usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<GameSession> gameSessions;
+    
 
     /**
-     * Reportes de juegos enviados por el usuario.
+     * Puntuaciones de juegos del usuario.
      */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<GameReport> gameReports;
+    private List<Score> scores;
 
     /**
      * Logros obtenidos por el usuario.
@@ -135,19 +130,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<LoginHistory> loginHistories;
 
-    /**
-     * Rachas de juego del usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Streak> streaks;
-
-    /**
-     * Registro de actividades realizadas por el usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<ActivityLog> activityLogs;
+    
 
     /**
      * Constructor por defecto.
@@ -176,7 +159,7 @@ public class User implements UserDetails {
      * @param activityLogs Registro de actividades.
      */
 
-    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<GameSession> gameSessions, List<GameReport> gameReports, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<LoginHistory> loginHistories, List<Streak> streaks, List<ActivityLog> activityLogs) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<Score> scores, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<LoginHistory> loginHistories) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -185,15 +168,13 @@ public class User implements UserDetails {
         this.role = role;
         this.level = level;
         this.settings = settings;
-        this.gameSessions = gameSessions;
-        this.gameReports = gameReports;
+        this.scores = scores;
+        
         this.achievements = achievements;
         this.suggestions = suggestions;
         this.notifications = notifications;
         this.caregivers = caregivers;
         this.loginHistories = loginHistories;
-        this.streaks = streaks;
-        this.activityLogs = activityLogs;
     }
 
     /**
@@ -370,40 +351,24 @@ public class User implements UserDetails {
     }
 
     /**
-     * Obtiene las sesiones de juego del usuario.
+     * Obtiene las puntuaciones de juegos del usuario.
      *
-     * @return Las sesiones de juego del usuario.
+     * @return Las puntuaciones de juegos del usuario.
      */
-    public List<GameSession> getGameSessions() {
-        return gameSessions;
+    public List<Score> getScores() {
+        return scores;
     }
 
     /**
-     * Establece las sesiones de juego del usuario.
+     * Establece las puntuaciones de juegos del usuario.
      *
-     * @param gameSessions Las nuevas sesiones de juego del usuario.
+     * @param scores Las nuevas puntuaciones de juegos del usuario.
      */
-    public void setGameSessions(List<GameSession> gameSessions) {
-        this.gameSessions = gameSessions;
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
 
-    /**
-     * Obtiene los reportes de juego del usuario.
-     *
-     * @return Los reportes de juego del usuario.
-     */
-    public List<GameReport> getGameReports() {
-        return gameReports;
-    }
-
-    /**
-     * Establece los reportes de juego del usuario.
-     *
-     * @param gameReports Los nuevos reportes de juego del usuario.
-     */
-    public void setGameReports(List<GameReport> gameReports) {
-        this.gameReports = gameReports;
-    }
+    
 
     /**
      * Obtiene los logros del usuario.
@@ -496,41 +461,7 @@ public class User implements UserDetails {
         this.loginHistories = loginHistories;
     }
 
-    /**
-     * Obtiene las rachas de juego del usuario.
-     *
-     * @return Las rachas de juego del usuario.
-     */
-    public List<Streak> getStreaks() {
-        return streaks;
-    }
-
-    /**
-     * Establece las rachas de juego del usuario.
-     *
-     * @param streaks Las nuevas rachas de juego del usuario.
-     */
-    public void setStreaks(List<Streak> streaks) {
-        this.streaks = streaks;
-    }
-
-    /**
-     * Obtiene el registro de actividades realizadas por el usuario.
-     *
-     * @return El registro de actividades realizadas por el usuario.
-     */
-    public List<ActivityLog> getActivityLogs() {
-        return activityLogs;
-    }
-
-    /**
-     * Establece el registro de actividades realizadas por el usuario.
-     *
-     * @param activityLogs El nuevo registro de actividades realizadas por el usuario.
-     */
-    public void setActivityLogs(List<ActivityLog> activityLogs) {
-        this.activityLogs = activityLogs;
-    }
+    
 
     /**
      * Indica si la cuenta del usuario ha expirado.
