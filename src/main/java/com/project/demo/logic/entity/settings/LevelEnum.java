@@ -7,13 +7,15 @@ public enum LevelEnum {
     /**
      * Nivel de dificultad fácil.
      */
-    FACIL,
+    EASY,
+
     /**
      * Nivel de dificultad medio.
      */
-    MEDIO,
+    MEDIUM,
+
     /**
      * Nivel de dificultad difícil.
      */
-    DIFICIL
+    HARD
 }
