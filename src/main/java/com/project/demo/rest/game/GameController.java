@@ -63,9 +63,11 @@ public class GameController {
         String currentUserName = authentication.getName();
         User user = userRepository.findByEmail(currentUserName)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         score.setUser(user);
         score.setDate(new Date());
+        var game = gameRepository.findFirstByGameType(score.getGameType())
+                .orElseThrow(() -> new RuntimeException("Game not found for type: " + score.getGameType()));
+        score.setGame(game);
 
         // Si es un puzzle, calcular la puntuación automáticamente
         if (score.getGameType() == GameTypeEnum.PUZZLE) {
