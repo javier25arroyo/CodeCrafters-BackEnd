@@ -6,8 +6,6 @@ import com.project.demo.logic.entity.achievement.UserAchievement;
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.caregiver.UserCaregiver;
 import com.project.demo.logic.entity.game.*;
-
-import com.project.demo.logic.entity.history.LoginHistory;
 import com.project.demo.logic.entity.notification.Notification;
 import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.LevelEnum;
@@ -124,15 +122,6 @@ public class User implements UserDetails {
 
 
     /**
-     * Historial de inicios de sesión del usuario.
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<LoginHistory> loginHistories;
-
-    
-
-    /**
      * Constructor por defecto.
      */
     public User() {
@@ -148,18 +137,14 @@ public class User implements UserDetails {
      * @param role Rol del usuario.
      * @param level Nivel del usuario.
      * @param settings Configuración del usuario.
-     * @param gameSessions Sesiones de juego.
-     * @param gameReports Reportes de juegos.
+     * @param scores
      * @param achievements Logros del usuario.
      * @param suggestions Sugerencias del usuario.
      * @param notifications Notificaciones del usuario.
      * @param caregivers Cuidadores asociados.
-     * @param loginHistories Historial de inicio de sesión.
-     * @param streaks Rachas de juego.
-     * @param activityLogs Registro de actividades.
      */
 
-    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<Score> scores, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers, List<LoginHistory> loginHistories) {
+    public User(Long id, String name, String email, String password, String googleId, Role role, LevelEnum level, UserSettings settings, List<Score> scores, List<UserAchievement> achievements, List<Suggestion> suggestions, List<Notification> notifications, List<UserCaregiver> caregivers) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -174,7 +159,6 @@ public class User implements UserDetails {
         this.suggestions = suggestions;
         this.notifications = notifications;
         this.caregivers = caregivers;
-        this.loginHistories = loginHistories;
     }
 
     /**
@@ -444,26 +428,6 @@ public class User implements UserDetails {
 
 
     /**
-     * Obtiene el historial de inicios de sesión del usuario.
-     *
-     * @return El historial de inicios de sesión del usuario.
-     */
-    public List<LoginHistory> getLoginHistories() {
-        return loginHistories;
-    }
-
-    /**
-     * Establece el historial de inicios de sesión del usuario.
-     *
-     * @param loginHistories El nuevo historial de inicios de sesión del usuario.
-     */
-    public void setLoginHistories(List<LoginHistory> loginHistories) {
-        this.loginHistories = loginHistories;
-    }
-
-    
-
-    /**
      * Indica si la cuenta del usuario ha expirado.
      * @return siempre {@code true}, indicando que la cuenta nunca expira.
      */
@@ -511,12 +475,12 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
+        return "User{"
+                + "id=" + id +
+                ", name='" + name + "'" +
+                ", email='" + email + "'" +
                 ", password='[PROTECTED]'" +
-                ", googleId='" + googleId + '\'' +
+                ", googleId='" + googleId + "'" +
                 ", role=" + role +
                 ", level=" + level +
                 ", settings=" + settings +
