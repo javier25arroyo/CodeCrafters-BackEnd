@@ -18,8 +18,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-//Debo de importar la caregiver-password de application.properties
-
 
 @Component
 @Order(2)
