@@ -46,7 +46,6 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         seedCaregiverUser();
-        seedSampleAssignment();
     }
 
     @Transactional
@@ -77,26 +76,4 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
         uc.setRelationship(CaregiverRole.CAREGIVER);
         userCaregiverRepository.save(uc);
     }
-
-     @Transactional
-     protected void seedSampleAssignment() {
-             final String patientEmail = "usuario.demo@mentana.com";
-         User patient = userRepository.findByEmail(patientEmail).orElseGet(() -> {
-             User p = new User();
-             p.setName("Usuario Demo");
-             p.setEmail(patientEmail);
-             p.setPassword(passwordEncoder.encode("usuario123"));
-             roleRepository.findByName(RoleEnum.USER).ifPresent(p::setRole);
-             return userRepository.save(p);
-         });
-
-         Caregiver cg = caregiverRepository.findAll().stream().findFirst().orElse(null);
-         if (cg == null) return;
-
-         UserCaregiver rel = new UserCaregiver();
-         rel.setUser(patient);
-         rel.setCaregiver(cg);
-         rel.setRelationship(CaregiverRole.RELATIVE);
-         userCaregiverRepository.save(rel);
-     }
 }
