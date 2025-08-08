@@ -1,10 +1,15 @@
 package com.project.demo.rest.auth;
 
 import com.project.demo.logic.entity.auth.*;
+import com.project.demo.logic.entity.caregiver.Caregiver;
+import com.project.demo.logic.entity.caregiver.CaregiverRole;
+import com.project.demo.logic.entity.caregiver.UserCaregiver;
+import com.project.demo.logic.entity.caregiver.repository.UserCaregiverRepository;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.LoginResponse;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.service.CaregiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +41,11 @@ public class AuthRestController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private CaregiverService caregiverService;
+
+    @Autowired
+    private UserCaregiverRepository userCaregiverRepository;
 
 
     private final AuthenticationService authenticationService;
@@ -82,24 +92,33 @@ public class AuthRestController {
      * @return ResponseEntity con el usuario guardado si el registro es exitoso, o un mensaje de error si el email ya está en uso.
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest req) {
-        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Email already in use");
+    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+        User u = new User();
+        u.setName(req.getName());
+        u.setEmail(req.getEmail());
+        u.setPassword(passwordEncoder.encode(req.getPassword()));
+        u.setIsCaregiver(req.isCaregiver());
+
+        RoleEnum re = req.isCaregiver() ? RoleEnum.CAREGIVER : RoleEnum.USER;
+        Role role = roleRepository.findByName(re).orElseThrow();
+        u.setRole(role);
+
+        User saved = userRepository.save(u);
+
+        if (req.isCaregiver()) {
+            Caregiver c = new Caregiver();
+            c.setName(saved.getName());
+            c.setEmail(saved.getEmail());
+            c.setPhone(req.getPhone());
+            Caregiver savedCg = caregiverService.crear(c);
+
+            UserCaregiver uc = new UserCaregiver();
+            uc.setUser(saved);
+            uc.setCaregiver(savedCg);
+            uc.setRelationship(CaregiverRole.CAREGIVER);
+            userCaregiverRepository.save(uc);
         }
 
-        User user = new User();
-        user.setName(req.getName());
-        user.setEmail(req.getEmail());
-        user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setCaregiver(req.isCaregiver());
-        user.setEnabled(true);
-
-        Role role = roleRepository.findByName(RoleEnum.USER)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        user.setRole(role);
-
-        User saved = userRepository.save(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 

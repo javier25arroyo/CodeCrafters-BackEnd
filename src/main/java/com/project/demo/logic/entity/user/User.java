@@ -51,6 +51,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+
+    @Column(name = "is_caregiver", nullable = false)
+    private Boolean isCaregiver = false;
+
     /**
      * Id de la autenticacion de google. Puede ser nulo.
      */
@@ -84,7 +88,6 @@ public class User implements UserDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings settings;
-
 
 
     /**
@@ -165,7 +168,6 @@ public class User implements UserDetails {
         this.level = level;
         this.settings = settings;
         this.scores = scores;
-
         this.achievements = achievements;
         this.suggestions = suggestions;
         this.notifications = notifications;
@@ -237,6 +239,11 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public Boolean getIsCaregiver() { return isCaregiver; }
+
+    public void setIsCaregiver(Boolean isCaregiver) { this.isCaregiver = isCaregiver; }
 
     /**
      * Obtiene el ID de Google del usuario.

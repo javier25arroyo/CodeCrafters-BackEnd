@@ -1,11 +1,16 @@
-
 package com.project.demo.logic.entity.auth;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RegisterRequest {
     private String name;
     private String email;
     private String password;
-    private boolean isCaregiver;
+
+    @JsonProperty("isCaregiver")
+    private boolean caregiver;
+
+    private String phone;
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -16,6 +21,9 @@ public class RegisterRequest {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public boolean isCaregiver() { return isCaregiver; }
-    public void setCaregiver(boolean isCaregiver) { this.isCaregiver = isCaregiver; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public boolean isCaregiver() { return caregiver; }
+    public void setCaregiver(boolean caregiver) { this.caregiver = caregiver; }
 }

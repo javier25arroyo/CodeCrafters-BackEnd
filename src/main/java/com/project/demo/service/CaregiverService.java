@@ -2,6 +2,7 @@ package com.project.demo.service;
 
 import com.project.demo.logic.entity.caregiver.Caregiver;
 import com.project.demo.logic.entity.caregiver.UserCaregiver;
+import com.project.demo.logic.entity.user.UserSummary;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,5 @@ public interface CaregiverService {
     Optional<Caregiver> actualizar(Integer id, Caregiver c);
     boolean eliminar(Integer id);
     List<UserCaregiver> dashboardByEmail(String email);
+    List<UserSummary> getUsersForCaregiver(Integer caregiverId, String filter);
 }
