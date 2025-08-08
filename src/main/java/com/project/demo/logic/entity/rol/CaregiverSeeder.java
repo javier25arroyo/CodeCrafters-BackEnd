@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.rol;
 
+import com.google.api.client.util.Value;
 import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.caregiver.Caregiver;
@@ -17,12 +18,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+//Debo de importar la caregiver-password de application.properties
+
 
 @Component
 @Order(2)
 @org.springframework.context.annotation.Profile("!test")
 public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
+    @Value("${caregiver.password}")
+    private String caregiverPassword;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final CaregiverRepository caregiverRepository;
@@ -59,7 +64,7 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
         User u = new User();
         u.setName("Caregiver");
         u.setEmail(email);
-        u.setPassword(passwordEncoder.encode("caregiver123"));
+        u.setPassword(passwordEncoder.encode(caregiverPassword));
         u.setRole(roleOpt.get());
         u.setIsCaregiver(true);
         User savedUser = userRepository.save(u);
