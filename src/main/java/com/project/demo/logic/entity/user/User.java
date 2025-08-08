@@ -7,7 +7,7 @@ import com.project.demo.logic.entity.auth.Role;
 import com.project.demo.logic.entity.caregiver.UserCaregiver;
 import com.project.demo.logic.entity.game.*;
 import com.project.demo.logic.entity.notification.Notification;
-import com.project.demo.logic.entity.notification.Suggestion;f
+import com.project.demo.logic.entity.notification.Suggestion;
 import com.project.demo.logic.entity.settings.LevelEnum;
 import com.project.demo.logic.entity.settings.UserSettings;
 import jakarta.persistence.*;
