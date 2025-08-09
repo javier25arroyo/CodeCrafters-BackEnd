@@ -1,7 +1,6 @@
 package com.project.demo.logic.entity.rol;
 
-import com.google.api.client.util.Value;
-import com.project.demo.logic.entity.auth.Role;
+import org.springframework.beans.factory.annotation.Value;
 import com.project.demo.logic.entity.auth.RoleEnum;
 import com.project.demo.logic.entity.caregiver.Caregiver;
 import com.project.demo.logic.entity.caregiver.CaregiverRole;
@@ -18,8 +17,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Component
 @Order(2)
