@@ -1,8 +1,13 @@
 package com.project.demo.rest.game;
 
+import com.project.demo.logic.entity.game.Game;
+import com.project.demo.logic.entity.game.GameTypeEnum;
 import com.project.demo.logic.entity.game.Score;
+import com.project.demo.logic.entity.game.repository.GameRepository;
 import com.project.demo.logic.entity.game.repository.ScoreRepository;
+import com.project.demo.logic.entity.settings.LevelEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +21,9 @@ public class ScoreController {
 
     @Autowired
     private ScoreRepository scoreRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
 
     /**
      * Obtiene todas las puntuaciones.
@@ -77,4 +85,18 @@ public class ScoreController {
     public void deleteScore(@PathVariable Long id) {
         scoreRepository.deleteById(id);
 }
+
+    @PutMapping("/{gameType}/level")
+    public ResponseEntity<Game> updateLevel(
+            @PathVariable GameTypeEnum gameType,
+            @RequestParam LevelEnum level) {
+
+        Game game = gameRepository.findFirstByGameType(gameType)
+                .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+
+        game.setLevel(level);
+        gameRepository.save(game);
+
+        return ResponseEntity.ok(game);
+    }
 }
