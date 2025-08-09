@@ -10,7 +10,9 @@ import com.project.demo.logic.entity.caregiver.repository.CaregiverRepository;
 import com.project.demo.logic.entity.caregiver.repository.UserCaregiverRepository;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,11 +23,10 @@ import java.util.Optional;
 
 @Component
 @Order(2)
-@org.springframework.context.annotation.Profile("!test")
+@Profile({"dev","local"})
+@ConditionalOnProperty(name="app.seed.caregiver.enabled", havingValue="true")
 public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Value("${caregiver.password}")
-    private String caregiverPassword;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final CaregiverRepository caregiverRepository;
@@ -46,6 +47,18 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Value("${app.seed.caregiver.email:}")
+    private String caregiverEmail;
+
+    @Value("${app.seed.caregiver.password:}")
+    private String caregiverPassword;
+
+    @Value("${app.seed.caregiver.phone:}")
+    private String caregiverPhone;
+
+    @Value("${app.seed.caregiver.name:Caregiver}")
+    private String caregiverName;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         seedCaregiverUser();
@@ -53,15 +66,15 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
 
     @Transactional
     protected void seedCaregiverUser() {
-        final String email = "caregiver@mentana.com";
-        if (userRepository.findByEmail(email).isPresent()) return;
+        if (caregiverEmail == null || caregiverEmail.isBlank()) return;
+        if (userRepository.findByEmail(caregiverEmail).isPresent()) return;
 
-        Optional<Role> roleOpt = roleRepository.findByName(RoleEnum.CAREGIVER);
+        var roleOpt = roleRepository.findByName(RoleEnum.CAREGIVER);
         if (roleOpt.isEmpty()) return;
 
         User u = new User();
-        u.setName("Caregiver");
-        u.setEmail(email);
+        u.setName(caregiverName);
+        u.setEmail(caregiverEmail);
         u.setPassword(passwordEncoder.encode(caregiverPassword));
         u.setRole(roleOpt.get());
         u.setIsCaregiver(true);
@@ -70,7 +83,7 @@ public class CaregiverSeeder implements ApplicationListener<ContextRefreshedEven
         Caregiver cg = new Caregiver();
         cg.setName(savedUser.getName());
         cg.setEmail(savedUser.getEmail());
-        cg.setPhone("00000000");
+        cg.setPhone(caregiverPhone);
         Caregiver savedCg = caregiverRepository.save(cg);
 
         UserCaregiver uc = new UserCaregiver();
