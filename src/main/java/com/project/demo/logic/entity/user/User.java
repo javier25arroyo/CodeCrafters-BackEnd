@@ -120,7 +120,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
-
+    @Column(name = "is_caregiver", nullable = false)
+    private Boolean isCaregiver = false;
+    public Boolean getIsCaregiver() { return isCaregiver; }
     /**
      * Constructor por defecto.
      */
@@ -426,6 +428,8 @@ public class User implements UserDetails {
         this.caregivers = caregivers;
     }
 
+
+    public void setIsCaregiver(Boolean isCaregiver) { this.isCaregiver = isCaregiver; }
 
     /**
      * Indica si la cuenta del usuario ha expirado.
