@@ -37,7 +37,7 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
   - Reportes de progreso
   - Componentes de juego
   - Juegos favoritos
-  - Sistema de rachas (streaks)
+  
 
 - **Sistema de Logros**
   - Logros personalizados

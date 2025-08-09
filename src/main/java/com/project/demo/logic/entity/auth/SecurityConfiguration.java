@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.auth;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,6 +23,12 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CoopHeaderFilter coopHeaderFilter;
+    
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+    
+    @Value("${app.frontend.login-path}")
+    private String loginPath;
     /**
      * Constructor para inyectar las dependencias del proveedor de autenticación, el filtro JWT y el filtro COOP.
      *
@@ -51,7 +58,7 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("http://localhost:4200/login")
+                        .logoutSuccessUrl(frontendUrl + loginPath)
                         .permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

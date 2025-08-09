@@ -1,14 +1,15 @@
 package com.project.demo.rest.auth;
 
-import com.project.demo.logic.entity.auth.AuthenticationService;
-import com.project.demo.logic.entity.auth.GoogleTokenRequest;
-import com.project.demo.logic.entity.auth.JwtService;
-import com.project.demo.logic.entity.auth.Role;
-import com.project.demo.logic.entity.auth.RoleEnum;
+import com.project.demo.logic.entity.auth.*;
+import com.project.demo.logic.entity.caregiver.Caregiver;
+import com.project.demo.logic.entity.caregiver.CaregiverRole;
+import com.project.demo.logic.entity.caregiver.UserCaregiver;
+import com.project.demo.logic.entity.caregiver.repository.UserCaregiverRepository;
 import com.project.demo.logic.entity.rol.RoleRepository;
 import com.project.demo.logic.entity.user.LoginResponse;
 import com.project.demo.logic.entity.user.User;
 import com.project.demo.logic.entity.user.UserRepository;
+import com.project.demo.service.CaregiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,11 @@ public class AuthRestController {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private CaregiverService caregiverService;
+
+    @Autowired
+    private UserCaregiverRepository userCaregiverRepository;
 
 
     private final AuthenticationService authenticationService;
@@ -82,26 +88,38 @@ public class AuthRestController {
     /**
      * Registra un nuevo usuario en el sistema.
      *
-     * @param user El objeto User con los datos del nuevo usuario a registrar.
+     * @param req El objeto User con los datos del nuevo usuario a registrar.
      * @return ResponseEntity con el usuario guardado si el registro es exitoso, o un mensaje de error si el email ya está en uso.
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-        if (existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already in use");
+    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+        User u = new User();
+        u.setName(req.getName());
+        u.setEmail(req.getEmail());
+        u.setPassword(passwordEncoder.encode(req.getPassword()));
+        u.setIsCaregiver(req.isCaregiver());
+
+        RoleEnum re = req.isCaregiver() ? RoleEnum.CAREGIVER : RoleEnum.USER;
+        Role role = roleRepository.findByName(re).orElseThrow();
+        u.setRole(role);
+
+        User saved = userRepository.save(u);
+
+        if (req.isCaregiver()) {
+            Caregiver c = new Caregiver();
+            c.setName(saved.getName());
+            c.setEmail(saved.getEmail());
+            c.setPhone(req.getPhone());
+            Caregiver savedCg = caregiverService.crear(c);
+
+            UserCaregiver uc = new UserCaregiver();
+            uc.setUser(saved);
+            uc.setCaregiver(savedCg);
+            uc.setRelationship(CaregiverRole.CAREGIVER);
+            userCaregiverRepository.save(uc);
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Optional<Role> optionalRole = roleRepository.findByName(RoleEnum.USER);
-
-        if (optionalRole.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Role not found");
-        }
-        user.setRole(optionalRole.get());
-        user.setEnabled(true); // Set user as enabled by default
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     /**
