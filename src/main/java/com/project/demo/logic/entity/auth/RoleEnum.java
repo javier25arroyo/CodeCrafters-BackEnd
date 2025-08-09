@@ -15,5 +15,9 @@ public enum RoleEnum {
     /**
      * Rol de superadministrador con todos los permisos.
      */
-    SUPER_ADMIN
+    SUPER_ADMIN,
+    /**
+     * Rol de administrador con permisos limitados.
+     */
+    CAREGIVER
 }

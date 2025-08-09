@@ -1,5 +1,4 @@
 package com.project.demo.logic.entity.user;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.demo.logic.entity.achievement.UserAchievement;
@@ -49,6 +48,10 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+
+    @Column(name = "is_caregiver", nullable = false)
+    private Boolean isCaregiver = false;
+
     /**
      * Id de la autenticacion de google. Puede ser nulo.
      */
@@ -83,7 +86,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "settings_id", referencedColumnName = "id")
     private UserSettings settings;
 
-    
 
     /**
      * Puntuaciones de juegos del usuario.
@@ -120,7 +122,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<UserCaregiver> caregivers;
 
-
     /**
      * Constructor por defecto.
      */
@@ -137,7 +138,6 @@ public class User implements UserDetails {
      * @param role Rol del usuario.
      * @param level Nivel del usuario.
      * @param settings Configuración del usuario.
-     * @param scores
      * @param achievements Logros del usuario.
      * @param suggestions Sugerencias del usuario.
      * @param notifications Notificaciones del usuario.
@@ -154,7 +154,6 @@ public class User implements UserDetails {
         this.level = level;
         this.settings = settings;
         this.scores = scores;
-        
         this.achievements = achievements;
         this.suggestions = suggestions;
         this.notifications = notifications;
@@ -225,6 +224,11 @@ public class User implements UserDetails {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public Boolean getIsCaregiver() { return isCaregiver; }
+
+    public void setIsCaregiver(Boolean isCaregiver) { this.isCaregiver = isCaregiver; }
 
     /**
      * Obtiene el ID de Google del usuario.
@@ -352,7 +356,7 @@ public class User implements UserDetails {
         this.scores = scores;
     }
 
-    
+
 
     /**
      * Obtiene los logros del usuario.
@@ -425,8 +429,7 @@ public class User implements UserDetails {
     public void setCaregivers(List<UserCaregiver> caregivers) {
         this.caregivers = caregivers;
     }
-
-
+    
     /**
      * Indica si la cuenta del usuario ha expirado.
      * @return siempre {@code true}, indicando que la cuenta nunca expira.

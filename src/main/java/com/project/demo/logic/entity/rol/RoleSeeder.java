@@ -45,10 +45,12 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
      * Carga los roles predefinidos (USER, SUPER_ADMIN) en la base de datos si no existen.
      */
     private void loadRoles() {
-        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.SUPER_ADMIN };
+        RoleEnum[] roleNames = new RoleEnum[] { RoleEnum.USER, RoleEnum.SUPER_ADMIN,RoleEnum.CAREGIVER };
         Map<RoleEnum, String> roleDescriptionMap = Map.of(
                 RoleEnum.USER, "Default user role",
-                RoleEnum.SUPER_ADMIN, "Super Administrator role"
+                RoleEnum.SUPER_ADMIN, "Super Administrator role",
+                RoleEnum.CAREGIVER, "Caregiver role"
+
         );
 
         Arrays.stream(roleNames).forEach((roleName) -> {
