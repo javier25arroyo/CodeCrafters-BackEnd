@@ -42,7 +42,6 @@ public class GameSeeder implements ApplicationListener<ContextRefreshedEvent> {
                 Game game = new Game();
                 game.setGameType(gameType);
 
-                // Asignar dificultad solo a MUSIC_MEMORY
                 if (gameType == GameTypeEnum.MUSIC_MEMORY) {
                     game.setLevel(LevelEnum.EASY);
                 } else {
