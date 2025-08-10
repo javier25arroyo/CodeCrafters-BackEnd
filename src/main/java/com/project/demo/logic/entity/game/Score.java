@@ -70,6 +70,7 @@ public class Score {
     @Column(nullable = false)
     private Date date;
 
+
     /**
      * Constructor por defecto.
      */

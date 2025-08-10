@@ -77,7 +77,14 @@ public class GameController {
                 score.getMovements()
             );
             score.setScore(calculatedScore);
-        }
+        } else if (score.getGameType() == GameTypeEnum.MUSIC_MEMORY) {
+        // Aquí asumimos que score ya viene calculado en frontend,
+        // por lo que no hay que recalcular nada.
+        // Solo aseguramos que movements y time sean cero o nulos
+        score.setMovements(0);
+        score.setTime(0L);
+
+    }
 
         Score savedScore = scoreRepository.save(score);
         return ResponseEntity.ok(savedScore);
