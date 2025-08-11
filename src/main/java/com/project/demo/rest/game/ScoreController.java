@@ -2,6 +2,7 @@ package com.project.demo.rest.game;
 
 import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.repository.ScoreRepository;
+import com.project.demo.logic.entity.achievement.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,10 @@ public class ScoreController {
 
     @Autowired
     private ScoreRepository scoreRepository;
+
+    // ← añadido: servicio para recalcular/persistir logros
+    @Autowired
+    private AchievementService achievementService;
 
     /**
      * Obtiene todas las puntuaciones.
@@ -33,7 +38,16 @@ public class ScoreController {
      */
     @PostMapping
     public Score addScore(@RequestBody Score score) {
-        return scoreRepository.save(score);
+        Score saved = scoreRepository.save(score);
+
+        // Recalcular logros del usuario (si hay user asociado)
+        try {
+            if (saved.getUser() != null && saved.getUser().getId() != null) {
+                achievementService.recomputeAndPersist(saved.getUser().getId());
+            }
+        } catch (Exception ignored) { /* opcional: log.warn */ }
+
+        return saved;
     }
 
     /**
@@ -64,7 +78,17 @@ public class ScoreController {
                     existingScore.setTime(score.getTime());
                     existingScore.setScore(score.getScore());
                     existingScore.setDate(score.getDate());
-                    return scoreRepository.save(existingScore);
+
+                    Score updated = scoreRepository.save(existingScore);
+
+                    // Recalcular logros del usuario (si hay user asociado)
+                    try {
+                        if (updated.getUser() != null && updated.getUser().getId() != null) {
+                            achievementService.recomputeAndPersist(updated.getUser().getId());
+                        }
+                    } catch (Exception ignored) { /* opcional: log.warn */ }
+
+                    return updated;
                 })
                 .orElse(null);
     }
@@ -76,5 +100,7 @@ public class ScoreController {
     @DeleteMapping("/{id}")
     public void deleteScore(@PathVariable Long id) {
         scoreRepository.deleteById(id);
+        // Nota: si quisieras recalcular tras borrar, primero habría que
+        // recuperar el userId del score antes de eliminar (no se cambia aquí).
     }
 }
