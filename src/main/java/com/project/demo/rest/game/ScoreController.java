@@ -6,6 +6,7 @@ import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.repository.GameRepository;
 import com.project.demo.logic.entity.game.repository.ScoreRepository;
 import com.project.demo.logic.entity.achievement.AchievementService;
+import com.project.demo.logic.entity.settings.LevelEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/scores")
 public class ScoreController {
+
+    @Autowired
+    private GameRepository gameRepository;
 
     @Autowired
     private ScoreRepository scoreRepository;
