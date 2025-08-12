@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Controlador para gestionar las operaciones relacionadas con los juegos.
@@ -88,6 +89,40 @@ public class GameController {
 
         Score savedScore = scoreRepository.save(score);
         return ResponseEntity.ok(savedScore);
+    }
+
+    @PostMapping("/score/music-melody")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Score> saveMusicMelodyScore(@RequestBody Score score) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = authentication.getName();
+        User user = userRepository.findByEmail(currentUserName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        score.setUser(user);
+        score.setDate(new Date());
+
+        var game = gameRepository.findFirstByGameType(GameTypeEnum.MUSIC_MEMORY)
+                .orElseThrow(() -> new RuntimeException("Game not found for type MUSIC_MEMORY"));
+        score.setGame(game);
+        score.setGameType(GameTypeEnum.MUSIC_MEMORY);
+
+        Optional<Score> existingScoreOpt = scoreRepository.findByUserIdAndGameTypeAndLevel(
+                user.getId(),
+                GameTypeEnum.MUSIC_MEMORY,
+                score.getLevel()
+        );
+
+        if (existingScoreOpt.isPresent()) {
+            Score existingScore = existingScoreOpt.get();
+            existingScore.setScore(existingScore.getScore() + score.getScore());
+            existingScore.setDate(new Date());
+            Score updated = scoreRepository.save(existingScore);
+            return ResponseEntity.ok(updated);
+        } else {
+
+            Score savedScore = scoreRepository.save(score);
+            return ResponseEntity.ok(savedScore);
+        }
     }
 
     /**
