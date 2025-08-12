@@ -6,6 +6,8 @@ import com.project.demo.logic.entity.settings.LevelEnum; // <- usa tu enum de ni
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ScoreRepository extends JpaRepository<Score, Long> {
     long countByUserId(Long userId);
@@ -16,4 +18,6 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
     // FIX: para enums no aplica IgnoreCase; compara directamente por LevelEnum
     boolean existsByUserIdAndLevel(Long userId, LevelEnum level);
+
+    Optional<Score> findByUserIdAndGameTypeAndLevel(Long userId, GameTypeEnum gameType, LevelEnum level);
 }
