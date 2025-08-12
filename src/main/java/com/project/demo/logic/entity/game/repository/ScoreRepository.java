@@ -22,7 +22,6 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
     boolean existsByUserIdAndMovementsLessThanEqual(Long userId, int moves);
 
-    // FIX: para enums no aplica IgnoreCase; compara directamente por LevelEnum
     boolean existsByUserIdAndLevel(Long userId, LevelEnum level);
 
     Optional<Score> findByUserIdAndGameTypeAndLevel(Long userId, GameTypeEnum gameType, LevelEnum level);
