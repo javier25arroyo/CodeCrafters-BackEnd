@@ -1,18 +1,21 @@
 package com.project.demo.rest.game;
 
-import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.GameTypeEnum;
+import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.repository.GameRepository;
 import com.project.demo.logic.entity.game.repository.ScoreRepository;
+import com.project.demo.logic.entity.user.User;
+import com.project.demo.logic.entity.user.UserRepository;
 import com.project.demo.logic.service.PuzzleScoreCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import com.project.demo.logic.entity.user.User;
-import com.project.demo.logic.entity.user.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.Optional;
@@ -49,6 +52,12 @@ public class GameController {
     private PuzzleScoreCalculator puzzleScoreCalculator;
 
     /**
+     * Constructor por defecto.
+     */
+    public GameController() {
+    }
+
+    /**
      * Guarda la puntuación de un juego para el usuario autenticado.
      * El usuario se obtiene del contexto de seguridad.
      * La fecha se establece en el momento de la creación.
@@ -73,19 +82,17 @@ public class GameController {
         // Si es un puzzle, calcular la puntuación automáticamente
         if (score.getGameType() == GameTypeEnum.PUZZLE) {
             double calculatedScore = puzzleScoreCalculator.calculateScore(
-                score.getLevel(), 
-                score.getTime(), 
-                score.getMovements()
+                    score.getLevel(),
+                    score.getTime(),
+                    score.getMovements()
             );
             score.setScore(calculatedScore);
         } else if (score.getGameType() == GameTypeEnum.MUSIC_MEMORY) {
-        // Aquí asumimos que score ya viene calculado en frontend,
-        // por lo que no hay que recalcular nada.
-        // Solo aseguramos que movements y time sean cero o nulos
-        score.setMovements(0);
-        score.setTime(0L);
 
-    }
+            score.setMovements(0);
+            score.setTime(0L);
+
+        }
 
         Score savedScore = scoreRepository.save(score);
         return ResponseEntity.ok(savedScore);
@@ -123,11 +130,5 @@ public class GameController {
             Score savedScore = scoreRepository.save(score);
             return ResponseEntity.ok(savedScore);
         }
-    }
-
-    /**
-     * Constructor por defecto.
-     */
-    public GameController() {
     }
 }

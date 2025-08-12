@@ -1,11 +1,11 @@
 package com.project.demo.rest.game;
 
+import com.project.demo.logic.entity.achievement.AchievementService;
 import com.project.demo.logic.entity.game.Game;
 import com.project.demo.logic.entity.game.GameTypeEnum;
 import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.repository.GameRepository;
 import com.project.demo.logic.entity.game.repository.ScoreRepository;
-import com.project.demo.logic.entity.achievement.AchievementService;
 import com.project.demo.logic.entity.settings.LevelEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,7 @@ public class ScoreController {
 
     /**
      * Obtiene todas las puntuaciones.
+     *
      * @return Una lista de todas las puntuaciones.
      */
     @GetMapping
@@ -41,6 +42,7 @@ public class ScoreController {
 
     /**
      * Agrega una nueva puntuación.
+     *
      * @param score La puntuación a agregar.
      * @return La puntuación agregada.
      */
@@ -60,6 +62,7 @@ public class ScoreController {
 
     /**
      * Obtiene una puntuación por su ID.
+     *
      * @param id El ID de la puntuación.
      * @return La puntuación con el ID especificado, o null si no se encuentra.
      */
@@ -70,7 +73,8 @@ public class ScoreController {
 
     /**
      * Actualiza una puntuación existente.
-     * @param id El ID de la puntuación a actualizar.
+     *
+     * @param id    El ID de la puntuación a actualizar.
      * @param score La nueva información de la puntuación.
      * @return La puntuación actualizada, o null si no se encuentra.
      */
@@ -103,6 +107,7 @@ public class ScoreController {
 
     /**
      * Elimina una puntuación por su ID.
+     *
      * @param id El ID de la puntuación a eliminar.
      */
     @DeleteMapping("/{id}")
