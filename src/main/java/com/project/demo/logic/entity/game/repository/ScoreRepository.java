@@ -1,5 +1,6 @@
 package com.project.demo.logic.entity.game.repository;
 
+import com.project.demo.logic.entity.game.GameScoreStat;
 import com.project.demo.logic.entity.game.GameTypeEnum;
 import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.settings.LevelEnum;
@@ -26,7 +27,8 @@ public interface ScoreRepository extends JpaRepository<Score, Long> {
 
     Optional<Score> findByUserIdAndGameTypeAndLevel(Long userId, GameTypeEnum gameType, LevelEnum level);
 
-    @Query("SELECT s.gameType, MAX(s.score) FROM Score s WHERE s.user.id = :userId GROUP BY s.gameType")
-    List<Object[]> findMaxScoreByGameTypeAndUserId(@Param("userId") Long userId);
+    @Query("SELECT new com.project.demo.logic.entity.game.GameScoreStat(s.gameType, SUM(s.score)) " +
+            "FROM Score s WHERE s.user.id = :userId GROUP BY s.gameType")
+    List<GameScoreStat> findMaxScoreByGameTypeAndUserId(@Param("userId") Long userId);
 
 }

@@ -135,13 +135,7 @@ public class ScoreController {
 
     @GetMapping("/max-scores/user/{userId}")
     public List<GameScoreStat> getMaxScoresByUser(@PathVariable Long userId) {
-        List<Object[]> results = scoreRepository.findMaxScoreByGameTypeAndUserId(userId);
-        return results.stream()
-                .map(record -> new GameScoreStat(
-                        (GameTypeEnum) record[0],
-                        (Double) record[1]
-                ))
-                .toList();
+        return scoreRepository.findMaxScoreByGameTypeAndUserId(userId);
     }
-
 }
+

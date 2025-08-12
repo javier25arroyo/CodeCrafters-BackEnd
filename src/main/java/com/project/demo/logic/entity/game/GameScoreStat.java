@@ -2,11 +2,11 @@ package com.project.demo.logic.entity.game;
 
 public class GameScoreStat {
     private GameTypeEnum gameType;
-    private Double maxScore;
+    private Double totalScore;
 
-    public GameScoreStat(GameTypeEnum gameType, Double maxScore) {
+    public GameScoreStat(GameTypeEnum gameType, Double totalScore) {
         this.gameType = gameType;
-        this.maxScore = maxScore;
+        this.totalScore = totalScore;
     }
 
     public GameTypeEnum getGameType() {
@@ -17,11 +17,11 @@ public class GameScoreStat {
         this.gameType = gameType;
     }
 
-    public Double getMaxScore() {
-        return maxScore;
+    public Double getTotalScore() {
+        return totalScore;
     }
 
-    public void setMaxScore(Double maxScore) {
-        this.maxScore = maxScore;
+    public void setTotalScore(Double totalScore) {
+        this.totalScore = totalScore;
     }
 }
