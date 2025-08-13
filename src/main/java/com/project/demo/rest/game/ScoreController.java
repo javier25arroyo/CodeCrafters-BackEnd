@@ -1,9 +1,15 @@
 package com.project.demo.rest.game;
 
-import com.project.demo.logic.entity.game.Score;
-import com.project.demo.logic.entity.game.repository.ScoreRepository;
 import com.project.demo.logic.entity.achievement.AchievementService;
+import com.project.demo.logic.entity.game.Game;
+import com.project.demo.logic.entity.game.GameScoreStat;
+import com.project.demo.logic.entity.game.GameTypeEnum;
+import com.project.demo.logic.entity.game.Score;
+import com.project.demo.logic.entity.game.repository.GameRepository;
+import com.project.demo.logic.entity.game.repository.ScoreRepository;
+import com.project.demo.logic.entity.settings.LevelEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +22,9 @@ import java.util.List;
 public class ScoreController {
 
     @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
     private ScoreRepository scoreRepository;
 
     // ← añadido: servicio para recalcular/persistir logros
@@ -24,6 +33,7 @@ public class ScoreController {
 
     /**
      * Obtiene todas las puntuaciones.
+     *
      * @return Una lista de todas las puntuaciones.
      */
     @GetMapping
@@ -33,6 +43,7 @@ public class ScoreController {
 
     /**
      * Agrega una nueva puntuación.
+     *
      * @param score La puntuación a agregar.
      * @return La puntuación agregada.
      */
@@ -52,6 +63,7 @@ public class ScoreController {
 
     /**
      * Obtiene una puntuación por su ID.
+     *
      * @param id El ID de la puntuación.
      * @return La puntuación con el ID especificado, o null si no se encuentra.
      */
@@ -62,7 +74,8 @@ public class ScoreController {
 
     /**
      * Actualiza una puntuación existente.
-     * @param id El ID de la puntuación a actualizar.
+     *
+     * @param id    El ID de la puntuación a actualizar.
      * @param score La nueva información de la puntuación.
      * @return La puntuación actualizada, o null si no se encuentra.
      */
@@ -95,6 +108,7 @@ public class ScoreController {
 
     /**
      * Elimina una puntuación por su ID.
+     *
      * @param id El ID de la puntuación a eliminar.
      */
     @DeleteMapping("/{id}")
@@ -103,4 +117,25 @@ public class ScoreController {
         // Nota: si quisieras recalcular tras borrar, primero habría que
         // recuperar el userId del score antes de eliminar (no se cambia aquí).
     }
+
+
+    @PutMapping("/{gameType}/level")
+    public ResponseEntity<Game> updateLevel(
+            @PathVariable GameTypeEnum gameType,
+            @RequestParam LevelEnum level) {
+
+        Game game = gameRepository.findFirstByGameType(gameType)
+                .orElseThrow(() -> new RuntimeException("Juego no encontrado"));
+
+        game.setLevel(level);
+        gameRepository.save(game);
+
+        return ResponseEntity.ok(game);
+    }
+
+    @GetMapping("/max-scores/user/{userId}")
+    public List<GameScoreStat> getMaxScoresByUser(@PathVariable Long userId) {
+        return scoreRepository.findMaxScoreByGameTypeAndUserId(userId);
+    }
 }
+

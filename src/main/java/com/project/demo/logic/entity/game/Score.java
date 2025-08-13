@@ -70,6 +70,7 @@ public class Score {
     @Column(nullable = false)
     private Date date;
 
+
     /**
      * Constructor por defecto.
      */
@@ -239,6 +240,6 @@ public class Score {
      * @param date La nueva fecha en que se obtuvo la puntuación.
      */
     public void setDate(Date date) {
-        this.date = date;
-    }
+        this.date=date;
+}
 }

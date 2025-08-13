@@ -25,6 +25,7 @@ public class GameSeeder implements ApplicationListener<ContextRefreshedEvent> {
     /**
      * Método que se ejecuta al iniciar la aplicación.
      * Este método se encarga de sembrar los juegos iniciales en la base de datos
+     *
      * @param contextRefreshedEvent el evento que indica que el contexto de la aplicación ha sido inicializado o refrescado
      */
 
@@ -41,7 +42,13 @@ public class GameSeeder implements ApplicationListener<ContextRefreshedEvent> {
             if (!gameRepository.findFirstByGameType(gameType).isPresent()) {
                 Game game = new Game();
                 game.setGameType(gameType);
-                game.setLevel(null);
+
+                if (gameType == GameTypeEnum.MUSIC_MEMORY) {
+                    game.setLevel(LevelEnum.EASY);
+                } else {
+                    game.setLevel(null);
+                }
+
                 gameRepository.save(game);
             }
         }
