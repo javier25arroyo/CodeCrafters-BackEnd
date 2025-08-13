@@ -2,6 +2,7 @@ package com.project.demo.rest.game;
 
 import com.project.demo.logic.entity.achievement.AchievementService;
 import com.project.demo.logic.entity.game.Game;
+import com.project.demo.logic.entity.game.GameScoreStat;
 import com.project.demo.logic.entity.game.GameTypeEnum;
 import com.project.demo.logic.entity.game.Score;
 import com.project.demo.logic.entity.game.repository.GameRepository;
@@ -131,4 +132,10 @@ public class ScoreController {
 
         return ResponseEntity.ok(game);
     }
+
+    @GetMapping("/max-scores/user/{userId}")
+    public List<GameScoreStat> getMaxScoresByUser(@PathVariable Long userId) {
+        return scoreRepository.findMaxScoreByGameTypeAndUserId(userId);
+    }
 }
+
