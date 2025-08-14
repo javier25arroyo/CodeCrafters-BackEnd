@@ -48,3 +48,11 @@ dependencies {
 configurations.all {
     exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 }
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
