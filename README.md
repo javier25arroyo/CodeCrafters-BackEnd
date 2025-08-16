@@ -1,4 +1,6 @@
-Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que proporciona servicios de autenticación, gestión de usuarios, juegos educativos, logros y más.
+# CodeCrafters Backend API
+
+Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que proporciona servicios de autenticación, gestión de usuarios, juegos educativos, logros y comunicación en tiempo real con WebSockets.
 
 ## 🚀 Tecnologías
 
@@ -12,7 +14,9 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
 - **Google OAuth2** - Autenticación con Google
 - **Cloudinary** - Almacenamiento de imágenes
 - **Spring Mail** - Envío de correos electrónicos
+- **Spring WebSocket** - Comunicación en tiempo real
 - **Gradle** - Gestión de dependencias
+- **JUnit 5** - Testing framework
 
 ## 📋 Características
 
@@ -58,6 +62,11 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
   - Subida de archivos
   - Integración con Cloudinary
 
+- **Comunicación en Tiempo Real**
+  - WebSocket para chat y eventos
+  - Sistema de presencia de usuarios
+  - Notificaciones push
+
 ## 🛠️ Instalación y Configuración
 
 ### Prerrequisitos
@@ -69,7 +78,7 @@ Una API REST desarrollada con Spring Boot para el proyecto CodeCrafters, que pro
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/CodeCrafters-BackEnd.git
+git clone https://github.com/javier25arroyo/CodeCrafters-BackEnd.git
 cd CodeCrafters-BackEnd
 ```
 
@@ -150,6 +159,10 @@ La API estará disponible en `http://localhost:8080`
 - `GET /admin/users` - Listar usuarios (Admin)
 - `POST /admin/suggestions` - Crear sugerencias
 
+### WebSocket
+- `/ws` - Conexión WebSocket principal
+- `/timeline` - Eventos de timeline en tiempo real
+
 ## 🗂️ Estructura del Proyecto
 
 ```
@@ -163,10 +176,13 @@ src/
 │   │   │   │   ├── game/        # Juegos
 │   │   │   │   ├── achievement/ # Logros
 │   │   │   │   ├── caregiver/   # Cuidadores
-│   │   │   │   └── ...
-│   │   │   └── exceptions/      # Manejo de errores
+│   │   │   │   ├── notification/ # Notificaciones
+│   │   │   │   └── settings/    # Configuraciones
+│   │   │   ├── exceptions/      # Manejo de errores
+│   │   │   └── service/         # Servicios de lógica
 │   │   ├── rest/               # Controladores REST
 │   │   ├── service/            # Servicios de negocio
+│   │   ├── timeline/           # WebSocket y tiempo real
 │   │   └── DemoApplication.java
 │   └── resources/
 │       ├── application.properties
@@ -184,38 +200,19 @@ src/
 ./gradlew test jacocoTestReport
 ```
 
-## 🚀 Despliegue
-
-### Heroku
-
-El proyecto incluye un `Procfile` para despliegue en Heroku:
-
-```bash
-# Login en Heroku
-heroku login
-
-# Crear app
-heroku create tu-app-name
-
-# Configurar variables de entorno
-heroku config:set SPRING_PROFILES_ACTIVE=prod
-
-# Deploy
-git push heroku main
-```
-
-### Docker
-
-```dockerfile
-FROM openjdk:21-jdk-slim
-COPY build/libs/demo-java-spring-api-1.0.0.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-```
 
 ## 📄 Documentación API
 
 Importar `src/main/resources/Insomnia.json` en Insomnia o Postman para probar todos los endpoints.
+
+### Variables de Entorno para Testing
+
+```properties
+# Archivo: src/test/resources/application-test.properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.profiles.active=test
+```
 
 ## 🔒 Seguridad
 
@@ -223,7 +220,11 @@ Importar `src/main/resources/Insomnia.json` en Insomnia o Postman para probar to
 - CORS configurado para frontend específico
 - Validación de roles por endpoint
 - Encriptación de contraseñas con BCrypt
-- Rate limiting en endpoints críticos
+- Filtros CORS configurados
+- Validación de entrada en todos los endpoints
+- Manejo seguro de WebSockets con autenticación JWT
+
+Para más detalles sobre seguridad, consulta [SECURITY.md](SECURITY.md).
 
 ## 🤝 Contribución
 
@@ -244,4 +245,4 @@ Desarrollado por el equipo CodeCrafters para el Proyecto 3.
 ---
 
 ⚡ **Versión**: 1.0.0
-📧 **Soporte**: mentana.soporte@gmail.com
+📧 **Soporte**: javier25arojas@gmail.com
