@@ -15,7 +15,7 @@ class SimpleUnitTests {
         // Configuración básica para cada test
     }
 
-    // ========== PRUEBAS DE VALIDACIÓN BÁSICA ==========
+    // ========== PRUEBAS DE VALIDACIÓN BÁSICA ========== //
 
     @Test
     void testBasicAssertion() {
